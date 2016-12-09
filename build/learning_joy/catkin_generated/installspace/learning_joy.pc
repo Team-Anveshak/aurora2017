@@ -1,0 +1,8 @@
+prefix=/home/akshitk/rover-control/install
+
+Name: learning_joy
+Description: Description of learning_joy
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/akshitk/rover-control/install/lib 
+Requires: 

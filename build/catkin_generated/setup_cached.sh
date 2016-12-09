@@ -7,9 +7,5 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/akshitk/rover-control/devel:$CMAKE_PREFIX_PATH"
-export LD_LIBRARY_PATH="/opt/ros/indigo/lib/x86_64-linux-gnu:/opt/ros/indigo/lib:/opt/ros/indigo/lib/python2.7/dist-packages"
-export PKG_CONFIG_PATH="/opt/ros/indigo/lib/x86_64-linux-gnu/pkgconfig:/opt/ros/indigo/lib/pkgconfig"
+export LD_LIBRARY_PATH="/opt/ros/indigo/lib/x86_64-linux-gnu:/home/akshitk/rover-control/devel/lib:/opt/ros/indigo/lib:/opt/ros/indigo/lib/python2.7/dist-packages:/opt/ros/indigo/lib/python2.7/dist-packages"
 export PWD="/home/akshitk/rover-control/build"
-export ROSLISP_PACKAGE_DIRECTORIES="/home/akshitk/rover-control/devel/share/common-lisp"
-export ROS_PACKAGE_PATH="/home/akshitk/rover-control/src:$ROS_PACKAGE_PATH"
