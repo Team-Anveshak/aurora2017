@@ -444,6 +444,20 @@ std_srvs_generate_messages_py/fast:
 .PHONY : std_srvs_generate_messages_py/fast
 
 # Convenience name for target.
+learning_joy/CMakeFiles/turtle_teleop_joy.dir/rule:
+	cd /home/akshitk/rover-control/build && $(MAKE) -f CMakeFiles/Makefile2 learning_joy/CMakeFiles/turtle_teleop_joy.dir/rule
+.PHONY : learning_joy/CMakeFiles/turtle_teleop_joy.dir/rule
+
+# Convenience name for target.
+turtle_teleop_joy: learning_joy/CMakeFiles/turtle_teleop_joy.dir/rule
+.PHONY : turtle_teleop_joy
+
+# fast build rule for target.
+turtle_teleop_joy/fast:
+	cd /home/akshitk/rover-control/build && $(MAKE) -f learning_joy/CMakeFiles/turtle_teleop_joy.dir/build.make learning_joy/CMakeFiles/turtle_teleop_joy.dir/build
+.PHONY : turtle_teleop_joy/fast
+
+# Convenience name for target.
 learning_joy/CMakeFiles/turtlesim_generate_messages_cpp.dir/rule:
 	cd /home/akshitk/rover-control/build && $(MAKE) -f CMakeFiles/Makefile2 learning_joy/CMakeFiles/turtlesim_generate_messages_cpp.dir/rule
 .PHONY : learning_joy/CMakeFiles/turtlesim_generate_messages_cpp.dir/rule
@@ -485,6 +499,30 @@ turtlesim_generate_messages_py/fast:
 	cd /home/akshitk/rover-control/build && $(MAKE) -f learning_joy/CMakeFiles/turtlesim_generate_messages_py.dir/build.make learning_joy/CMakeFiles/turtlesim_generate_messages_py.dir/build
 .PHONY : turtlesim_generate_messages_py/fast
 
+src/turtle_teleop_joy.o: src/turtle_teleop_joy.cpp.o
+.PHONY : src/turtle_teleop_joy.o
+
+# target to build an object file
+src/turtle_teleop_joy.cpp.o:
+	cd /home/akshitk/rover-control/build && $(MAKE) -f learning_joy/CMakeFiles/turtle_teleop_joy.dir/build.make learning_joy/CMakeFiles/turtle_teleop_joy.dir/src/turtle_teleop_joy.cpp.o
+.PHONY : src/turtle_teleop_joy.cpp.o
+
+src/turtle_teleop_joy.i: src/turtle_teleop_joy.cpp.i
+.PHONY : src/turtle_teleop_joy.i
+
+# target to preprocess a source file
+src/turtle_teleop_joy.cpp.i:
+	cd /home/akshitk/rover-control/build && $(MAKE) -f learning_joy/CMakeFiles/turtle_teleop_joy.dir/build.make learning_joy/CMakeFiles/turtle_teleop_joy.dir/src/turtle_teleop_joy.cpp.i
+.PHONY : src/turtle_teleop_joy.cpp.i
+
+src/turtle_teleop_joy.s: src/turtle_teleop_joy.cpp.s
+.PHONY : src/turtle_teleop_joy.s
+
+# target to generate assembly for a file
+src/turtle_teleop_joy.cpp.s:
+	cd /home/akshitk/rover-control/build && $(MAKE) -f learning_joy/CMakeFiles/turtle_teleop_joy.dir/build.make learning_joy/CMakeFiles/turtle_teleop_joy.dir/src/turtle_teleop_joy.cpp.s
+.PHONY : src/turtle_teleop_joy.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -519,9 +557,13 @@ help:
 	@echo "... std_srvs_generate_messages_lisp"
 	@echo "... std_srvs_generate_messages_py"
 	@echo "... test"
+	@echo "... turtle_teleop_joy"
 	@echo "... turtlesim_generate_messages_cpp"
 	@echo "... turtlesim_generate_messages_lisp"
 	@echo "... turtlesim_generate_messages_py"
+	@echo "... src/turtle_teleop_joy.o"
+	@echo "... src/turtle_teleop_joy.i"
+	@echo "... src/turtle_teleop_joy.s"
 .PHONY : help
 
 
