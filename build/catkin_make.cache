@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/akshitk/rover-control/devel -DCMAKE_INSTALL_PREFIX=/home/akshitk/rover-control/install -G Unix Makefiles

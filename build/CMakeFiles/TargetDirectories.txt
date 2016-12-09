@@ -1,0 +1,7 @@
+/home/akshitk/rover-control/build/CMakeFiles/clean_test_results.dir
+/home/akshitk/rover-control/build/CMakeFiles/download_extra_data.dir
+/home/akshitk/rover-control/build/CMakeFiles/doxygen.dir
+/home/akshitk/rover-control/build/gtest/CMakeFiles/gtest.dir
+/home/akshitk/rover-control/build/gtest/CMakeFiles/gtest_main.dir
+/home/akshitk/rover-control/build/CMakeFiles/run_tests.dir
+/home/akshitk/rover-control/build/CMakeFiles/tests.dir
