@@ -8,7 +8,6 @@ Following steps contain the procedure for building the packages on your machine
 
 <code>
 cd ~/rover-control
-
 catkin_make
 </code>
 + After making the packages, source the setup.bash file to set the environment variables
