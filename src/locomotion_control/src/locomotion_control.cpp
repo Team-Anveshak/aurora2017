@@ -27,7 +27,8 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     double y_axis_val = joy->axes[1];
     double scale = 5 * sqrt(x_axis_val * x_axis_val + y_axis_val * y_axis_val);
     double angle = atan2(y_axis_val,x_axis_val) * 180 / PI;
-    if((angle - 90.000) < 0.1){
+    ROS_INFO_STREAM("Scale : " << scale << "Angle : "<< angle);
+    if(fabs(angle - 90.000) < 20.000){
         vel.left_front_vel = scale;
         vel.right_front_vel = scale;
         vel.left_middle_vel = scale;
@@ -36,7 +37,7 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
         vel.right_back_vel = scale;
         ROS_INFO_STREAM("Forward Motion");
     }
-    else if((angle + 90.000) < 0.1){
+    else if(fabs(angle + 90.000) < 20.000){
         vel.left_front_vel = -1 * scale;
         vel.right_front_vel = -1 * scale;
         vel.left_middle_vel = -1 * scale;
