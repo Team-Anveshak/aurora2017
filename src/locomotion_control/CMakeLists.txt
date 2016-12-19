@@ -189,3 +189,4 @@ include_directories(
 # catkin_add_nosetests(test)
 add_executable(locomotion_control src/locomotion_control.cpp)
 target_link_libraries(locomotion_control ${catkin_LIBRARIES})
+add_dependencies(locomotion_control ${catkin_EXPORTED_TARGETS})
