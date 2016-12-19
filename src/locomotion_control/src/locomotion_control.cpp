@@ -11,7 +11,7 @@ class LocomotionControl{
         LocomotionControl();
     private:
         void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
-        ros::Nodehandle nh;
+        ros::NodeHandle nh;
         ros::Publisher vel_pub;
         ros::Subscriber joy_sub;
 };
@@ -58,9 +58,9 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     vel_pub.publish(vel);
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char** argv) {
     ros::init(argc,argv,"locomotion_control");
     LocomotionControl locomotion_control;
-    ros.spin();
+    ros::spin();
     return 0;
 }

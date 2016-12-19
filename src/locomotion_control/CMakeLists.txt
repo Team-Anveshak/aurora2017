@@ -187,3 +187,5 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+add_executable(locomotion_control src/locomotion_control.cpp)
+target_link_libraries(locomotion_control ${catkin_LIBRARIES})
