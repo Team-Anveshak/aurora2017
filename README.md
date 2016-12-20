@@ -30,6 +30,7 @@ source devel/setup.bash
 + Ganga Meghanath
 + Sai Karthik
 + Akshit Kumar
++ Vishnu Pradeesh
 
 ## Package Dependencies
 Following ROS package dependencies which need to be installed :
