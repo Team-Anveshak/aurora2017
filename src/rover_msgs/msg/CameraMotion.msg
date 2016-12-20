@@ -1,0 +1,4 @@
+float64 cam_yaw_scale
+float64 cam_yaw_dir
+float64 cam_pitch_scale
+float64 cam_pitch_dir
