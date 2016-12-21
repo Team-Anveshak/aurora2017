@@ -5,30 +5,34 @@ from sensor_msgs.msg import Joy
 from rover_msgs.msg import CameraMotion
 
 PI = 3.14159
+motion_value = [True, True, True, True]
 
 ##  To control yaw pitch motion of camera
 # 	@joy_sub- joy node subscriber
-	
+#	@data - is the array of the joystick values
 
 class CameraControl:
     def __init__(self):
-	print "__init__"
         rospy.init_node('CameraControl', anonymous = True)
-        self.joy_sub = rospy.Subscriber('joy', Joy, self.joyCallback)
+        self.topic = rospy.get_param('~camera_control', 'rover1/camera_dir')
 
     ## @joyCallback callback function for joy subscriber
     #      @x_axis_value- x axis position of joystick controller
     #	   @y_axis_value- y axis position of joystick controller
     #	   @scale- magnitude of a vector, lies between (0, 5)
     #	   @angle- horizontal plane angle made by controller
+    #    left_value = data.buttons[2]
+    #    right_value = data.buttons[1]
+    #    up_value = data.buttons[3]
+    #    down_value = data.buttons[0]
 
  
     def joyCallback(self, data):
-        self.left_value = data.buttons[2]
-        self.right_value = data.buttons[1]
-        self.up_value = data.buttons[3]
-        self.down_value = data.buttons[0]
-        rospy.loginfo("Left %s\t" % self.left_value +"Rigth %s \t" % self.right_value + "Up %s\t" % self.up_value + "Down %s" % self.down_value)
+        motion_value[0] = data.buttons[2]
+        motion_value[1] = data.buttons[1]
+        motion_value[2] = data.buttons[3]
+        motion_value[3] = data.buttons[0]
+        rospy.loginfo("Left %s\t" % data.buttons[2] +"Rigth %s \t" % data.buttons[1] + "Up %s\t" % data.buttons[3] + "Down %s" % data.buttons[0])
 
 
 
@@ -37,16 +41,14 @@ class CameraControl:
     #	    @rate- publishing rate in Hz      
 
     def start(self):
-        self.cam_pub = rospy.Publisher('rover1/camera_dir', CameraMotion, queue_size = 10)
-        self.rate = rospy.Rate(10)
-
-        #CameraMotion.cam_yaw_scale
-        #CameraMotion.cam_yaw_dir
-        #CameraMotion.cam_pitch_scale
-        #CameraMotion.cam_yaw_dir
-        
-        self.cam_pub.publish(CameraMotion)
-        self.rate.sleep()
+        cam_pub = rospy.Publisher('rover1/camera_dir', CameraMotion, queue_size = 10)
+        joy_sub = rospy.Subscriber('joy', Joy, self.joyCallback)
+        rate = rospy.Rate(10)
+        print value
+        while not rospy.is_shutdown():
+            rospy.loginfo("camera motion values publishing %s" % get_time())
+            cam_pub.publish( motion_value[0], motion_value[1], motion_value[2], motion_value[3])
+            rate.sleep()
 
 if __name__ == '__main__':
     try:
