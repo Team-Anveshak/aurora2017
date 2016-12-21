@@ -12,8 +12,12 @@ PI = 3.14159
 
 class CameraControl:
     def __init__(self):
-	print "__init__"
+        self.left_value=0
+        self.right_value=0
+        self.up_value=0
+        self.down_value=0
         rospy.init_node('CameraControl', anonymous = True)
+        self.topic= rospy.get_param('~camear_topic','rover1/camera_dir')
         self.joy_sub = rospy.Subscriber('joy', Joy, self.joyCallback)
 
     ## @joyCallback callback function for joy subscriber
@@ -37,16 +41,17 @@ class CameraControl:
     #	    @rate- publishing rate in Hz      
 
     def start(self):
-        self.cam_pub = rospy.Publisher('rover1/camera_dir', CameraMotion, queue_size = 10)
+        self.cam_pub = rospy.Publisher(self.topic, CameraMotion, queue_size = 10)
         self.rate = rospy.Rate(10)
 
-        #CameraMotion.cam_yaw_scale
-        #CameraMotion.cam_yaw_dir
-        #CameraMotion.cam_pitch_scale
-        #CameraMotion.cam_yaw_dir
-        
-        self.cam_pub.publish(CameraMotion)
-        self.rate.sleep()
+        CameraMotion.X_button = self.left_value
+        CameraMotion.B_button = self.right_value
+        CameraMotion.Y_button = self.up_value
+        CameraMotion.A_button = self.down_value
+
+        while not rospy.is_shutdown():
+            self.cam_pub.publish(CameraMotion)
+            self.rate.sleep()
 
 if __name__ == '__main__':
     try:
