@@ -16,11 +16,11 @@ class CameraControl:
         rospy.init_node('CameraControl', anonymous = True)
         self.joy_sub = rospy.Subscriber('joy', Joy, self.joyCallback)
 
-## @joyCallback callback function for joy subscriber
-#	@x_axis_value- x axis position of joystick controller
-#	@y_axis_value- y axis position of joystick controller
-#	@scale- magnitude of a vector, lies between (0, 5)
-#	@angle- horizontal plane angle made by controller
+    ## @joyCallback callback function for joy subscriber
+    #      @x_axis_value- x axis position of joystick controller
+    #	   @y_axis_value- y axis position of joystick controller
+    #	   @scale- magnitude of a vector, lies between (0, 5)
+    #	   @angle- horizontal plane angle made by controller
  
     def joyCallback(self, data):
 	print "joy callback"
@@ -31,9 +31,9 @@ class CameraControl:
         rospy.loginfo("Scale %s" % scale + "Angle %s" % angle)
 
 
-##  @start starts to publish the values to 'rover1/camera_dir' topic
-#	@cam_pub- is   publisher variable
-#	@rate- publishing rate in Hz      
+    ##  @start starts to publish the values to 'rover1/camera_dir' topic
+    #	    @cam_pub- is   publisher variable
+    #	    @rate- publishing rate in Hz      
 
     def start(self):
         self.cam_pub = rospy.Publisher('rover1/camera_dir', CameraMotion, queue_size = 10)
