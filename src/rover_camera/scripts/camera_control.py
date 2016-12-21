@@ -24,8 +24,8 @@ class CameraControl:
  
     def joyCallback(self, data):
 	print "joy callback"
-        self.x_axis_value = data.axes[2]
-        self.y_axis_value = data.axes[3]
+        self.x_axis_value = data.axes[3]
+        self.y_axis_value = data.axes[4]
         self.scale = 5 * math.sqrt(self.x_axis_value * self.x_axis_value + self.y_axis_value * self.y_axis_value)
         self.angle = math.degrees(math.atan2(self.y_axis_value,self.x_axis_value))
         rospy.loginfo("Scale %s" % self.scale + "Angle %s" % self.angle)
