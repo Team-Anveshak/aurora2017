@@ -27,8 +27,8 @@ class CameraControl:
         self.x_axis_value = data.axes[2]
         self.y_axis_value = data.axes[3]
         self.scale = 5 * math.sqrt(self.x_axis_value * self.x_axis_value + self.y_axis_value * self.y_axis_value)
-        self.angle = matn.degrees(math.atan(self.y_axis_value/self.x_axis_value))
-        rospy.loginfo("Scale %s" % scale + "Angle %s" % angle)
+        self.angle = math.degrees(math.atan2(self.y_axis_value,self.x_axis_value))
+        rospy.loginfo("Scale %s" % self.scale + "Angle %s" % self.angle)
 
 
 ##  @start starts to publish the values to 'rover1/camera_dir' topic
