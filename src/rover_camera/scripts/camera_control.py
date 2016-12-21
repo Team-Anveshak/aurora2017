@@ -23,12 +23,13 @@ class CameraControl:
     #	   @angle- horizontal plane angle made by controller
  
     def joyCallback(self, data):
-	print "joy callback"
-        self.x_axis_value = data.axes[2]
-        self.y_axis_value = data.axes[3]
-        self.scale = 5 * math.sqrt(self.x_axis_value * self.x_axis_value + self.y_axis_value * self.y_axis_value)
-        self.angle = math.degrees(math.atan2(self.y_axis_value,self.x_axis_value))
-        rospy.loginfo("Scale %s" % self.scale + "Angle %s" % self.angle)
+        self.left_value = data.buttons[2]
+        self.right_value = data.buttons[1]
+        self.up_value = data.buttons[3]
+        self.down_value = data.buttons[0]
+
+        rospy.loginfo("Left %s\t" % self.left_value +"Rigth %s \t" % self.right_value + "Up %s\t" % self.up_value + "Down %s" % self.down_value)
+
 
 
     ##  @start starts to publish the values to 'rover1/camera_dir' topic
