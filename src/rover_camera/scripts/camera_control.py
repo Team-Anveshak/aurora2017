@@ -17,18 +17,20 @@ class CameraControl:
         self.joy_sub = rospy.Subscriber('joy', Joy, self.joyCallback)
 
 ## @joyCallback callback function for joy subscriber
-#	@x_axis_value- x axis position of joystick controller
-#	@y_axis_value- y axis position of joystick controller
-#	@scale- magnitude of a vector, lies between (0, 5)
-#	@angle- horizontal plane angle made by controller
+#	@left_value- X button of joystick controller
+#	@right_value- B button of joystick controller
+#   @up_value- Y button of joystick controller
+#   @down_value- A button of joystick controller
+
  
     def joyCallback(self, data):
-	print "joy callback"
-        self.x_axis_value = data.axes[2]
-        self.y_axis_value = data.axes[3]
-        self.scale = 5 * math.sqrt(self.x_axis_value * self.x_axis_value + self.y_axis_value * self.y_axis_value)
-        self.angle = matn.degrees(math.atan(self.y_axis_value/self.x_axis_value))
-        rospy.loginfo("Scale %s" % scale + "Angle %s" % angle)
+        self.left_value = data.buttons[2]
+        self.right_value = data.buttons[1]
+        self.up_value = data.buttons[3]
+        self.down_value = data.buttons[0]
+
+        rospy.loginfo("Left %s\t" % self.left_value +"Rigth %s \t" % self.right_value + "Up %s\t" % self.up_value + "Down %s" % self.down_value)
+
 
 
 ##  @start starts to publish the values to 'rover1/camera_dir' topic

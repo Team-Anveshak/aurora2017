@@ -9,9 +9,10 @@ def motioncam():
 	rospy.init_node('motioncam', anonymous=True)
 	
 	while not rospy.is_shutdown():
-		chrome_path = '/usr/bin/firefox %s'
+		##chrome_path = '/usr/bin/firefox %s'
 		os.system("sudo motion")
-		url = 'http://localhost:8081'
+		time.sleep(1)
+		webbrowser.url = 'http://localhost:8081'
 		rospy.loginfo("camera started %s" % rospy.get_time())
 		webbrowser.get(chrome_path).open(url)
 
