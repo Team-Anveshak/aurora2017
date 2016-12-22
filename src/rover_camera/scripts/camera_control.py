@@ -14,17 +14,10 @@ motion_value = [False, False, False, False]
 class CameraControl:
     def __init__(self):
         rospy.init_node('CameraControl', anonymous = True)
-        self.topic = rospy.get_param('~camera_control', 'rover1/camera_dir')
+        self.topic= rospy.get_param('~camera_topic','rover1/camera_dir')
 
     ## @joyCallback callback function for joy subscriber
-    #      @x_axis_value- x axis position of joystick controller
-    #	   @y_axis_value- y axis position of joystick controller
-    #	   @scale- magnitude of a vector, lies between (0, 5)
-    #	   @angle- horizontal plane angle made by controller
-    #    left_value = data.buttons[2]
-    #    right_value = data.buttons[1]
-    #    up_value = data.buttons[3]
-    #    down_value = data.buttons[0]
+
 
  
     def joyCallback(self, data):
@@ -35,7 +28,6 @@ class CameraControl:
         rospy.loginfo("Left %s\t" % data.buttons[2] +"Rigth %s \t" % data.buttons[1] + "Up %s\t" % data.buttons[3] + "Down %s" % data.buttons[0])
 
 
-
     ##  @start starts to publish the values to 'rover1/camera_dir' topic
     #	    @cam_pub- is   publisher variable
     #	    @rate- publishing rate in Hz      
@@ -44,11 +36,11 @@ class CameraControl:
         cam_pub = rospy.Publisher('rover1/camera_dir', CameraMotion, queue_size = 10)
         joy_sub = rospy.Subscriber('joy', Joy, self.joyCallback)
         rate = rospy.Rate(10)
-        print motion_value
+
         while not rospy.is_shutdown():
-            rospy.loginfo("camera motion values publishing %s" % rospy.get_time())
             cam_pub.publish( motion_value[0], motion_value[1], motion_value[2], motion_value[3])
             rate.sleep()
+
 
 if __name__ == '__main__':
     try:
