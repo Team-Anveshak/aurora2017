@@ -1,0 +1,6 @@
+<launch>
+	<node name = "joy_control" pkg = "joy" type = "joy_node" />
+	<node name = "locomotion_control" pkg = "locomotion_control" type = "locomotion_control"/>
+	<node name = "camera_capture" pkg = "rover_camera" type = "capture.py"
+	<node name = "camera_control" pkg = "rover_camera" type = "camera_control.py" />
+</launch>

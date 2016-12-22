@@ -1,0 +1,8 @@
+<launch>
+	<param name = "joy_node/dev" value = "/dev/input/js1" />
+	<node name = "joy_control" pkg = "joy" type = "joy_node" />
+	<node name = "locomotion_control" pkg = "locomotion_control" type = "locomotion_control" />
+</launch>
+
+
+

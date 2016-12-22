@@ -44,9 +44,9 @@ class CameraControl:
         cam_pub = rospy.Publisher('rover1/camera_dir', CameraMotion, queue_size = 10)
         joy_sub = rospy.Subscriber('joy', Joy, self.joyCallback)
         rate = rospy.Rate(10)
-        print motion_value
+        #print motion_value
         while not rospy.is_shutdown():
-            rospy.loginfo("camera motion values publishing %s" % rospy.get_time())
+            #rospy.loginfo("camera motion values publishing %s" % rospy.get_time())
             cam_pub.publish( motion_value[0], motion_value[1], motion_value[2], motion_value[3])
             rate.sleep()
 
