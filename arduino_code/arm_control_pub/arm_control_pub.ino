@@ -36,7 +36,7 @@ void loop() {
 
   ArmMotion.angle_1 = ref_1;
   ArmMotion.angle_1 = ref_2;
-   
+  nh.loginfo("hello"); 
   arm_pub.publish(&ArmMotion);  
   nh.spinOnce();
   

@@ -52,7 +52,7 @@ void setup(){
   steerServo.writeMicroseconds(1500);
   driveServo.writeMicroseconds(1500);
 
-  Serial.begin(9600);
+ // Serial.begin(9600);
 
 }
 
@@ -76,8 +76,8 @@ void ImplementProportional(){
   else speed_small = 1000;
 
   driveServo.writeMicroseconds(speed_small);
-  Serial.print(speed_small);
-  Serial.print("\t");
+  //Serial.print(speed_small);
+  //Serial.print("\t");
   
   dif = ref_2-angle_2;
   speed_big = 1500+k*dif;  
@@ -91,7 +91,7 @@ void ImplementProportional(){
   else speed_big = 2000;
 
   steerServo.writeMicroseconds(speed_big);
-  Serial.println(speed_big);
+  //Serial.println(speed_big);
 }
 
 void loop(){  
