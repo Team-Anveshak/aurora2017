@@ -1,13 +1,13 @@
 #include <ros.h>
 #include <rover_msgs/ArmAngle.h>
 
+#define potPin1 A3
+#define potPin2 A4
+
 ros::NodeHandle nh;
 
 int mimic_1,mimic_2;
 float ref_1, ref_2;
-
-int potPin1= A3;
-int potPin2= A4;
 
 rover_msgs::ArmAngle ArmMotion;
 ros::Publisher arm_pub("rover1/arm_angles", &ArmMotion);
@@ -33,12 +33,13 @@ void loop() {
   UpdatePotValues();
   
   AnalogToAngles();
+  delay(50);
 
   ArmMotion.angle_1 = ref_1;
-  ArmMotion.angle_1 = ref_2;
-  nh.loginfo("hello"); 
+  ArmMotion.angle_1 = ref_2; 
+
+  nh.loginfo("values published");
   arm_pub.publish(&ArmMotion);  
   nh.spinOnce();
-  
-  delay(100);
+  delay(10);
 }

@@ -5,10 +5,10 @@
 #define act_1 10 
 #define act_2 9
 
-ros::NodeHandle nh;
+#define potPin1 A1
+#define potPin2 A2
 
-int potPin1= A1;
-int potPin2= A2;
+ros::NodeHandle nh;
 
 //int ext_speed_1 = 1800; //must be greater than 1500   
 //int rtd_speed_1 = 1200; //must be lesser than 1500 
@@ -29,9 +29,8 @@ Servo steerServo;
 Servo driveServo;
 
 void ArmMotionCallback(const rover_msgs::ArmAngle& ArmMotion){
-  nh.loginfo("ArmMotion.angle_1");
-  nh.loginfo("ArmMotion.angle_2");
-  
+  nh.loginfo("ArmMotion.....");
+
   UpdatePotValues();
   AnalogToAngles(ArmMotion.angle_1,ArmMotion.angle_2);
   ImplementProportional();
@@ -96,5 +95,5 @@ void ImplementProportional(){
 
 void loop(){  
   nh.spinOnce();
-  delay(200);
+  delay(500);
 }
