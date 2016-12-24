@@ -25,35 +25,70 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     rover_msgs::WheelVelocity vel;
     double x_axis_val = joy->axes[0];
     double y_axis_val = joy->axes[1];
-    double scale = 5 * sqrt(x_axis_val * x_axis_val + y_axis_val * y_axis_val);
+  
+    if(fabs(x_axis_val) < 3000)
+	x_axis_val = 0;
+    if(fabs(y_axis_val) < 3000)
+	y_axis_val = 0;
+  
+    double scale = 100 * sqrt(x_axis_val * x_axis_val + y_axis_val * y_axis_val);
     double angle = atan2(y_axis_val,x_axis_val) * 180 / PI;
+   // double top_left, top_right, bottom_left, bottom_right;
     ROS_INFO_STREAM("Scale : " << scale << "Angle : "<< angle);
-    if(fabs(angle - 90.000) < 20.000){
+
+/*  x1 = (2147483647/33000)*(x_axis_val/2);
+    x2 = (90*x_axis_val)/33000*2);
+    y1 = 500*y_axis_val/33000;
+    y1 = -y1;
+    v = y1;
+    c = cos(x2*PI/180);
+    v1=v*c/(2-c);
+    v2=v*c*c/(2-c);
+    v3=v*c;
+    
+    if(x1>=0){
+	top_left=v+1500;
+        top_right=v1+1500;
+	bottom_left=v3+1500;
+	bottom_right=v2+1500;
+	//theta=x2
+    }		    
+    if(x1<0){
+	top_left=v1+1500;
+	top_right=v+1500;
+	bottom_left=v2+1500;
+	bottom_right=v3+1500;
+	//theta=x2
+    }
+    vel.top_left=top_left/10-100;
+    vel.top_right=top_right/10-100;
+    vel.bottom_left=bottom_left/10-100;
+    vel.bottom_right=bottom_right/10-100;
+    ROS_INFO_STREAM("TL_Velocity: " << vel.top_left << "TR_Velocity: " << vel.top_right << "BL_Velocity: " << vel.bottom_left <<"BR_Velocity: " << vel.bottom_right
+    //theta=theta+45;
+*/
+
+
+   if(fabs(angle - 90.000) < 20.000){
         vel.left_front_vel = scale;
         vel.right_front_vel = scale;
-        vel.left_middle_vel = scale;
-        vel.right_middle_vel = scale;
-        vel.left_back_vel = scale;
-        vel.right_back_vel = scale;
+        vel.left_vel = scale;
+        vel.right_vel = scale;
         ROS_INFO_STREAM("Forward Motion");
     }
     else if(fabs(angle + 90.000) < 20.000){
         vel.left_front_vel = -1 * scale;
         vel.right_front_vel = -1 * scale;
-        vel.left_middle_vel = -1 * scale;
-        vel.right_middle_vel = -1 * scale;
-        vel.left_back_vel = -1 * scale;
-        vel.right_back_vel = -1 * scale;
+        vel.left_vel = -1 * scale;
+        vel.right_vel = -1 * scale;
         ROS_INFO_STREAM("Backward Motion");
     }
     else{
         scale = 0.000;
         vel.left_front_vel = scale;
         vel.right_front_vel = scale;
-        vel.left_middle_vel = scale;
-        vel.right_middle_vel = scale;
-        vel.left_back_vel = scale;
-        vel.right_back_vel = scale;
+        vel.left_vel = scale;
+        vel.right_vel = scale;
         ROS_INFO_STREAM("Halt");
     }
     vel_pub.publish(vel);

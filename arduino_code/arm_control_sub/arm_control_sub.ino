@@ -29,7 +29,7 @@ Servo steerServo;
 Servo driveServo;
 
 void ArmMotionCallback(const rover_msgs::ArmAngle& ArmMotion){
-  nh.loginfo("ArmMotion.....");
+  //nh.loginfo("ArmMotion.. %f %f", ArmMotion.angle_1, ArmMotion.angle_2);
 
   UpdatePotValues();
   AnalogToAngles(ArmMotion.angle_1,ArmMotion.angle_2);
