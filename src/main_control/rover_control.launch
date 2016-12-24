@@ -1,4 +1,6 @@
 <launch>
-    <node name = "arduino1" pkg = "rosserial_python" type = "serial_node.py" args="/dev/ttyACM0" output="screen"/>
-    <node name = "arduino2" pkg = "rosserial_python" type = "serial_node.py" args="/dev/ttyUSB0" output="screen" />
+    <machine name="c1" address="aniket-HP-Pavilion-Notebook" env-loader="/opt/ros/indigo/env.sh" user = "aniket" default="true" />
+    <machine name="c2" address="HP-Pavilion" env-loader="/opt/ros/indigo/env.sh" user = "koriavinash"  default="true" />
+    <node ns="arduino1" name = "arduino1" pkg = "rosserial_python" type = "serial_node.py" args="/dev/ttyACM0" output="screen" machine = "c1" />
+    <node ns="arduino1" name = "arduino2" pkg = "rosserial_python" type = "serial_node.py" args="/dev/ttyACM0" output="screen" machine = "c2"/>
 </launch>
