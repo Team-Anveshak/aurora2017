@@ -25,9 +25,9 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     rover_msgs::WheelVelocity vel;
     double x_axis_val = joy->axes[0];
     double y_axis_val = joy->axes[1];
-    double scale = 5 * sqrt(x_axis_val * x_axis_val + y_axis_val * y_axis_val);
+    double scale = 100 * sqrt(x_axis_val * x_axis_val + y_axis_val * y_axis_val);
     double angle = atan2(y_axis_val,x_axis_val) * 180 / PI;
-    double top_left, top_right, bottom_left, bottom_right;
+   // double top_left, top_right, bottom_left, bottom_right;
     ROS_INFO_STREAM("Scale : " << scale << "Angle : "<< angle);
 /*  
   if(fabs(x_axis_val) < 3000)
