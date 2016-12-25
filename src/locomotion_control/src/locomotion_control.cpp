@@ -33,10 +33,11 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
   
     double scale = 500 * sqrt(x_axis_val * x_axis_val + y_axis_val * y_axis_val);
     double angle = atan2(y_axis_val,x_axis_val) * 180 / PI;
+   // double top_left, top_right, bottom_left, bottom_right;
     ROS_INFO_STREAM("Scale : " << scale << "Angle : "<< angle);
 
-/*  double top_left, top_right, bottom_left, bottom_right;
-    x1 = (2147483647/33000)*(x_axis_val/2);
+
+/*  x1 = (2147483647/33000)*(x_axis_val/2);
     x2 = (90*x_axis_val)/33000*2);
     y1 = 500*y_axis_val/33000;
     y1 = -y1;
@@ -91,10 +92,8 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
         scale = 1500.00;
         vel.left_front_vel = scale;
         vel.right_front_vel = scale;
-        vel.left_middle_vel = scale;
-        vel.right_middle_vel = scale;
-        vel.left_back_vel = scale;
-        vel.right_back_vel = scale;
+        vel.left_vel = scale;
+        vel.right_vel = scale;
         ROS_INFO_STREAM("Halt");
     }
 
