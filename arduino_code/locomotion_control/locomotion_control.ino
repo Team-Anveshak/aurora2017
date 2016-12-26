@@ -76,14 +76,14 @@ void setup(){
   middleRight.attach(dcmotor_mr,1000,2000);
   backLeft.attach(dcmotor_bl,1000,2000);
   backRight.attach(dcmotor_br,1000,2000);
-
+/*
   frontLeft.writeMicroseconds(1500);
   frontRight.writeMicroseconds(1500);
   middleLeft.writeMicroseconds(1500);
   middleRight.writeMicroseconds(1500);
   backLeft.writeMicroseconds(1500);
   backRight.writeMicroseconds(1500);
-
+*/
 }
 
 void loop(){

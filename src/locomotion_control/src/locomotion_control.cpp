@@ -100,12 +100,12 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     }
 
     /*
-        vel.left_front_vel = vel.left_front_vel/2 + 750 ;
-        vel.right_front_vel = vel.right_front_vel/2 + 750;
-        vel.left_middle_vel = vel.left_middle_vel/2 + 750;
-        vel.right_middle_vel = vel.right_middle_vel/2 + 750;
-        vel.left_back_vel = vel.left_back_vel/2 + 750;
-        vel.right_back_vel = vel.right_back_vel/2 + 750;
+    vel.left_front_vel = vel.left_front_vel/2 + 750 ;
+    vel.right_front_vel = vel.right_front_vel/2 + 750 ;
+    vel.left_middle_vel = vel.left_middle_vel/2 + 750;
+    vel.right_middle_vel = vel.right_middle_vel/2 + 750;
+    vel.left_back_vel = vel.left_back_vel/2 + 750;
+    vel.right_back_vel = vel.right_back_vel/2 + 750;
     */
     vel_pub.publish(vel);
 }
