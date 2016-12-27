@@ -1,0 +1,8 @@
+prefix=/home/anveshak/rover-control/install
+
+Name: locomotion_control
+Description: Description of locomotion_control
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/anveshak/rover-control/install/lib 
+Requires: 

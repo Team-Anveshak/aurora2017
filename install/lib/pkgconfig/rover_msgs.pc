@@ -1,0 +1,8 @@
+prefix=/home/anveshak/rover-control/install
+
+Name: rover_msgs
+Description: Description of rover_msgs
+Version: 0.0.0
+Cflags: -I/home/anveshak/rover-control/install/include
+Libs: -L/home/anveshak/rover-control/install/lib 
+Requires: 

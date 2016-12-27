@@ -92,19 +92,21 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
         scale = 1500.00;
         vel.left_front_vel = scale;
         vel.right_front_vel = scale;
-        vel.left_vel = scale;
-        vel.right_vel = scale;
+        vel.left_middle_vel = scale;
+        vel.right_middle_vel = scale;
+	vel.left_back_vel = scale;
+	vel.right_back_vel = scale;
         ROS_INFO_STREAM("Halt");
     }
 
-    /*
+    
         vel.left_front_vel = vel.left_front_vel/2 + 750 ;
         vel.right_front_vel = vel.right_front_vel/2 + 750;
         vel.left_middle_vel = vel.left_middle_vel/2 + 750;
         vel.right_middle_vel = vel.right_middle_vel/2 + 750;
         vel.left_back_vel = vel.left_back_vel/2 + 750;
         vel.right_back_vel = vel.right_back_vel/2 + 750;
-    */
+   
     vel_pub.publish(vel);
 }
 
