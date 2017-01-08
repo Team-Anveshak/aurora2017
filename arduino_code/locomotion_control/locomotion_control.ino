@@ -1,67 +1,97 @@
-/* 
- * rosserial Subscriber For Locomotion Control
- */
-
 #include <ros.h>
-#include <Servo.h> 
 #include <rover_msgs/WheelVelocity.h>
-#define dcmotor_fl 3 
-#define dcmotor_fr 5  
-#define dcmotor_ml 6 
-#define dcmotor_mr 9
-#define dcmotor_br 10
-#define dcmotor_bl 11
 
-ros::NodeHandle_<ArduinoHardware, 5, 5, 125, 125> nh;
+#define fr_1A 10
+#define fr_1B 11
+#define br_2A 12
+#define br_2B 13
 
-Servo frontLeft;
-Servo frontRight;
+#define dir_ml 6
+#define pwm_ml 7  
 
-Servo middleLeft;
-Servo middleRight;
+#define dir_mr 8 
+#define pwm_mr 9
 
-Servo backLeft;
-Servo backRight;
+#define fl_1A 3
+#define fl_1B 2
+#define bl_2A 5
+#define bl_2B 4
 
-/*
-*RoverVelocity is an array of the velocity values in order:
-* 0 left_front_vel
-* 1 right_front_vel
-* 2 left_middle_vel
-* 3 right_middle_vel
-* 4 left_back_vel
-* 5 right_back_vel
-*/
 
-int fl = 0,fr = 0, ml = 0, mr = 0, bl = 0, br = 0;
+ros::NodeHandle nh;
 
-void Locomotion()
-{
-  frontLeft.writeMicroseconds(fl);
-  frontRight.writeMicroseconds(fr);
-  
-  middleLeft.writeMicroseconds(ml);
-  middleRight.writeMicroseconds(mr);
-  
-  backLeft.writeMicroseconds(bl);
-  backRight.writeMicroseconds(br);
-}
-
+rover_msgs::WheelVelocity RoverVel;
+ros::Publisher vel_pub("rover1/wheel", &RoverVel);
+ 
 void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
-  fl = (int)RoverVelocity.left_front_vel;
-  fr = (int)RoverVelocity.right_front_vel;
   
-  ml = (int)RoverVelocity.left_middle_vel;
-  mr = (int)RoverVelocity.right_middle_vel;
-  
-  bl = (int)RoverVelocity.left_back_vel;
-  br = (int)RoverVelocity.right_back_vel;
 
-  if(abs(fl)<25){
-     fl=25;fr=25;ml=25;mr=25;bl=25;br=25;
-  }
+  if((int)RoverVelocity.left_front_vel>=0){
+      digitalWrite(fl_1A,LOW);
+      analogWrite(fl_1B,map((int)RoverVelocity.left_front_vel,0,5,0,255));
+    }    
+  else{
+      analogWrite(fl_1A,map(-(int)RoverVelocity.left_front_vel,0,5,0,255));
+      digitalWrite(fl_1B,LOW);
+    }
+      
+  if((int)RoverVelocity.right_front_vel>=0){
+      digitalWrite(fr_1A,LOW);
+      analogWrite(fr_1B,map((int)RoverVelocity.right_front_vel,0,5,0,255));
+    }    
+  else{
+      analogWrite(fr_1A,map(-(int)RoverVelocity.right_front_vel,0,5,0,255));
+      digitalWrite(fr_1B,LOW);
+    }
+
+
+
+  if((int)RoverVelocity.left_middle_vel>=0){
+      analogWrite(pwm_ml,map((int)RoverVelocity.left_middle_vel,0,5,0,255));
+      digitalWrite(dir_ml,HIGH);
+    }    
+  else{
+      analogWrite(pwm_ml,map(-(int)RoverVelocity.left_middle_vel,0,5,0,255));
+      digitalWrite(dir_ml,LOW);
+    }
+  if((int)RoverVelocity.right_middle_vel>=0){
+      analogWrite(pwm_mr,map((int)RoverVelocity.right_middle_vel,0,5,0,255));
+      digitalWrite(dir_mr,LOW);
+    }    
+  else{
+      analogWrite(pwm_mr,map(-(int)RoverVelocity.right_middle_vel,0,5,0,255));
+      digitalWrite(dir_mr,HIGH);
+    }
+
+
+
+  if((int)RoverVelocity.left_back_vel>=0){
+      digitalWrite(bl_2A,LOW);
+      analogWrite(bl_2B,map((int)RoverVelocity.left_back_vel,0,5,0,255));
+    }    
+  else{
+      analogWrite(bl_2A,map(-(int)RoverVelocity.left_back_vel,0,5,0,255));
+      digitalWrite(bl_2B,LOW);
+    }
+      
+  if((int)RoverVelocity.right_back_vel>=0){
+      digitalWrite(br_2A,LOW);
+      analogWrite(br_2B,map((int)RoverVelocity.right_back_vel,0,5,0,255));
+    }    
+  else{
+      analogWrite(br_2A,map(-(int)RoverVelocity.right_back_vel,0,5,0,255));
+      digitalWrite(br_2B,LOW);
+    }  
+
+ 
+  RoverVel.left_front_vel = map((int)RoverVelocity.left_front_vel,0,5,0,255);
+  RoverVel.right_front_vel = map((int)RoverVelocity.right_front_vel,0,5,0,255);
+  RoverVel.left_middle_vel = map((int)RoverVelocity.left_middle_vel,0,5,0,255);
+  RoverVel.right_middle_vel = map((int)RoverVelocity.right_middle_vel,0,5,0,255);
+  RoverVel.left_back_vel = map((int)RoverVelocity.left_back_vel,0,5,0,255);
+  RoverVel.right_back_vel = map((int)RoverVelocity.right_back_vel,0,5,0,255);
+  vel_pub.publish(&RoverVel);
   
-  Locomotion();
 }
 
 ros::Subscriber<rover_msgs::WheelVelocity> locomotion_sub("rover1/wheel_vel", &roverMotionCallback);
@@ -69,21 +99,20 @@ ros::Subscriber<rover_msgs::WheelVelocity> locomotion_sub("rover1/wheel_vel", &r
 void setup(){
   nh.initNode();
   nh.subscribe(locomotion_sub);
-
-  frontLeft.attach(dcmotor_fl,1000,2000);            
-  frontRight.attach(dcmotor_fr,1000,2000);             
-  middleLeft.attach(dcmotor_ml,1000,2000);
-  middleRight.attach(dcmotor_mr,1000,2000);
-  backLeft.attach(dcmotor_bl,1000,2000);
-  backRight.attach(dcmotor_br,1000,2000);
-/*
-  frontLeft.writeMicroseconds(1500);
-  frontRight.writeMicroseconds(1500);
-  middleLeft.writeMicroseconds(1500);
-  middleRight.writeMicroseconds(1500);
-  backLeft.writeMicroseconds(1500);
-  backRight.writeMicroseconds(1500);
-*/
+  nh.advertise(vel_pub);
+  pinMode(fl_1A,OUTPUT);
+  pinMode(fl_1B,OUTPUT);
+  pinMode(fr_1A,OUTPUT);
+  pinMode(fr_1B,OUTPUT);
+  pinMode(bl_2A,OUTPUT);
+  pinMode(bl_2B,OUTPUT);
+  pinMode(bl_2A,OUTPUT);
+  pinMode(bl_2B,OUTPUT);
+  pinMode(pwm_ml,OUTPUT);
+  pinMode(dir_ml,OUTPUT);
+  pinMode(pwm_mr,OUTPUT);
+  pinMode(dir_mr,OUTPUT);  
+  
 }
 
 void loop(){
