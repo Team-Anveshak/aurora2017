@@ -1,8 +1,0 @@
-prefix=/home/anveshak/rover-control/install
-
-Name: rover_camera
-Description: Description of rover_camera
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/anveshak/rover-control/install/lib 
-Requires: 
