@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<robot name="URCBOT">
+  <material name="Blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="Grey2">
+    <color rgba="0.9 0.9 0.9 1.0"/>
+  </material>
+
+  <material name="Black">
+    <color rgba="0.1 0.1 0.1 1.0"/>
+  </material>
+  
+  <material name="LightGrey">
+    <color rgba="0.6 0.6 0.6 1.0"/>
+  </material>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="6.0 3.3 0.4"/>
+      </geometry>
+      <material name="Blue" ></material>
+    </visual>
+  </link>
+
+  <link name="front_right_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+      <material name="Grey2" ></material>
+    </visual>
+  </link>
+
+  <link name="middle_right_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+      <material name="Grey2" ></material>
+    </visual>
+  </link>
+
+  <link name="back_right_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+      <material name="Grey2" ></material>
+    </visual>
+  </link>
+
+  <link name="front_left_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+      <material name="Grey2" ></material>
+    </visual>
+  </link>
+
+  <link name="middle_left_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+      <material name="Grey2" ></material>
+    </visual>
+  </link>
+
+  <link name="back_left_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+      <material name="Grey2" ></material>
+    </visual>
+  </link>
+
+  <joint name="base_to_front_right_leg" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="front_right_leg"/>
+    <origin xyz="2.5 2.0 0.0"/>
+  </joint>
+
+  <joint name="base_to_back_right_leg" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="back_right_leg"/>
+    <origin xyz="-2.5 2.0 0.0  "/>
+  </joint>
+
+  <joint name="base_to_middle_right_leg" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="middle_right_leg"/>
+    <origin xyz="0 2.0 0.0 "/>
+  </joint>
+
+  <joint name="base_to_front_left_leg" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="front_left_leg"/>
+    <origin xyz="2.5 -2.0 0.0"/>
+  </joint>
+
+  <joint name="base_to_back_left_leg" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="back_left_leg"/>
+    <origin xyz="-2.5 -2.0 0.0  "/>
+  </joint>
+
+  <joint name="base_to_middle_left_leg" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="middle_left_leg"/>
+    <origin xyz="0 -2.0 0.0  "/>
+  </joint>
+
+</robot>
