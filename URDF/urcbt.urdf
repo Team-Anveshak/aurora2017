@@ -25,7 +25,7 @@
 
     <visual>
       <geometry>
-        <box size="6.0 3.3 0.4"/>
+        <box size="6.5 3.3 0.4"/>
       </geometry>
       <material name="Blue" ></material>
     </visual>
@@ -132,6 +132,10 @@
     <parent link="base_link"/>
     <child link="front_right_leg"/>
     <origin xyz="2.5 2.0 0.0"/>
+    <calibration rising="0.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    <safety_controller k_velocity="10" k_position="15" soft_lower_limit="-2.0" soft_upper_limit="0.5" />
   </joint>
 
   <joint name="base_to_back_right_leg" type="continuous">
@@ -139,6 +143,10 @@
     <parent link="base_link"/>
     <child link="back_right_leg"/>
     <origin xyz="-2.5 2.0 0.0  "/>
+    <calibration rising="0.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    <safety_controller k_velocity="10" k_position="15" soft_lower_limit="-2.0" soft_upper_limit="0.5" />
   </joint>
 
   <joint name="base_to_middle_right_leg" type="continuous">
@@ -146,6 +154,10 @@
     <parent link="base_link"/>
     <child link="middle_right_leg"/>
     <origin xyz="0 2.0 0.0 "/>
+    <calibration rising="0.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    <safety_controller k_velocity="10" k_position="15" soft_lower_limit="-2.0" soft_upper_limit="0.5" />
   </joint>
 
   <joint name="base_to_front_left_leg" type="continuous">
@@ -153,6 +165,10 @@
     <parent link="base_link"/>
     <child link="front_left_leg"/>
     <origin xyz="2.5 -2.0 0.0"/>
+    <calibration rising="0.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    <safety_controller k_velocity="10" k_position="15" soft_lower_limit="-2.0" soft_upper_limit="0.5" />
   </joint>
 
   <joint name="base_to_back_left_leg" type="continuous">
@@ -160,6 +176,10 @@
     <parent link="base_link"/>
     <child link="back_left_leg"/>
     <origin xyz="-2.5 -2.0 0.0  "/>
+    <calibration rising="0.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    <safety_controller k_velocity="10" k_position="15" soft_lower_limit="-2.0" soft_upper_limit="0.5" />
   </joint>
 
   <joint name="base_to_middle_left_leg" type="continuous">
@@ -167,6 +187,10 @@
     <parent link="base_link"/>
     <child link="middle_left_leg"/>
     <origin xyz="0 -2.0 0.0  "/>
+    <calibration rising="0.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+    <safety_controller k_velocity="10" k_position="15" soft_lower_limit="-2.0" soft_upper_limit="0.5" />
   </joint>
 
 </robot>
