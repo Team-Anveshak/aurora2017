@@ -11,12 +11,18 @@
   <material name="Black">
     <color rgba="0.1 0.1 0.1 1.0"/>
   </material>
-  
+
   <material name="LightGrey">
     <color rgba="0.6 0.6 0.6 1.0"/>
   </material>
 
   <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/><!--need to check if it is the mass of COM or distri..-->
+      <mass value="5"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+
     <visual>
       <geometry>
         <box size="6.0 3.3 0.4"/>
@@ -26,6 +32,12 @@
   </link>
 
   <link name="front_right_leg">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/><!--need to check if it is the mass of COM or distri..-->
+      <mass value="1"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+
     <visual>
       <geometry>
         <cylinder length="0.50" radius="0.6"/>
@@ -36,6 +48,12 @@
   </link>
 
   <link name="middle_right_leg">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/><!--need to check if it is the mass of COM or distri..-->
+      <mass value="1"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+
     <visual>
       <geometry>
         <cylinder length="0.50" radius="0.6"/>
@@ -46,6 +64,12 @@
   </link>
 
   <link name="back_right_leg">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/><!--need to check if it is the mass of COM or distri..-->
+      <mass value="1"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+
     <visual>
       <geometry>
         <cylinder length="0.50" radius="0.6"/>
@@ -56,6 +80,12 @@
   </link>
 
   <link name="front_left_leg">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/><!--need to check if it is the mass of COM or distri..-->
+      <mass value="1"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+
     <visual>
       <geometry>
         <cylinder length="0.50" radius="0.6"/>
@@ -66,6 +96,12 @@
   </link>
 
   <link name="middle_left_leg">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/><!--need to check if it is the mass of COM or distri..-->
+      <mass value="1"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+
     <visual>
       <geometry>
         <cylinder length="0.50" radius="0.6"/>
@@ -76,6 +112,12 @@
   </link>
 
   <link name="back_left_leg">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/><!--need to check if it is the mass of COM or distri..-->
+      <mass value="1"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+
     <visual>
       <geometry>
         <cylinder length="0.50" radius="0.6"/>
