@@ -1,0 +1,5 @@
+use this command to run urdf models:
+
+change the path to urdf model location and run
+
+roslaunch simulation gazebo_test.launch model:=urcbt.urdf

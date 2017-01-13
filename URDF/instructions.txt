@@ -1,3 +1,0 @@
-use this command to run urdf models:
-
-roslaunch urdf_tutorial display.launch model:=/path/to/urdf/model
