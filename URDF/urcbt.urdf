@@ -3,6 +3,7 @@
   <gazebo reference="camera_link">
     <sensor type="camera" name="camera1">
       <update_rate>30.0</update_rate>
+
       <camera name="head">
         <horizontal_fov>1.3962634</horizontal_fov>
         <image>
@@ -20,6 +21,7 @@
           <stddev>0.007</stddev>
         </noise>
       </camera>
+
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
@@ -28,11 +30,22 @@
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
       </plugin>
+
     </sensor>
   </gazebo>
 
+  <!--collision tags defines the body after collision-->
+  <!--visual tags displays the thing....-->
+  <!--inertia tags defines the physics of the body(link)-->
+  <!--material tags defines the color or texture.... -->
+  <!--link and joint names are self explainatory about their position-->
+
   <material name="Blue">
     <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="Red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
   </material>
 
   <material name="Grey2">
@@ -60,6 +73,13 @@
       </geometry>
       <material name="Blue" ></material>
     </visual>
+
+    <collision>
+      <geometry>
+        <box size="6.5 3.3 0.4"/>
+      </geometry>
+    </collision>
+
   </link>
 
   <link name="camera_link">
@@ -99,6 +119,13 @@
       <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
       <material name="Grey2" ></material>
     </visual>
+
+    <collision>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+    </collision>
   </link>
 
   <link name="middle_right_leg">
@@ -115,6 +142,13 @@
       <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
       <material name="Grey2" ></material>
     </visual>
+
+    <collision>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+    </collision>
   </link>
 
   <link name="back_right_leg">
@@ -131,6 +165,13 @@
       <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
       <material name="Grey2" ></material>
     </visual>
+
+    <collision>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+    </collision>
   </link>
 
   <link name="front_left_leg">
@@ -147,6 +188,13 @@
       <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
       <material name="Grey2" ></material>
     </visual>
+
+    <collision>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+    </collision>
   </link>
 
   <link name="middle_left_leg">
@@ -163,6 +211,13 @@
       <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
       <material name="Grey2" ></material>
     </visual>
+
+    <collision>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+    </collision>
   </link>
 
   <link name="back_left_leg">
@@ -179,7 +234,16 @@
       <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
       <material name="Grey2" ></material>
     </visual>
+
+    <collision>
+      <geometry>
+        <cylinder length="0.50" radius="0.6"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0.0 0.0 0.0"/>
+    </collision>
   </link>
+
+  <!--joints are like constraints used to assemble parts-->
 
   <joint name="camera_joint" type="fixed">
     <axis xyz="0 1 0" />
