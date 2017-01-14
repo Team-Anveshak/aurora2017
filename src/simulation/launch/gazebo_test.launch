@@ -24,7 +24,7 @@
     <param name="publish_frequency" type="double" value="30.0" />
   </node>
 
-  <!--<node pkg="openni_camera" type="openni_node" name="simulationkinect" output="screen"></node>-->
+  <node pkg="openni_camera" type="openni_node" name="simulationkinect" output="screen"></node>
 
   <node pkg="turtlebot_teleop" type="turtlebot_teleop_key" name="turtlebot_teleop_keyboard" output="screen">
     <param name="scale_linear" value="0.5" type="double"/>

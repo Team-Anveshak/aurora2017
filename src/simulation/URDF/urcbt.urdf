@@ -296,8 +296,8 @@
     </plugin>
   </gazebo>
 
-  <gazebo reference="openni_camera_link">
-    <sensor type="depth" name="openni_camera_camera">
+  <gazebo reference="kinect_link">
+    <sensor type="depth" name="camera1">
         <always_on>1</always_on>
         <visualize>true</visualize>
         <camera>
@@ -317,27 +317,27 @@
         </camera>
         <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
             <alwaysOn>true</alwaysOn>
-                <updateRate>10.0</updateRate>
-                <cameraName>camera</cameraName>
-                <frameName>openni_camera_link</frameName>
+            <updateRate>10.0</updateRate>
+            <cameraName>camera1</cameraName>
+            <frameName>camera_link</frameName>
             <imageTopicName>rgb/image_raw</imageTopicName>
             <depthImageTopicName>depth/image_raw</depthImageTopicName>
             <pointCloudTopicName>depth/points</pointCloudTopicName>
             <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
             <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
             <pointCloudCutoff>0.4</pointCloudCutoff>
-                <hackBaseline>0.07</hackBaseline>
-                <distortionK1>0.0</distortionK1>
-                <distortionK2>0.0</distortionK2>
-                <distortionK3>0.0</distortionK3>
-                <distortionT1>0.0</distortionT1>
-                <distortionT2>0.0</distortionT2>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
             <CxPrime>0.0</CxPrime>
             <Cx>0.0</Cx>
             <Cy>0.0</Cy>
             <focalLength>0.0</focalLength>
-            </plugin>
+        </plugin>
     </sensor>
-</gazebo>
+  </gazebo>
 
 </robot>
