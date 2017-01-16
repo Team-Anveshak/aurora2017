@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<robot>
+    
+  <gazebo>
+     <plugin name="diffdrive_plugin_multiwheel" filename="libdiffdrive_plugin_multi_wheel.so">
+       <alwaysOn>true</alwaysOn>
+       <updateRate>25.0</updateRate>
+       <leftJoints>left_wheel_hinge_1 left_wheel_hinge_2 left_wheel_hinge_3</leftJoints>
+       <rightJoints>right_wheel_hinge_1 right_wheel_hinge_2 right_wheel_hinge_3</rightJoints>
+       <wheelSeparation>.3</wheelSeparation>
+       <wheelDiameter>.2</wheelDiameter>
+       <torque>50000</torque>
+       <robotNamespace>/</robotNamespace>
+       <robotBaseFrame>base_link</robotBaseFrame>
+       <commandTopic>/cmd_vel</commandTopic>
+       <commandTopic>/cmd_vel_raw</commandTopic>
+       <odometryTopic>odom</odometryTopic>
+       <odometryFrame>odom</odometryFrame>       
+       <publishOdometryTf>1</publishOdometryTf>
+       <publishOdometryMsg>1</publishOdometryMsg>
+     </plugin>
+  </gazebo>
+
+  <gazebo reference="kinect_link">
+    <sensor type="depth" name="camera1">
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+        <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+                <width>640</width>
+                <height>480</height>
+                <format>R8G8B8</format>
+            </image>
+            <depth_camera>
+
+            </depth_camera>
+            <clip>
+                <near>0.1</near>
+                <far>100</far>
+            </clip>
+        </camera>
+        <plugin name="kinect_link_controller" filename="libgazebo_ros_openni_kinect.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>10.0</updateRate>
+            <cameraName>camera1</cameraName>
+            <frameName>kinect_link</frameName>
+            <imageTopicName>rgb/image_raw</imageTopicName>
+            <depthImageTopicName>depth/image_raw</depthImageTopicName>
+            <pointCloudTopicName>depth/points</pointCloudTopicName>
+            <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+            <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+            <pointCloudCutoff>0.4</pointCloudCutoff>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+            <CxPrime>0.0</CxPrime>
+            <Cx>0.0</Cx>
+            <Cy>0.0</Cy>
+            <focalLength>0.0</focalLength>
+        </plugin>
+    </sensor>
+  </gazebo>
+
+
+  <gazebo reference="base_link">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="kinect_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="kinect_depth_frame">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="kinect_depth_optical_frame">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel_1">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel_2">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel_3">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel_1">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel_2">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel_3">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+</robot>
