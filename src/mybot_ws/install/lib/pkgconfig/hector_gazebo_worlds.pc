@@ -1,8 +1,0 @@
-prefix=/home/aniket/mybot_ws/install
-
-Name: hector_gazebo_worlds
-Description: Description of hector_gazebo_worlds
-Version: 0.3.8
-Cflags: 
-Libs: -L/home/aniket/mybot_ws/install/lib 
-Requires: 
