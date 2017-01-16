@@ -315,11 +315,11 @@
                 <far>100</far>
             </clip>
         </camera>
-        <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+        <plugin name="kinect_link_controller" filename="libgazebo_ros_openni_kinect.so">
             <alwaysOn>true</alwaysOn>
             <updateRate>10.0</updateRate>
             <cameraName>camera1</cameraName>
-            <frameName>camera_link</frameName>
+            <frameName>kinect_link</frameName>
             <imageTopicName>rgb/image_raw</imageTopicName>
             <depthImageTopicName>depth/image_raw</depthImageTopicName>
             <pointCloudTopicName>depth/points</pointCloudTopicName>
