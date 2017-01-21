@@ -1,8 +1,0 @@
-prefix=/home/aniket/mybot_ws/install
-
-Name: mybot_description
-Description: Description of mybot_description
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/aniket/mybot_ws/install/lib 
-Requires: 

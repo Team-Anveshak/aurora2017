@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<robot name="URCBOT">
+<robot name="URCBOT" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="M_PI" value="3.1415926535897931" />
   <!--collision tags defines the body after collision-->
   <!--visual tags displays the thing....-->
   <!--inertia tags defines the physics of the body(link)-->
@@ -49,26 +50,39 @@
   </link>
 
   <link name="kinect_link">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.33 1.4 0.3"/>
-      </geometry>
-    </collision>
+     <visual>
+       <geometry>
+         <box size="1.0 .5 0.2" />
+       </geometry>
+       <material name="Blue" />
+     </visual>
+     <inertial>
+         <mass value="0.0001" />
+         <origin xyz="0 0 0" />
+         <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                  iyy="0.0001" iyz="0.0"
+                  izz="0.0001" />
+     </inertial>
+ </link>
 
-    <visual>
-      <origin xyz="0 0 0" rpy="0 -0.3 0"/><!--need to adjust this pitch angle-->
-      <geometry>
-        <box size="0.33 1.4 0.3"/>
-      </geometry>
-      <material name="Red"/>
-    </visual>
-
+  <link name="kinect_depth_frame">
     <inertial>
-      <mass value="1e-5" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+        <mass value="0.0001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001" />
     </inertial>
+  </link>
+
+  <link name="kinect_depth_optical_frame">
+     <inertial>
+         <mass value="0.0001" />
+         <origin xyz="0 0 0" />
+         <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                  iyy="0.0001" iyz="0.0"
+                  izz="0.0001" />
+     </inertial>
   </link>
 
   <link name="front_right_leg">
@@ -218,6 +232,18 @@
     <child link="kinect_link"/>
   </joint>
 
+  <joint name="depth_optical_joint" type="fixed">
+     <origin xyz="0 0 0" rpy="1.57075 0 1.57075" />
+     <parent link="kinect_depth_frame" />
+     <child link="kinect_depth_optical_frame" />
+  </joint>
+
+  <joint name="kinect_depth_joint" type="fixed">
+     <origin xyz="0 0.028 0" rpy="0 0 0" />
+     <parent link="kinect_link" />
+     <child link="kinect_depth_frame" />
+  </joint>
+
   <joint name="base_to_front_right_leg" type="continuous">
     <axis xyz="0 1 0"/>
     <parent link="base_link"/>
@@ -291,6 +317,8 @@
         <torque>50000</torque>
         <robotBaseFrame>base_link</robotBaseFrame>
         <commandTopic>/cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
         <publishOdometryTf>0</publishOdometryTf>
         <publishOdometryMsg>1</publishOdometryMsg>
     </plugin>

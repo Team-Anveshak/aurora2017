@@ -37,7 +37,7 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     else if(x_axis_val>0.2){
         x_axis_val = 5/8* x_axis_val+3/8;
     }
-    else if(){
+    else{
         x_axis_val = 5/8* x_axis_val-3/8;   
     }
 
