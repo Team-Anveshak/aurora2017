@@ -1,6 +1,8 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
 #include <rover_msgs/WheelVelocity.h>
+#include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry>
 #include <cstdlib>
 #include <cmath>
 
@@ -13,184 +15,124 @@ class LocomotionControl{
         void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
         ros::NodeHandle nh;
         ros::Publisher vel_pub;
+        ros::Publisher cmd_vel_pub;
         ros::Subscriber joy_sub;
 };
 
 LocomotionControl::LocomotionControl(){
     vel_pub = nh.advertise<rover_msgs::WheelVelocity>("rover1/wheel_vel",10);
+    cmd_vel_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel",10);
     joy_sub = nh.subscribe<sensor_msgs::Joy>("joy",10,&LocomotionControl::joyCallback,this);
 }
 
 void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     rover_msgs::WheelVelocity vel;
-    double x_axis_val = joy->axes[0];
-    double y_axis_val = joy->axes[1];
-    if(y_axis_val<=0.2){
-        y_axis_val = 0;       
-    }
-    else{
-        y_axis_val = 5/8* y_axis_val+3/8;   
-    }
-    if(fabs(x_axis_val)<=0.2){
-        x_axis_val = 0;
-    }
-    else if(x_axis_val>0.2){
-        x_axis_val = 5/8* x_axis_val+3/8;
-    }
-    else{
-        x_axis_val = 5/8* x_axis_val-3/8;   
-    }
+    geometry_msgs::Twist sim_vel;//simulation velocity
+    float x_axis_val = joy->axes[0];
+    float y_axis_val = joy->axes[1];
+    double angle = atan2(y_axis_val,x_axis_val);
 
-    //double angle = atan2(y_axis_val,x_axis_val) * 180 / PI;
-/*  if(fabs(x_axis_val) < 0.20)
-	   x_axis_val = 0;
-    if(fabs(y_axis_val) < 0.20)
-	   y_axis_val = 0;
-  */
-    //double scale = sqrt(x_axis_val * x_axis_val + y_axis_val * y_axis_val);
-    //double angle = atan2(y_axis_val,x_axis_val) * 180 / PI;
-    // double top_left, top_right, bottom_left, bottom_right;
-    //ROS_INFO_STREAM("Scale : " << scale << "Angle : "<< angle);
+    float scale = sqrt(x_axis_val * x_axis_val + y_axis_val * y_axis_val);
+    //ROS_INFO_STREAM("scale : " << scale);
+    float e= 1;
 
-
-/*  x1 = (2147483647/33000)*(x_axis_val/2);
-    x2 = (90*x_axis_val)/33000*2);
-    y1 = 500*y_axis_val/33000;
-    y1 = -y1;
-    v = y1;
-    c = cos(x2*PI/180);
-    v1=v*c/(2-c);
-    v2=v*c*c/(2-c);
-    v3=v*c;
+    if(fabs(y_axis_val)<=0.2) y_axis_val=0;
+    else if (y_axis_val>0.2)  y_axis_val= y_axis_val*5.0/4.0*(e-0.5) + (2.5-e)/4.0;
+    else if (y_axis_val<-0.2) y_axis_val= y_axis_val*5.0/4.0*(e-0.5) - (2.5-e)/4.0;
     
-    if(x1>=0){
-	top_left=v+1500;
-        top_right=v1+1500;
-	bottom_left=v3+1500;
-	bottom_right=v2+1500;
-	//theta=x2
-    }		    
-    if(x1<0){
-	top_left=v1+1500;
-	top_right=v+1500;
-	bottom_left=v2+1500;
-	bottom_right=v3+1500;
-	//theta=x2
-    }
-    vel.top_left=top_left/10-100;
-    vel.top_right=top_right/10-100;
-    vel.bottom_left=bottom_left/10-100;
-    vel.bottom_right=bottom_right/10-100;
-    ROS_INFO_STREAM("TL_Velocity: " << vel.top_left << "TR_Velocity: " << vel.top_right << "BL_Velocity: " << vel.bottom_left <<"BR_Velocity: " << vel.bottom_right
-    //theta=theta+45;
-*/
+    float b = 45;
+    float a = 110;
+    float c2 = 500;
+    float c1 = 40;
 
-/*
-    if(fabs(angle - 90.000) < 20.000){
-        vel.left_front_vel = scale + 1500;
-        vel.right_front_vel = scale + 1500;
-        vel.left_middle_vel = scale + 1500;
-        vel.right_middle_vel = scale + 1500;
-        vel.left_back_vel = scale + 1500;
-        vel.right_back_vel = scale + 1500;
-        ROS_INFO_STREAM("Forward Motion");
-    }
-    else if(fabs(angle + 90.000) < 20.000){
-        vel.left_front_vel = -1 * scale + 1500;
-        vel.right_front_vel = -1 * scale + 1500;
-        vel.left_middle_vel = -1 * scale + 1500;
-        vel.right_middle_vel = -1 * scale + 1500;
-        vel.left_back_vel = -1 * scale + 1500;
-        vel.right_back_vel = -1 * scale + 1500;
-        ROS_INFO_STREAM("Backward Motion");
-    }
-    else{
-        scale = 1500.00;
-        vel.left_front_vel = scale;
-        vel.right_front_vel = scale;
-        vel.left_middle_vel = scale;
-        vel.right_middle_vel = scale;
-	vel.left_back_vel = scale;
-	vel.right_back_vel = scale;
-        ROS_INFO_STREAM("Halt");
+    //% velocity algorithm
+
+    float v = c2 * y_axis_val;
+    float r = fabs( c1/ x_axis_val );
+
+    float dem = (1+ b/r)*(1+ b/r) + (a/2/r)*(a/2/r);
+
+    float v1 = v;
+    float v2 = v*( (1+b/r)*(1+b/r)/dem);
+    float v3 = v* ((1+b/r)*(1+(a/2/r*a/2/r))/dem);
+    float v4 = v*((1+b/r)/dem);
+
+    ROS_INFO_STREAM("y : " << y_axis_val << "x : " << x_axis_val <<"angular" << v/r);
+
+
+    if(x_axis_val >= 0){
+        if(fabs(y_axis_val) <= 0.2){
+            if (fabs(x_axis_val)<=0.5){
+                vel.left_front_vel = 1500;
+                vel.right_front_vel = 1500;
+                vel.left_middle_vel = 1500;
+                vel.right_middle_vel = 1500;
+                vel.left_back_vel = 1500;
+                vel.right_back_vel = 1500;
+            }
+            else if(x_axis_val>=0.5){
+                float x_axis_val_mod1= x_axis_val*0.4+0.3;
+                vel.left_front_vel = -c2*x_axis_val_mod1+1500;
+                vel.right_front_vel = c2*x_axis_val_mod1+1500;
+                vel.left_middle_vel = -c2*x_axis_val_mod1+1500;
+                vel.right_middle_vel = c2*x_axis_val_mod1+1500;
+                vel.left_back_vel = -c2*x_axis_val_mod1+1500;
+                vel.right_back_vel = c2*x_axis_val_mod1+1500;
+            }
+        }
+        else{
+            vel.left_front_vel = v3 + 1500;
+            vel.right_front_vel = v1 + 1500;
+            vel.left_middle_vel = v2 + 1500;
+            vel.right_middle_vel = v4 + 1500;
+            vel.left_back_vel = v3 + 1500;
+            vel.right_back_vel = v1 + 1500;
+        }
     }
 
-  
-    vel.left_front_vel = vel.left_front_vel/2 + 750 ;
-    vel.right_front_vel = vel.right_front_vel/2 + 750 ;
-    vel.left_middle_vel = vel.left_middle_vel/2 + 750;
-    vel.right_middle_vel = vel.right_middle_vel/2 + 750;
-    vel.left_back_vel = vel.left_back_vel/2 + 750;
-    vel.right_back_vel = vel.right_back_vel/2 + 750;
-*/
-
-float b = 25;
-float a = 45;
-float c2 = 500;
-float c1 = 100;
-
-float n = 2.0; //scaling factor
-
-//% velocity algorithm
-
-float v = c2 * y_axis_val / n;
-float r = fabs( c1/ x_axis_val );
-
-float dem = (1+ b/r)*(1+ b/r) + (a/2/r)*(a/2/r);
-
-float v1 = v;
-float v2 = v*( (1+b/r)*(1+b/r)/dem);
-float v3 = v* ((1+b/r)*(1+a/2/r)*(1+a/2/r)/dem);
-float v4 = v*((1+b/r)/dem);
-
-/*%velocity assignment*/
-/*vlt=v1;
-vlb=v1;
-vlm=v2;
-vrm=v4;
-vrt=v3;
-vrb=v3;*/
-if(x_axis_val >= 0){
-    if(x_axis_val>0.9 && (y_axis_val <= 0.1 && y_axis_val> -0.1)){
-    vel.left_front_vel = c2/n + 1500;
-    vel.right_front_vel = -c2/n + 1500;
-    vel.left_middle_vel = c2/n + 1500;
-    vel.right_middle_vel = -c2/n + 1500;
-    vel.left_back_vel = c2/n + 1500;
-    vel.right_back_vel = -c2/n + 1500;
+    else if(x_axis_val < 0){
+        if(fabs(y_axis_val) <= 0.2){
+            if (fabs(x_axis_val)<=0.5){
+                vel.left_front_vel = 1500;
+                vel.right_front_vel = 1500;
+                vel.left_middle_vel = 1500;
+                vel.right_middle_vel = 1500;
+                vel.left_back_vel = 1500;
+                vel.right_back_vel = 1500;
+            }
+            else if(x_axis_val<-0.5){
+                float x_axis_val_mod2= x_axis_val*0.4-0.3;
+                vel.left_front_vel = -c2*x_axis_val_mod2+1500;
+                vel.right_front_vel = c2*x_axis_val_mod2+1500;
+                vel.left_middle_vel = -c2*x_axis_val_mod2+1500;
+                vel.right_middle_vel = c2*x_axis_val_mod2+1500;
+                vel.left_back_vel = -c2*x_axis_val_mod2+1500;
+                vel.right_back_vel = c2*x_axis_val_mod2+1500;
+            }
+        } 
+        else{
+            vel.left_front_vel = v1 + 1500;
+            vel.right_front_vel = v3 + 1500;
+            vel.left_middle_vel = v2 + 1500;
+            vel.right_middle_vel = v4 + 1500;
+            vel.left_back_vel = v1 + 1500;
+            vel.right_back_vel = v3 + 1500;
+        }   
     }
-    else{
-    vel.left_front_vel = v1 + 1500;
-    vel.right_front_vel = v3 + 1500;
-    vel.left_middle_vel = v2 + 1500;
-    vel.right_middle_vel = v4 + 1500;
-    vel.left_back_vel = v1 + 1500;
-    vel.right_back_vel = v3 + 1500;
-    }
-    // thetaL=asin((a/2/r)/sqrt(dem));
-    // thetaR=asin((a/2/r)/sqrt(1+(a/2/r)^2));    
-}
-else{
-    if(x_axis_val<-0.9 && (y_axis_val <= 0.1 && y_axis_val> -0.1)){
-    vel.left_front_vel = -c2/n + 1500;
-    vel.right_front_vel = c2/n + 1500;
-    vel.left_middle_vel = -c2/n + 1500;
-    vel.right_middle_vel = c2/n + 1500;
-    vel.left_back_vel = -c2/n + 1500;
-    vel.right_back_vel = c2/n + 1500;
-    }
-    else{
-    vel.left_front_vel = v3 + 1500;
-    vel.right_front_vel = v1 + 1500;
-    vel.left_middle_vel = v4 + 1500;
-    vel.right_middle_vel = v2 + 1500;
-    vel.left_back_vel = v3 + 1500;
-    vel.right_back_vel = v1 + 1500;
-    }// thetaL=asin((a/2/r)/sqrt(dem));
-    // thetaR=asin((a/2/r)/sqrt(1+(a/2/r)^2));
-}
+
+    sim_vel.linear.x = (vel.right_front_vel + vel.right_middle_vel + vel.right_back_vel + vel.left_back_vel + vel.left_middle_vel + vel.left_front_vel)*(cos(angle)/6);
+    sim_vel.linear.y = (vel.right_front_vel + vel.right_middle_vel + vel.right_back_vel + vel.left_back_vel + vel.left_middle_vel + vel.left_front_vel)*(sin(angle)/6);
+    sim_vel.linear.z = 0;
+    sim_vel.angular.x = 0;
+    sim_vel.angular.y = 0;
+    sim_vel.angular.z = (vel.right_middle_vel - vel.left_middle_vel+ vel.right_front_vel + vel.right_back_vel - vel.left_front_vel - vel.left_back_vel)/(b*3); 
+
+    if(x_axis_val < 0) sim_vel.linear.x = sim_vel.linear.x*-1;
+    if(y_axis_val < 0) sim_vel.linear.y = sim_vel.linear.y*-1;
+    if(fabs(y_axis_val)<0.2 && fabs(x_axis_val >0.8)) sim_vel.angular.z = vel.right_middle_vel/b;
 
     vel_pub.publish(vel);
+    cmd_vel_pub.publish(sim_vel);
 }
 
 int main(int argc, char** argv) {

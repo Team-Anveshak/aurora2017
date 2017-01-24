@@ -1,0 +1,8 @@
+prefix=/home/aniket/2/rover-control/install
+
+Name: simulation
+Description: Description of simulation
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/aniket/2/rover-control/install/lib 
+Requires: 
