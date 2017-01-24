@@ -2,7 +2,7 @@
 #include <sensor_msgs/Joy.h>
 #include <rover_msgs/WheelVelocity.h>
 #include <geometry_msgs/Twist.h>
-#include <nav_msgs/Odometry>
+#include <nav_msgs/Odometry.h>
 #include <cstdlib>
 #include <cmath>
 

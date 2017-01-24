@@ -10,7 +10,7 @@ from rover_msgs.msg import CameraMotion
 
 PI = 3.14159
 motion_value = [False, False, False, False]
-flag=0;
+flag=0
 
 ##  To control yaw pitch motion of camera
 # 	@joy_sub- joy node subscriber
@@ -19,7 +19,7 @@ flag=0;
 class CameraControl:
     def __init__(self):
         rospy.init_node('CameraControl', anonymous = True)
-        self.topic = rospy.get_param('~camera_control', 'rover1/camera_dir')
+    #    self.topic = rospy.get_param('~camera_control', 'rover1/camera_dir')
 
     ## @joyCallback callback function for joy subscriber
     #      @x_axis_value- x axis position of joystick controller
@@ -54,14 +54,15 @@ class CameraControl:
             #rospy.loginfo("camera motion values publishing %s" % rospy.get_time())
             cam_pub.publish( motion_value[0], motion_value[1], motion_value[2], motion_value[3])
             if flag == 0:
-		chrome_path = '/usr/bin/firefox %s'
-		os.system("sudo motion")
-		time.sleep(0.5)
-		url = 'http://localhost:8081'
-		rospy.loginfo("camera started %s" % rospy.get_time())
-		webbrowser.get(chrome_path).open(url)
-		flag= 1
- 	    rate.sleep()
+                chrome_path = '/usr/bin/firefox %s'
+                os.system("sudo motion")
+                time.sleep(0.5)
+                url = 'http://localhost:8081'
+                rospy.loginfo("camera started %s" % rospy.get_time())
+                webbrowser.get(chrome_path).open(url)
+                flag= 1
+                rate.sleep()
+
 	while rospy.is_shutdown():
 	    webbrowser.close()
 	    exit()	
