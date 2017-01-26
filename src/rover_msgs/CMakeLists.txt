@@ -49,6 +49,7 @@ add_message_files(
    CameraMotion.msg
    ArmAngle.msg
    GripperMotion.msg
+   GPS.msg
  )
 
 ## Generate services in the 'srv' folder
