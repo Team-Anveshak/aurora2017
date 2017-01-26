@@ -11,16 +11,16 @@
 
         <!--<node pkg="tf" type="static_transform_publisher" name="ime_slam_camera_tf" args="0 0 0 -1.58 0 -1.58 /URCBOT/base_link /camera1/kinect_link 100"/>-->
 
-       <!--  <node pkg="turtlebot_teleop" type="turtlebot_teleop_key" name="turtlebot_teleop_keyboard" output="screen">
+        <node pkg="turtlebot_teleop" type="turtlebot_teleop_key" name="turtlebot_teleop_keyboard" output="screen">
           <param name="scale_linear" value="0.5" type="double"/>
           <param name="scale_angular" value="1.5" type="double"/>
           <remap from="turtlebot_teleop_keyboard/cmd_vel" to="cmd_vel"/>
-        </node> -->
+        </node>
         
-        <node pkg="locomotion_control" type="locomotion_control" name="plugin_joy_node" output="screen">
+        <!-- <node pkg="locomotion_control" type="locomotion_control" name="plugin_joy_node" output="screen">
           <param name="scale_linear" value="0.5" type="double"/>
           <param name="scale_angular" value="1.5" type="double"/>
         </node>
-
+        -->
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find urdf_tutorial)/urdf.rviz" required="true" />
 </launch>
