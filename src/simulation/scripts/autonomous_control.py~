@@ -18,14 +18,14 @@ vx, vy, vth = 0.1, -0.1, 0.1
 class AutonomousLocomotion:
     def __init__(self):
         rospy.init_node('AutonomousLocomotion', anonymous = True)
-        self.start_position = calculations.xyz(starting_point['lat'], starting_point['lng'])
+        self.start = calculations.xyz(starting_point['lat'], starting_point['lng'])
         self.location1 = calculations.xyz(destination_gps1['lat'], destination_gps1['lng'])
 
     def gpsCallback(self, data):
     	inst_lng = data.inst_lng
     	inst_lat = data.inst_lat
         position_vector(inst_lat, inst_lng)
-        self.start_position = self.current_position
+        self.start = self.current
     	rospy.loginfo("c_lat %s\t" % inst_lat +"c_lng %s \t" % inst_lng)
 
     def start(self):
@@ -36,7 +36,6 @@ class AutonomousLocomotion:
         self.odom = Odometry()
         self.odom.header.stamp = rospy.Time.now()
         self.odom.header.frame_id = "odom"
-        # position_vector(5.00,5.00, self)
         # imu_sub = 
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():
@@ -47,7 +46,7 @@ class AutonomousLocomotion:
             exit()
 
     def position_vector(lat, lng, self):
-        self.current_position = calculations.xyz(lat, lng)
+        self.current = calculations.xyz(lat, lng)
         d = calculations.distance(current, location1)
         angle_magnetic_north_sc = calculations.great_circle_angle(starting_point, current, calculations.magnetic_northpole)
         angle_magnetic_north_cdest1 = calculations.great_circle_angle(current, location1, calculations.magnetic_northpole)
