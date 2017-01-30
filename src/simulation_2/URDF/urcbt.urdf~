@@ -1,0 +1,424 @@
+<?xml version='1.0'?>
+
+<robot name="URCbot">
+
+  <link name='base_link'>
+    <pose>0 0 0 0 0 0</pose>
+
+    <inertial>
+      <mass value="15.0"/>
+      <origin xyz="0.0 0 0.0" rpy=" 0 0 0"/>
+      <inertia
+          ixx="0.1" ixy="0" ixz="0"
+          iyy="0.1" iyz="0"
+          izz="0.1"
+      />
+    </inertial>
+
+    <collision name='collision'>
+      <geometry>
+        <box size=".9 .6 .1"/>
+      </geometry>
+    </collision>
+
+    <visual name='base_link_visual'>
+      <geometry>
+        <box size=".9 .6 .1"/>
+      </geometry>
+      <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+    </visual>
+  </link>
+
+  <link name="kinect_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.3 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0.3 0"/><!--need to adjust this pitch angle-->
+      <geometry>
+        <box size="0.1 0.3 0.1"/>
+      </geometry>
+    <color rgba="0.0 0.0 0.8 1.0"/>
+    </visual>
+
+    <inertial>
+      <mass value="2.0" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0" izz="0.05" />
+    </inertial>
+  </link>
+
+  <link name="left_wheel_1">
+    <!--origin xyz="0.1 0.13 0.1" rpy="0 1.5707 1.5707"/-->
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <visual name="left_wheel_1_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <mass value="5"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>
+
+  <link name="left_wheel_2">
+    <!--origin xyz="0.1 0.13 0.1" rpy="0 1.5707 1.5707"/-->
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <visual name="left_wheel_2_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <mass value="5"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>
+
+  <link name="left_wheel_3">
+    <!--origin xyz="0.1 0.13 0.1" rpy="0 1.5707 1.5707"/-->
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <visual name="left_wheel_3_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <mass value="5"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>  
+
+  <link name="right_wheel_1">
+    <!--origin xyz="0.1 -0.13 0.1" rpy="0 1.5707 1.5707"/-->
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <visual name="right_wheel_1_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <mass value="5"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>
+
+  <link name="right_wheel_2">
+    <!--origin xyz="0.1 -0.13 0.1" rpy="0 1.5707 1.5707"/-->
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <visual name="right_wheel_2_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <mass value="5"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>
+
+  <link name="right_wheel_3">
+    <!--origin xyz="0.1 -0.13 0.1" rpy="0 1.5707 1.5707"/-->
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <visual name="right_wheel_3_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <mass value="5"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>
+
+
+  <joint name="kinect_joint" type="fixed">
+    <axis xyz="1 0 0" />
+    <origin xyz="0.35 0.0 0.05"/>
+    <parent link="base_link"/>
+    <child link="kinect_link"/>
+  </joint>
+
+
+  <joint type="continuous" name="left_wheel_hinge_1">
+    <origin xyz="0.3 0.35 0" rpy="0 0 0"/>
+    <!--origin xyz="0.1 0.13 0" rpy="0 1.5707 1.5707"/-->
+    <child link="left_wheel_1"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+  <joint type="continuous" name="left_wheel_hinge_2">
+    <origin xyz="0 0.35 0" rpy="0 0 0"/>
+    <!--origin xyz="0.1 0.13 0" rpy="0 1.5707 1.5707"/-->
+    <child link="left_wheel_2"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>  
+
+  <joint type="continuous" name="left_wheel_hinge_3">
+    <origin xyz="-0.3 0.35 0" rpy="0 0 0"/>
+    <!--origin xyz="0.1 0.13 0" rpy="0 1.5707 1.5707"/-->
+    <child link="left_wheel_3"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+  <joint type="continuous" name="right_wheel_hinge_1">
+    <origin xyz="0.3 -0.35 0" rpy="0 0 0"/>
+    <!--origin xyz="0.1 -0.13 0" rpy="0 1.5707 1.5707"/-->
+    <child link="right_wheel_1"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+  <joint type="continuous" name="right_wheel_hinge_2">
+    <origin xyz="0 -0.35 0" rpy="0 0 0"/>
+    <!--origin xyz="0.1 -0.13 0" rpy="0 1.5707 1.5707"/-->
+    <child link="right_wheel_2"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+  <joint type="continuous" name="right_wheel_hinge_3">
+    <origin xyz="-0.3 -0.35 0" rpy="0 0 0"/>
+    <!--origin xyz="0.1 -0.13 0" rpy="0 1.5707 1.5707"/-->
+    <child link="right_wheel_3"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+  <joint name="kinect_depth_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="kinect_link" />
+    <child link="kinect_depth_frame" />
+  </joint>
+
+  <link name="kinect_depth_frame">
+    <inertial>
+        <mass value="0.1" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+               iyy="0.01" iyz="0.0" 
+               izz="0.01" />
+    </inertial>
+    <visual name="kinect_depth_frame_visual">
+      <geometry>
+        <box size=".001 .001 .001"/>
+      </geometry>
+    <color rgba="0.0 0.0 0.8 1.0"/>
+    </visual>
+  </link>
+
+  <joint name="kinect_depth_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="1.5707 0 1.5707" />
+    <parent link="kinect_depth_frame" />
+    <child link="kinect_depth_optical_frame" />
+  </joint>
+
+  <link name="kinect_depth_optical_frame">
+    <inertial>
+      <mass value="0.05" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+               iyy="0.01" iyz="0.0" 
+               izz="0.01" />
+    </inertial>
+    <visual name="kinect_depth_optical_frame_visual">
+      <geometry>
+        <box size=".001 .001 .001"/>
+      </geometry>
+    <color rgba="0.0 0.0 0.8 1.0"/>
+    </visual>
+  </link>
+
+  <gazebo>
+     <plugin name="diffdrive_plugin_multiwheel" filename="libdiffdrive_plugin_multi_wheel.so">
+       <alwaysOn>true</alwaysOn>
+       <updateRate>25.0</updateRate>
+       <leftJoints>left_wheel_hinge_1 left_wheel_hinge_2 left_wheel_hinge_3</leftJoints>
+       <rightJoints>right_wheel_hinge_1 right_wheel_hinge_2 right_wheel_hinge_3</rightJoints>
+       <wheelSeparation>.3</wheelSeparation>
+       <wheelDiameter>.2</wheelDiameter>
+       <torque>50000</torque>
+       <robotNamespace>/</robotNamespace>
+       <robotBaseFrame>base_link</robotBaseFrame>
+       <commandTopic>/cmd_vel</commandTopic>
+       <commandTopic>/cmd_vel_raw</commandTopic>
+       <odometryTopic>odom</odometryTopic>
+       <odometryFrame>odom</odometryFrame>       
+       <publishOdometryTf>1</publishOdometryTf>
+       <publishOdometryMsg>1</publishOdometryMsg>
+     </plugin>
+  </gazebo>
+
+  <gazebo reference="kinect_link">
+    <sensor type="depth" name="camera1">
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+        <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+                <width>640</width>
+                <height>480</height>
+                <format>R8G8B8</format>
+            </image>
+            <depth_camera>
+
+            </depth_camera>
+            <clip>
+                <near>0.1</near>
+                <far>100</far>
+            </clip>
+        </camera>
+        <plugin name="kinect_link_controller" filename="libgazebo_ros_openni_kinect.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>10.0</updateRate>
+            <cameraName>camera1</cameraName>
+            <frameName>kinect_link</frameName>
+            <imageTopicName>rgb/image_raw</imageTopicName>
+            <depthImageTopicName>depth/image_raw</depthImageTopicName>
+            <pointCloudTopicName>depth/points</pointCloudTopicName>
+            <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+            <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+            <pointCloudCutoff>0.4</pointCloudCutoff>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+            <CxPrime>0.0</CxPrime>
+            <Cx>0.0</Cx>
+            <Cy>0.0</Cy>
+            <focalLength>0.0</focalLength>
+        </plugin>
+    </sensor>
+  </gazebo>
+
+
+  <gazebo reference="base_link">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="kinect_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="kinect_depth_frame">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="kinect_depth_optical_frame">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel_1">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel_2">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel_3">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel_1">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel_2">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel_3">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+</robot>
+
