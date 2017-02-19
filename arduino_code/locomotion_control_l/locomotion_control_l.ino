@@ -1,86 +1,122 @@
-  /* rosserial Subscriber For Locomotion Control*/
-
+/* rosserial Subscriber For Locomotion Control*/
 #include <ros.h>
-#include <Servo.h> 
-#include <rover_msgs/WheelVelocity.h>
-#define dcmotor_fl 3 
-#define dcmotor_fr 5  
-#define dcmotor_ml 6 
-#define dcmotor_mr 9
-#define dcmotor_br 10
-#define dcmotor_bl 11
+#include <rover_msgs/WheelVelPower.h>
 
-//ros::NodeHandle_<ArduinoHardware, 5, 5, 125, 125> nh;
+int dir1=2;
+int pwm1=3;
+int dir2=4;
+int pwm2=5;
+int dir3=7;
+int pwm3=6;
+int dir4=8;
+int pwm4=9;
+int dir5=12;
+int pwm5=10;
+int dir6=13;
+int pwm6=11;
 
-Servo frontLeft;
-Servo frontRight;
+//int tl,tr,ml,mr,bl,br;
 
-Servo middleLeft;
-Servo middleRight;
+float k1,k2,k3, mink;
 
-Servo backLeft;
-Servo backRight;
-
-/*
-*RoverVelocity is an array of the velocity values in order:
-* 0 left_front_vel
-* 1 right_front_vel
-* 2 left_middle_vel
-* 3 right_middle_vel
-* 4 left_back_vel
-* 5 right_back_vel
-*/
-
-int fl = 0,fr = 0, ml = 0, mr = 0, bl = 0, br = 0;
-
-void Locomotion()
-{
-  frontLeft.writeMicroseconds(fl);
-  frontRight.writeMicroseconds(fr);
- 
-  middleLeft.writeMicroseconds(ml);
-  middleRight.writeMicroseconds(mr);
-
-  backLeft.writeMicroseconds(bl);
-  backRight.writeMicroseconds(br);
-}
- 
+int tl = 0,tr = 0,ml = 0, mr = 0, bl = 0, br = 0;
+float lt = 0,rt = 0,lm = 0,rm = 0,lb = 0,rb = 0; 
 
 ros::NodeHandle nh;
 
-rover_msgs::WheelVelocity RoverVelocity;
-ros::Publisher vel_pub("rover1/wheel", &RoverVelocity);
+rover_msgs::WheelVelPower RoverVelocity;
+
+//ros::Publisher vel_pub("rover1/wheel", &RoverVelocity);
+
+void loco(int vel,int dir_pin,int pwm_pin)
+{
+if(vel<=0)
+  {
+   digitalWrite(dir_pin,LOW);
+   analogWrite(pwm_pin,abs(vel));
+  }
+else
+  { 
+    digitalWrite(dir_pin,HIGH);
+    analogWrite(pwm_pin,abs(vel));
+  }
+}
+
+float minK(float k1,float k2, float k3){  
+  if(k1>=k2){
+    if(k2>=k3){
+      return k3;
+      }
+    else{
+      return k2;}  
+    }
+    
+  else{
+    if(k1>=k3){
+      return k3;
+    }
+    else{
+      return k1;}  
+    }  
+  
+}
+
+void roverMotionCallback(const rover_msgs::WheelVelPower& RoverVelocity){
+  
+  k1 = RoverVelocity.power_1;
+  k2 = RoverVelocity.power_2;
+  k3 = RoverVelocity.power_3;
+
+  mink=minK(k1,k2,k3);
+
+  lt = map(RoverVelocity.left_front_vel,0,50,0,255);
+  rt = map(RoverVelocity.right_front_vel,0,50,0,255);
+  lm = map(RoverVelocity.left_middle_vel,0,50,0,255);
+  rm = map(RoverVelocity.right_middle_vel,0,50,0,255);
+  lb = map(RoverVelocity.left_back_vel,0,50,0,255);
+  rb = map(RoverVelocity.right_back_vel,0,50,0,255);
+  
+  tl = (int)lt/k1*mink;
+  tr = (int)rt/k1*mink;
+   
+  ml = (int)lm/k2*mink;
+  mr = (int)rm/k2*mink;
+   
+  bl = (int)lb/k3*mink;
+  br = (int)lr/k3*mink;
  
-void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
-  fl = (int)RoverVelocity.left_front_vel;
-  fr = (int)RoverVelocity.right_front_vel;
    
-  ml = (int)RoverVelocity.left_middle_vel;
-  mr = (int)RoverVelocity.right_middle_vel;
-   
-  bl = (int)RoverVelocity.left_back_vel;
-  br = (int)RoverVelocity.right_back_vel;
- 
-   
-  Locomotion();
+  loco(tl,dir1,pwm1);
+  loco(tr,dir2,pwm2);
+  loco(ml,dir3,pwm3);
+  loco(mr,dir4,pwm4);
+  loco(bl,dir5,pwm5);
+  loco(br,dir6,pwm6);
  }
  
- ros::Subscriber<rover_msgs::WheelVelocity> locomotion_sub("rover1/wheel_vel", &roverMotionCallback);
+ ros::Subscriber<rover_msgs::WheelVelPower> locomotion_sub("rover1/wheel_vel", &roverMotionCallback);
  
  void setup(){
    nh.initNode();
    nh.subscribe(locomotion_sub);
-
-  frontLeft.attach(dcmotor_fl,1000,2000);            
-  frontRight.attach(dcmotor_fr,1000,2000);             
-  middleLeft.attach(dcmotor_ml,1000,2000);
-  middleRight.attach(dcmotor_mr,1000,2000);
-  backLeft.attach(dcmotor_bl,1000,2000);
-  backRight.attach(dcmotor_br,1000,2000);
  
+ pinMode(dir1,OUTPUT);
+ pinMode(dir2,OUTPUT);
+ pinMode(dir3,OUTPUT);
+ pinMode(dir4,OUTPUT);
+ pinMode(dir5,OUTPUT);
+ pinMode(dir6,OUTPUT); 
+  
+ pinMode(pwm1,OUTPUT);
+ pinMode(pwm2,OUTPUT);
+ pinMode(pwm3,OUTPUT);
+ pinMode(pwm4,OUTPUT);
+ pinMode(pwm5,OUTPUT);
+ pinMode(pwm6,OUTPUT);
+
  }
  
  void loop(){
    nh.spinOnce();
-   delay(1);
+   delay(10);
 }

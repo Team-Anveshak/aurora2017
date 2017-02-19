@@ -286,7 +286,7 @@
        <odometryTopic>odom</odometryTopic>
        <odometryFrame>odom</odometryFrame>       
        <publishOdometryTf>1</publishOdometryTf>
-       <publishOdometryMsg>1</publishOdometryMsg>
+       <publishOdometryMsg>0</publishOdometryMsg>
      </plugin>
   </gazebo>
 
@@ -327,7 +327,7 @@
   </gazebo>
   
 
-  <gazebo reference="base_link">
+  <!--<gazebo reference="base_link">
     <material>Gazebo/Orange</material>
   </gazebo>
 
@@ -354,6 +354,6 @@
   <gazebo reference="right_wheel_3">
     <material>Gazebo/Blue</material>
   </gazebo>
-
+-->
 </robot>
 

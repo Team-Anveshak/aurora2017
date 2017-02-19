@@ -12,11 +12,34 @@
   <!-- Localization -->
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
     <remap from="scan" to="scan"/>
+    <param name="use_map_topic" value="false"/>
     <param name="odom_frame_id" value="odom"/>
-    <param name="odom_model_type" value="diff-corrected"/>
     <param name="base_frame_id" value="base_link"/>
-    <param name="update_min_d" value="0.5"/>
-    <param name="update_min_a" value="1.0"/>
+    <param name="global_frame_id" value="map"/>
+    <param name="initial_pose_x" value="0.0"/>
+    <param name="initial_pose_y" value="0.0"/>
+    <param name="initial_pose_a" value="0.0"/>
+    <param name="odom_model_type" value="diff-corrected"/>
+    <param name="odom_alpha5" value="0.1"/>
+    <param name="transform_tolerance" value="0.2" />
+    <param name="gui_publish_rate" value="10.0"/>
+    <param name="laser_max_beams" value="30"/>
+    <param name="min_particles" value="500"/>
+    <param name="max_particles" value="5000"/>
+    <param name="kld_err" value="0.05"/>
+    <param name="kld_z" value="0.99"/>
+    <param name="odom_alpha1" value="0.2"/>
+    <param name="odom_alpha2" value="0.2"/>
+    <!-- translation std dev, m -->
+    <param name="laser_model_type" value="likelihood_field"/>
+    <!-- <param name="laser_model_type" value="beam"/> -->
+    <param name="laser_likelihood_max_dist" value="2.0"/>
+    <param name="update_min_d" value="0.2"/>
+    <param name="update_min_a" value="0.5"/>
+    <param name="resample_interval" value="1"/>
+    <param name="transform_tolerance" value="0.1"/>
+    <param name="recovery_alpha_slow" value="0.0"/>
+    <param name="recovery_alpha_fast" value="0.0"/>     
   </node>
   <!--include file="$(find amcl)/examples/amcl_omni.launch"/-->
 
@@ -28,7 +51,16 @@
     <rosparam file="/home/aniket/2/rover-control/src/simulation_2/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="/home/aniket/2/rover-control/src/simulation_2/config/local_costmap_params.yaml" command="load" />
     <rosparam file="/home/aniket/2/rover-control/src/simulation_2/config/global_costmap_params.yaml" command="load" />
-    <rosparam file="/home/aniket/2/rover-control/src/simulation_2/config/base_local_planner_params.yaml" command="load" />
+    <rosparam file="/home/aniket/2/rover-control/src/simulation_2/config/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="/home/aniket/2/rover-control/src/simulation_2/config/move_base_params.yaml" command="load" />
+    <rosparam file="/home/aniket/2/rover-control/src/simulation_2/config/global_planner_params.yaml" command="load" />
+    <rosparam file="/home/aniket/2/rover-control/src/simulation_2/config/navfn_global_planner_params.yaml" command="load" />
+    <!-- <rosparam file="/home/aniket/2/rover-control/src/simulation_2/config/base_local_planner_params.yaml" command="load" />-->
+    <param name="global_costmap/global_frame" value="map"/>
+    <param name="global_costmap/robot_base_frame" value="base_link"/>
+    <param name="local_costmap/global_frame" value="map"/>
+    <param name="local_costmap/robot_base_frame" value="base_link"/>
+    <param name="DWAPlannerROS/global_frame_id" value="odom"/>
     
     <remap from="cmd_vel" to="cmd_vel"/>
     <remap from="odom" to="odom"/>
