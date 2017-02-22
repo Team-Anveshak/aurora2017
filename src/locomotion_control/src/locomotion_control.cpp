@@ -27,7 +27,7 @@ LocomotionControl::LocomotionControl(){
 void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     rover_msgs::WheelVelocity vel;
     
-    float x_axis_val = -joy->axes[0];
+    float x_axis_val = joy->axes[0];
     float y_axis_val = joy->axes[1];
     //double angle = atan2(y_axis_val,x_axis_val);
 
@@ -58,29 +58,29 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     float v4 = v*((1+b/r)/dem);
 
     if((fabs(y_axis_val)<0.2) && (fabs(x_axis_val)<0.2)){
-        vel.left_front_vel = v3;
-        vel.right_front_vel = v1;
-        vel.left_middle_vel = v2;
-        vel.left_middle_vel = v4;
-        vel.left_back_vel = v3;
-        vel.left_back_vel = v1;
+        vel.left_front_vel = 0;
+        vel.right_front_vel = 0;
+        vel.left_middle_vel = 0;
+        vel.right_middle_vel = 0;
+        vel.left_back_vel = 0;
+        vel.right_back_vel = 0;
     }
     if(y_axis_val>0.2){   
         if(x_axis_val>0.2){
             vel.left_front_vel = v3;
             vel.right_front_vel = v1;
-            vel.left_middle_vel = v2;
             vel.left_middle_vel = v4;
+            vel.right_middle_vel = v2;
             vel.left_back_vel = v3;
-            vel.left_back_vel = v1;
+            vel.right_back_vel = v1;
         }
         else if(x_axis_val<-0.2){
             vel.left_front_vel = v1;
             vel.right_front_vel = v3;
             vel.left_middle_vel = v4;
-            vel.left_middle_vel = v2;
+            vel.right_middle_vel = v2;
             vel.left_back_vel = v1;
-            vel.left_back_vel = v3;   
+            vel.right_back_vel = v3;   
         }
     }
     
@@ -88,18 +88,18 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
         if(x_axis_val>0.2){
             vel.left_front_vel = -v3;
             vel.right_front_vel = -v1;
-            vel.left_middle_vel = -v2;
             vel.left_middle_vel = -v4;
+            vel.right_middle_vel = -v2;
             vel.left_back_vel = -v3;
-            vel.left_back_vel = -v1;
+            vel.right_back_vel = -v1;
         }
         else if(x_axis_val<-0.2){
             vel.left_front_vel = -v1;
             vel.right_front_vel = -v3;
             vel.left_middle_vel = -v4;
-            vel.left_middle_vel = -v2;
+            vel.right_middle_vel = -v2;
             vel.left_back_vel = -v1;
-            vel.left_back_vel = -v3;   
+            vel.right_back_vel = -v3;   
         }
     }
 
