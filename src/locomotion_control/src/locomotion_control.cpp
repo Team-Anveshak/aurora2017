@@ -1,9 +1,9 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
-#include <rover_msgs/WheelVelPower.h>
-#include <rover_msgs/Power.h>
+#include <rover_msgs/WheelVelocity.h>
+/*#include <rover_msgs/Power.h>
 #include <geometry_msgs/Twist.h>
-#include <nav_msgs/Odometry.h>
+#include <nav_msgs/Odometry.h>*/
 #include <cstdlib>
 #include <cmath>
 
@@ -16,20 +16,18 @@ class LocomotionControl{
         void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
         ros::NodeHandle nh;
         ros::Publisher vel_pub;
-        ros::Publisher cmd_vel_pub;
         ros::Subscriber joy_sub;
 };
 
 LocomotionControl::LocomotionControl(){
-    vel_pub = nh.advertise<rover_msgs::WheelVelPower>("rover1/wheel_vel",10);
-    cmd_vel_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel",10);
+    vel_pub = nh.advertise<rover_msgs::WheelVelocity>("rover1/wheel_vel",10);
     joy_sub = nh.subscribe<sensor_msgs::Joy>("joy",10,&LocomotionControl::joyCallback,this);
 }
 
 void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
-    rover_msgs::WheelVelPower vel;
+    rover_msgs::WheelVelocity vel;
     
-    float x_axis_val = joy->axes[0];
+    float x_axis_val = -joy->axes[0];
     float y_axis_val = joy->axes[1];
     //double angle = atan2(y_axis_val,x_axis_val);
 
@@ -105,8 +103,10 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
         }
     }
 
-    
+vel_pub.publish(vel);    
 }
+
+
 
 int main(int argc, char** argv) {
     ros::init(argc,argv,"locomotion_control");
