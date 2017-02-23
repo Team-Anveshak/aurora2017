@@ -57,16 +57,32 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     float v3 = v* ((1+b/r)*(1+(a/2/r*a/2/r))/dem);
     float v4 = v*((1+b/r)/dem);
 
-    if((fabs(y_axis_val)<0.2) && (fabs(x_axis_val)<0.2)){
-        vel.left_front_vel = 0;
-        vel.right_front_vel = 0;
-        vel.left_middle_vel = 0;
-        vel.right_middle_vel = 0;
-        vel.left_back_vel = 0;
-        vel.right_back_vel = 0;
+    if(fabs(x_axis_val)<0.2){
+        vel.left_front_vel = c2 * y_axis_val;
+        vel.right_front_vel = c2 * y_axis_val;
+        vel.left_middle_vel = c2 * y_axis_val;
+        vel.right_middle_vel = c2 * y_axis_val;
+        vel.left_back_vel = c2 * y_axis_val;
+        vel.right_back_vel = c2 * y_axis_val;
+    }
+    if (fabs(y_axis_val)<0.15 && x_axis_val<-0.5){
+        vel.left_front_vel = -c2 * x_axis_val;
+        vel.right_front_vel = c2 * x_axis_val;
+        vel.left_middle_vel = -c2 * x_axis_val;
+        vel.right_middle_vel = c2 * x_axis_val;
+        vel.left_back_vel = -c2 * x_axis_val;
+        vel.right_back_vel = c2 * x_axis_val;
+    }
+    if (fabs(y_axis_val)<0.15 && x_axis_val>0.5){
+        vel.left_front_vel = -c2 * x_axis_val;
+        vel.right_front_vel = c2 * x_axis_val;
+        vel.left_middle_vel = -c2 * x_axis_val;
+        vel.right_middle_vel = c2 * x_axis_val;
+        vel.left_back_vel = -c2 * x_axis_val;
+        vel.right_back_vel = c2 * x_axis_val;
     }
     if(y_axis_val>0.2){   
-        if(x_axis_val>0.2){
+        if(x_axis_val>0.25){
             vel.left_front_vel = v3;
             vel.right_front_vel = v1;
             vel.left_middle_vel = v4;
@@ -74,18 +90,18 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
             vel.left_back_vel = v3;
             vel.right_back_vel = v1;
         }
-        else if(x_axis_val<-0.2){
+        else if(x_axis_val<-0.25){
             vel.left_front_vel = v1;
             vel.right_front_vel = v3;
-            vel.left_middle_vel = v4;
-            vel.right_middle_vel = v2;
+            vel.left_middle_vel = v2;
+            vel.right_middle_vel = v4;
             vel.left_back_vel = v1;
             vel.right_back_vel = v3;   
         }
     }
     
     else if(y_axis_val<-0.2){   
-        if(x_axis_val>0.2){
+        if(x_axis_val>0.25){
             vel.left_front_vel = -v3;
             vel.right_front_vel = -v1;
             vel.left_middle_vel = -v4;
@@ -93,11 +109,11 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
             vel.left_back_vel = -v3;
             vel.right_back_vel = -v1;
         }
-        else if(x_axis_val<-0.2){
+        else if(x_axis_val<-0.25){
             vel.left_front_vel = -v1;
             vel.right_front_vel = -v3;
-            vel.left_middle_vel = -v4;
-            vel.right_middle_vel = -v2;
+            vel.left_middle_vel = -v2;
+            vel.right_middle_vel = -v4;
             vel.left_back_vel = -v1;
             vel.right_back_vel = -v3;   
         }

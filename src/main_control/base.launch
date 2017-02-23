@@ -4,5 +4,5 @@
  	<param name="dev" type="string" value="/dev/input/js1" />
  </node>
  <node pkg="locomotion_control" type="locomotion_control" name="loco"></node>
- <node pkg="main_camera_control" type="capture.py" name="camCap"></node>
+ <!-- <node pkg="main_camera_control" type="capture.py" name="camCap"></node> -->
 </launch>
