@@ -1,6 +1,7 @@
 /* rosserial Subscriber For Locomotion Control*/
 #include <ros.h>
 #include <rover_msgs/WheelVelPower.h>
+#include <rover_msgs/WheelVelocity.h>
 
 int dir1=2;
 int pwm1=3;
@@ -23,6 +24,9 @@ float tl = 0,tr = 0,ml = 0, mr = 0, bl = 0, br = 0;
 //float lt = 0,rt = 0,lm = 0,rm = 0,lb = 0,rb = 0; 
 
 ros::NodeHandle nh;
+
+rover_msgs::WheelVelocity RoverVel;
+ros::Publisher vel_pub("rover1/wheel", &RoverVel);
 
 rover_msgs::WheelVelPower RoverVelocity;
 
