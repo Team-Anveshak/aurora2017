@@ -36,7 +36,7 @@ void loop() {
   delay(50);
 
   ArmMotion.angle_1 = ref_1;
-  ArmMotion.angle_1 = ref_2; 
+  ArmMotion.angle_2 = ref_2; 
 
 //  nh.loginfo(nh.get_caller_id()+"value 1 %f",ref_1);
  // nh.loginfo(nh.get_caller_id()+"value 2 %f",ref_2);

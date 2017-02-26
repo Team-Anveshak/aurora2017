@@ -25,9 +25,6 @@ float tl = 0,tr = 0,ml = 0, mr = 0, bl = 0, br = 0;
 
 ros::NodeHandle nh;
 
-rover_msgs::WheelVelocity RoverVel;
-ros::Publisher vel_pub("rover1/wheel", &RoverVel);
-
 rover_msgs::WheelVelPower RoverVelocity;
 
 //ros::Publisher vel_pub("rover1/wheel", &RoverVelocity);
@@ -55,7 +52,6 @@ void roverMotionCallback(const rover_msgs::WheelVelPower& RoverVelocity){
   bl = map(RoverVelocity.left_back_vel,0,50,0,255);
   br = map(RoverVelocity.right_back_vel,0,50,0,255);
   
- 
    
   loco(tl,dir1,pwm1);
   loco(tr,dir2,pwm2);
