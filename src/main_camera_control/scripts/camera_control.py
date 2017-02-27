@@ -10,7 +10,7 @@ from rover_msgs.msg import CameraMotion
 
 PI = 3.14159
 motion_value = [False, False, False, False]
-flag=0
+
 
 ##  To control yaw pitch motion of camera
 # 	@joy_sub- joy node subscriber
@@ -55,7 +55,7 @@ class CameraControl:
             cam_pub.publish( motion_value[0], motion_value[1], motion_value[2], motion_value[3])
             
             ##chrome_path = '/usr/bin/firefox %s'
-            os.system("sudo motion")
+            #os.system("sudo motion")
             time.sleep(0.5)
             ##url = 'http://localhost:8081'
             rospy.loginfo("camera started %s" % rospy.get_time())
@@ -64,7 +64,7 @@ class CameraControl:
             rate.sleep()
 
 	if rospy.is_shutdown():
-	    os.system("sudo killall motion")
+	    #os.system("sudo killall motion")
 	    ##webbrowser.close()
 	    exit()	
 if __name__ == '__main__':

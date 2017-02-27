@@ -1,6 +1,6 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
-#include <rover_msgs/WheelVelPower.h>
+#include <rover_msgs/WheelVelocity.h>
 /*#include <rover_msgs/Power.h>
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>*/
@@ -20,12 +20,12 @@ class LocomotionControl{
 };
 
 LocomotionControl::LocomotionControl(){
-    vel_pub = nh.advertise<rover_msgs::WheelVelPower>("rover1/wheel_vel",10);
+    vel_pub = nh.advertise<rover_msgs::WheelVelocity>("rover1/wheel_vel",10);
     joy_sub = nh.subscribe<sensor_msgs::Joy>("joy",10,&LocomotionControl::joyCallback,this);
 }
 
 void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
-    rover_msgs::WheelVelPower vel;
+    rover_msgs::WheelVelocity vel;
     
     float x_axis_val = joy->axes[0];
     float y_axis_val = joy->axes[1];
@@ -102,20 +102,20 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     
     else if(y_axis_val<-0.2){   
         if(x_axis_val>0.25){
-            vel.left_front_vel = -v3;
-            vel.right_front_vel = -v1;
-            vel.left_middle_vel = -v4;
-            vel.right_middle_vel = -v2;
-            vel.left_back_vel = -v3;
-            vel.right_back_vel = -v1;
+            vel.left_front_vel = v3;
+            vel.right_front_vel = v1;
+            vel.left_middle_vel = v4;
+            vel.right_middle_vel = v2;
+            vel.left_back_vel = v3;
+            vel.right_back_vel = v1;
         }
         else if(x_axis_val<-0.25){
-            vel.left_front_vel = -v1;
-            vel.right_front_vel = -v3;
-            vel.left_middle_vel = -v2;
-            vel.right_middle_vel = -v4;
-            vel.left_back_vel = -v1;
-            vel.right_back_vel = -v3;   
+            vel.left_front_vel = v1;
+            vel.right_front_vel = v3;
+            vel.left_middle_vel = v2;
+            vel.right_middle_vel = v4;
+            vel.left_back_vel = v1;
+            vel.right_back_vel = v3;   
         }
     }
 
