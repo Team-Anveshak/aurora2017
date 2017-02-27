@@ -11,7 +11,7 @@ int pitch_initial=90;
 ros::NodeHandle nh;
 
 void cameraMotionCallback(const rover_msgs::CameraMotion& CameraVelocity){
-  nh.loginfo("CameraVelocity.A_button");
+  //nh.loginfo("CameraVelocity.A_button");
   
   if(CameraVelocity.X_button)
       if(yaw_initial > 180)

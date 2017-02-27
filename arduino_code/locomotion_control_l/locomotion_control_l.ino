@@ -2,18 +2,18 @@
 #include <ros.h>
 #include <rover_msgs/WheelVelPower.h>
 
-int dir1=2;
-int pwm1=3;
-int dir2=4;
-int pwm2=5;
-int dir3=7;
-int pwm3=6;
-int dir4=8;
+int dir1=22;
+int pwm1=8;
+int dir2=23;
+int pwm2=9;
+int dir3=22;
+int pwm3=8;
+int dir4=23;
 int pwm4=9;
-int dir5=12;
-int pwm5=10;
-int dir6=13;
-int pwm6=11;
+int dir5=22;
+int pwm5=8;
+int dir6=23;
+int pwm6=9;
 
 //int tl,tr,ml,mr,bl,br;
 
@@ -83,7 +83,7 @@ void roverMotionCallback(const rover_msgs::WheelVelPower& RoverVelocity){
   mr = (int)rm/k2*mink;
    
   bl = (int)lb/k3*mink;
-  br = (int)lr/k3*mink;
+  br = (int)rb/k3*mink;
  
    
   loco(tl,dir1,pwm1);

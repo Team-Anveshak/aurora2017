@@ -24,7 +24,7 @@ rover_msgs::WheelVelocity RoverVel;
 ros::Publisher vel_pub("rover1/wheel", &RoverVel);
  
 void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
-  
+  digitalWrite(13,HIGH- digitalRead(13));
 
   if((int)RoverVelocity.left_front_vel>=0){
       digitalWrite(fl_1A,LOW);
@@ -112,7 +112,7 @@ void setup(){
   pinMode(dir_ml,OUTPUT);
   pinMode(pwm_mr,OUTPUT);
   pinMode(dir_mr,OUTPUT);  
-  
+  pinMode(13,OUTPUT);
 }
 
 void loop(){
