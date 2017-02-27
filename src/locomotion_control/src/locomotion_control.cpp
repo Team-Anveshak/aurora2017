@@ -20,8 +20,8 @@ class LocomotionControl{
 };
 
 LocomotionControl::LocomotionControl(){
-    vel_pub = nh.advertise<rover_msgs::WheelVelocity>("rover1/wheel_vel",10);
-    joy_sub = nh.subscribe<sensor_msgs::Joy>("joy",10,&LocomotionControl::joyCallback,this);
+    vel_pub = nh.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
+    joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy",10,&LocomotionControl::joyCallback,this);
 }
 
 void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
