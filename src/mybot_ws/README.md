@@ -1,7 +1,10 @@
 # mybot_ws
-This is a metapackage for simulation for 2d autonomous navigation of a 6-Wheel differential drive robot using ros - navigation stack.
+URDF model for Gazebo integrated with ROS
 
-This package is a modification of the moorerobot package.
-  
-For more information on running the code:
+This repository has several branches. Please checkout the appropriate branch for your needs. <br>
+1) <strong>base</strong> - create simple URDF model <br>
+2) <strong>base_sensors</strong> - add sensors to robot <br>
+3) <strong>navigation</strong> - enable autonomous navigation
+
+For more information on running the code:  <br>
 http://www.moorerobots.com/2016/09/27/tutorial-getting-started-with-ros-simulations/
