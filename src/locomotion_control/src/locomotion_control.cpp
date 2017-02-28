@@ -1,9 +1,6 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
-#include <rover_msgs/WheelVelocity.h>
-/*#include <rover_msgs/Power.h>
-#include <geometry_msgs/Twist.h>
-#include <nav_msgs/Odometry.h>*/
+#include <rover_msgs/WheelVelPower.h>
 #include <cstdlib>
 #include <cmath>
 
@@ -20,12 +17,12 @@ class LocomotionControl{
 };
 
 LocomotionControl::LocomotionControl(){
-    vel_pub = nh.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
+    vel_pub = nh.advertise<rover_msgs::WheelVelPower>("/rover1/wheel_vel",10);
     joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy",10,&LocomotionControl::joyCallback,this);
 }
 
 void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
-    rover_msgs::WheelVelocity vel;
+    rover_msgs::WheelVelPower vel;
     
     float x_axis_val = joy->axes[0];
     float y_axis_val = joy->axes[1];

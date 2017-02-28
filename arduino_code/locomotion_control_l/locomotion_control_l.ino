@@ -1,21 +1,34 @@
 /* rosserial Subscriber For Locomotion Control*/
 #include <ros.h>
 #include <rover_msgs/WheelVelPower.h>
+#include <rover_msgs/CameraMotion.h>
+#include <Servo.h>
 
-int dir1=22;
-int pwm1=8;
-int dir2=23;
-int pwm2=9;
-int dir3=22;
-int pwm3=8;
-int dir4=23;
-int pwm4=9;
-int dir5=22;
-int pwm5=8;
-int dir6=23;
-int pwm6=9;
+Servo mainCameraYaw;
+Servo mainCameraPitch;
 
-//int tl,tr,ml,mr,bl,br;
+#define dir1 23
+#define pwm1 7
+#define dir2 25
+#define pwm2 8
+#define dir3 27
+#define pwm3 9
+#define dir4 29
+#define pwm4 10
+#define dir5 31
+#define pwm5 12
+#define dir6 33
+#define pwm6 13
+
+#define pwm_bat1 35
+#define pwm_bat2 37
+#define pwm_bat3 39
+//#define pwm_bat4 41
+//#define pwm_bat5 43
+//#define pwm_bat6 45
+
+int yaw_initial = 90;
+int pitch_initial= 90;
 
 float k1,k2,k3, mink;
 
@@ -24,9 +37,10 @@ float lt = 0,rt = 0,lm = 0,rm = 0,lb = 0,rb = 0;
 
 ros::NodeHandle nh;
 
-rover_msgs::WheelVelPower RoverVelocity;
+//rover_msgs::WheelVelPower RoverVelocity;
 
-//ros::Publisher vel_pub("rover1/wheel", &RoverVelocity);
+rover_msgs::WheelVelPower RoverVel;
+ros::Publisher vel_pub("rover1/wheel", &RoverVel);
 
 void loco(int vel,int dir_pin,int pwm_pin)
 {
@@ -61,20 +75,56 @@ float minK(float k1,float k2, float k3){
   
 }
 
-void roverMotionCallback(const rover_msgs::WheelVelPower& RoverVelocity){
-  
-  k1 = RoverVelocity.power_1;
-  k2 = RoverVelocity.power_2;
-  k3 = RoverVelocity.power_3;
+void UpdatePowerValues(){
+  k1 = 255;//analogRead(pwm_bat1);
+  k2 = 255;//analogRead(pwm_bat2);
+  k3 = 255;//analogRead(pwm_bat3);
+}
 
+void cameraMotionCallback(const rover_msgs::CameraMotion& CameraVelocity){
+  //nh.loginfo("CameraVelocity.A_button");
+  
+  if(CameraVelocity.X_button)
+      if(yaw_initial > 180)
+            yaw_initial = 180;
+      else 
+            yaw_initial = yaw_initial + 2;
+            
+  if(CameraVelocity.B_button)
+      if(yaw_initial < 0)
+                  yaw_initial = 0;
+      else 
+            yaw_initial = yaw_initial - 2;
+            
+  if(CameraVelocity.Y_button)
+      if(pitch_initial < 10)
+          pitch_initial = 0;
+      else 
+          pitch_initial = pitch_initial -2;
+      
+  if(CameraVelocity.A_button)
+       if(pitch_initial >145)
+          pitch_initial = 145;
+      else 
+         pitch_initial = pitch_initial +2;
+      
+    mainCameraYaw.write(yaw_initial);
+    mainCameraPitch.write(pitch_initial);
+}
+
+ros::Subscriber<rover_msgs::CameraMotion> cammotion_sub("rover1/camera_dir", &cameraMotionCallback);
+
+void roverMotionCallback(const rover_msgs::WheelVelPower& RoverVelocity){
+
+  UpdatePowerValues();
   mink=minK(k1,k2,k3);
 
-  lt = map(RoverVelocity.left_front_vel,0,50,0,255);
-  rt = map(RoverVelocity.right_front_vel,0,50,0,255);
-  lm = map(RoverVelocity.left_middle_vel,0,50,0,255);
-  rm = map(RoverVelocity.right_middle_vel,0,50,0,255);
-  lb = map(RoverVelocity.left_back_vel,0,50,0,255);
-  rb = map(RoverVelocity.right_back_vel,0,50,0,255);
+  lt = map(RoverVelocity.left_front_vel,-50,50,-255,255);
+  rt = map(RoverVelocity.right_front_vel,-50,50,-255,255);
+  lm = map(RoverVelocity.left_middle_vel,-50,50,-255,255);
+  rm = map(RoverVelocity.right_middle_vel,-50,50,-255,255);
+  lb = map(RoverVelocity.left_back_vel,-50,50,-255,255);
+  rb = map(RoverVelocity.right_back_vel,-50,50,-255,255);
   
   tl = (int)lt/k1*mink;
   tr = (int)rt/k1*mink;
@@ -84,8 +134,19 @@ void roverMotionCallback(const rover_msgs::WheelVelPower& RoverVelocity){
    
   bl = (int)lb/k3*mink;
   br = (int)rb/k3*mink;
+
+  RoverVel.left_front_vel=tl;
+  RoverVel.right_front_vel=tr;
+  RoverVel.left_middle_vel=ml;
+  RoverVel.right_middle_vel=mr;
+  RoverVel.left_back_vel=bl;
+  RoverVel.right_back_vel=br;
+  RoverVel.power_1=k1*24/255;
+  RoverVel.power_2=k2*24/255;
+  RoverVel.power_3=k3*24/255;
+
+  vel_pub.publish(&RoverVel);
  
-   
   loco(tl,dir1,pwm1);
   loco(tr,dir2,pwm2);
   loco(ml,dir3,pwm3);
@@ -98,21 +159,35 @@ void roverMotionCallback(const rover_msgs::WheelVelPower& RoverVelocity){
  
  void setup(){
    nh.initNode();
+   nh.subscribe(cammotion_sub);
    nh.subscribe(locomotion_sub);
+   nh.advertise(vel_pub);
  
- pinMode(dir1,OUTPUT);
- pinMode(dir2,OUTPUT);
- pinMode(dir3,OUTPUT);
- pinMode(dir4,OUTPUT);
- pinMode(dir5,OUTPUT);
- pinMode(dir6,OUTPUT); 
+   pinMode(dir1,OUTPUT);
+   pinMode(dir2,OUTPUT);
+   pinMode(dir3,OUTPUT);
+   pinMode(dir4,OUTPUT);
+   pinMode(dir5,OUTPUT);
+   pinMode(dir6,OUTPUT); 
   
- pinMode(pwm1,OUTPUT);
- pinMode(pwm2,OUTPUT);
- pinMode(pwm3,OUTPUT);
- pinMode(pwm4,OUTPUT);
- pinMode(pwm5,OUTPUT);
- pinMode(pwm6,OUTPUT);
+   pinMode(pwm1,OUTPUT);
+   pinMode(pwm2,OUTPUT);
+   pinMode(pwm3,OUTPUT);
+   pinMode(pwm4,OUTPUT);
+   pinMode(pwm5,OUTPUT);
+   pinMode(pwm6,OUTPUT);
+
+   pinMode(pwm_bat1,INPUT);
+   pinMode(pwm_bat2,INPUT);
+   pinMode(pwm_bat3,INPUT);
+   //pinMode(pwm_bat4,INPUT);
+   //pinMode(pwm_bat5,INPUT);
+   //pinMode(pwm_bat6,INPUT);
+
+   mainCameraYaw.write(yaw_initial);
+   mainCameraPitch.write(pitch_initial);
+   mainCameraYaw.attach(A0);
+   mainCameraPitch.attach(A1);
 
  }
  
