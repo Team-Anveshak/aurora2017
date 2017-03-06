@@ -7,7 +7,7 @@ Servo mainCameraYaw;
 Servo mainCameraPitch;
 
 int yaw_initial = 90;
-int pitch_initial=90;
+int pitch_initial = 0;
 ros::NodeHandle nh;
 
 void cameraMotionCallback(const rover_msgs::CameraMotion& CameraVelocity){

@@ -2,7 +2,7 @@
 import os
 import sys
 import time
-import rospy
+import math
 
 def motioncam():
  	rospy.init_node('motioncam', anonymous=True)
@@ -12,7 +12,6 @@ def motioncam():
 
  	if rospy.is_shutdown():
  		print "exiting motion...."
- 		#os.system("sudo killall motion")
  		exit()
 
 if __name__ == '__main__':

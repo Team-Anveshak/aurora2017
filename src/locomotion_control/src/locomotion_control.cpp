@@ -54,13 +54,14 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     float v3 = v* ((1+b/r)*(1+(a/2/r*a/2/r))/dem);
     float v4 = v*((1+b/r)/dem);
 
+
     if(fabs(x_axis_val)<0.2){
         vel.left_front_vel = c2 * y_axis_val;
         vel.right_front_vel = c2 * y_axis_val;
         vel.left_middle_vel = c2 * y_axis_val;
         vel.right_middle_vel = c2 * y_axis_val;
         vel.left_back_vel = c2 * y_axis_val;
-        vel.right_back_vel = c2 * y_axis_val;
+	vel.right_back_vel = c2 * y_axis_val;
     }
     if (fabs(y_axis_val)<0.15 && x_axis_val<-0.5){
         vel.left_front_vel = -c2 * x_axis_val;
