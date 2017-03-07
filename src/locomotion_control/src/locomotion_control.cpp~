@@ -6,13 +6,6 @@
 
 #define PI 3.14159
 
-// To control the Locomotion of the Rover
-//     @LocomotionControl constructor for the class	
-//     @joyCallback callback function for joy subscriber
-//     @nh initialise the NodeHandler object
-//     @vel_pub publisher variable
-//     @joy_sub subscriber variable
-
 class LocomotionControl{
     public:
         LocomotionControl();
@@ -23,17 +16,11 @@ class LocomotionControl{
         ros::Subscriber joy_sub;
 };
 
-// @vel_pub is assigned to advertise the /rover1/wheel_vel message
-// @joy_sub is assigned to subscribe the /joy message
 LocomotionControl::LocomotionControl(){
     vel_pub = nh.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
     joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy",10,&LocomotionControl::joyCallback,this);
 }
 
-//      @x_axis_value- x axis position of joystick controller
-//      @y_axis_value- y axis position of joystick controller
-//      @scale- magnitude of a vector, lies between (0, 5)
-//      @angle- horizontal plane angle made by controller
 void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     rover_msgs::WheelVelocity vel;
     
@@ -132,8 +119,7 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
 vel_pub.publish(vel);    
 }
 
-// @init initialises the ros
-// creates a LocomotionControl object
+
 
 int main(int argc, char** argv) {
     ros::init(argc,argv,"locomotion_control");

@@ -3,13 +3,17 @@
 #include <rover_msgs/CameraMotion.h>
 #include <Servo.h>
 
+
+
 Servo mainCameraYaw;
 Servo mainCameraPitch;
 
+//initialising the yaw and pitch to 90 and creating a nodehandle object
 int yaw_initial = 90;
 int pitch_initial=90;
 ros::NodeHandle nh;
 
+//Callback funtion for the working of the camera
 void cameraMotionCallback(const rover_msgs::CameraMotion& CameraVelocity){
   //nh.loginfo("CameraVelocity.A_button");
   
@@ -41,8 +45,11 @@ void cameraMotionCallback(const rover_msgs::CameraMotion& CameraVelocity){
     mainCameraPitch.write(pitch_initial);
 }
 
+//creating a subscriber for the topic river1/camera_dir
 ros::Subscriber<rover_msgs::CameraMotion> cammotion_sub("rover1/camera_dir", &cameraMotionCallback);
 
+
+//initialising the node and subscribing to the message cammotion_sub
 void setup(){
   nh.initNode();
   nh.subscribe(cammotion_sub);
