@@ -10,11 +10,10 @@ motion_value = [False, False, False, False, False, False]
 
 # To Control the Fripper of the Rover
 #  @joyCallback callback function for joy subscriber
-#     @x_axis_value- x axis position of joystick controller
-#     @y_axis_value- y axis position of joystick controller
-#     @scale- magnitude of a vector, lies between (0, 5)
-#     @angle- horizontal plane angle made by controller
-#  @__init__ initialising the rospy node (GripperControl)
+#   @x_axis_value- x axis position of joystick controller
+#   @y_axis_value- y axis position of joystick controller
+#   @scale- magnitude of a vector, lies between (0, 5)
+#   @angle- horizontal plane angle made by controller
 class GripperControl:
     def __init__(self):
         rospy.init_node('GripperControl', anonymous = True)
@@ -56,8 +55,7 @@ class GripperControl:
         rospy.loginfo("GripIn %d\t" % motion_value[0] +"GripOut %d\t" % motion_value[1] + "RollLeft %d\t" % motion_value[2] + "RollRight %d\t" % motion_value[3] + "PitchUp %d\t" % motion_value[4] + "PitchDown %d\t" % motion_value[5])
 
    
-# @gripper_pub is assigned as a publisher for the rover/gripper_turn message
-# @joy_sub is assigned as a subscriber for the joy message with the help of the joycallback function
+
     def start(self):
         gripper_pub = rospy.Publisher('rover1/gripper_turn', GripperMotion, queue_size = 10)
         joy_sub = rospy.Subscriber('joy', Joy, self.joyCallback)

@@ -1,6 +1,7 @@
 #include <ros.h>
 #include <rover_msgs/WheelVelocity.h>
 
+
 #define fr_1A 10
 #define fr_1B 11
 #define br_2A 12
@@ -20,6 +21,7 @@
 
 ros::NodeHandle nh;
 
+//creating the message object Rovervel of the message WheelVelocity
 rover_msgs::WheelVelocity RoverVel;
 ros::Publisher vel_pub("rover1/wheel", &RoverVel);
  
@@ -94,6 +96,7 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   
 }
 
+//creating a subscriber for the WheelVelocity and of the topic rover1/wheel_vel
 ros::Subscriber<rover_msgs::WheelVelocity> locomotion_sub("rover1/wheel_vel", &roverMotionCallback);
 
 void setup(){

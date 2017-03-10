@@ -1,8 +1,13 @@
 #include <ros.h>
 #include <rover_msgs/GripperMotion.h>
 
+//initialising the ros nodehandler
+
+
 ros::NodeHandle nh;
 
+
+//working of the gripper
 void GripperMotionCallback(const rover_msgs::GripperMotion& GripperControl){
   if(GripperControl.button_1){
     digitalWrite(7,HIGH); //  gripping motor
@@ -42,6 +47,7 @@ void GripperMotionCallback(const rover_msgs::GripperMotion& GripperControl){
   }
 }
 
+//creating a subscriber to the rover1/gripper_turn message
 ros::Subscriber<rover_msgs::GripperMotion> gripper_sub("rover1/gripper_turn", &GripperMotionCallback);
 
 void setup(){
@@ -56,7 +62,7 @@ void setup(){
 
   pinMode(LED_BUILTIN, OUTPUT);
   nh.initNode();
-  nh.subscribe(gripper_sub);
+  nh.subscribe(gripper_sub);//subscribing to the gripper_sub message object
 }
 
 void loop(){  
