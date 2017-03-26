@@ -1,12 +1,20 @@
 (cl:defpackage rover_msgs-msg
   (:use )
   (:export
-   "<GRIPPERMOTION>"
-   "GRIPPERMOTION"
-   "<ARMANGLE>"
-   "ARMANGLE"
    "<CAMERAMOTION>"
    "CAMERAMOTION"
+   "<WHEELVELPOWER>"
+   "WHEELVELPOWER"
+   "<GPS>"
+   "GPS"
+   "<ARMANGLE>"
+   "ARMANGLE"
+   "<MPU>"
+   "MPU"
+   "<GRIPPERMOTION>"
+   "GRIPPERMOTION"
+   "<POWER>"
+   "POWER"
    "<WHEELVELOCITY>"
    "WHEELVELOCITY"
   ))

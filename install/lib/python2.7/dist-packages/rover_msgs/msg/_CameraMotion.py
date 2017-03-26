@@ -7,16 +7,16 @@ import struct
 
 
 class CameraMotion(genpy.Message):
-  _md5sum = "b767c6f7caee821455d285d718340233"
+  _md5sum = "88cb68eb53c6c53209c17372919da333"
   _type = "rover_msgs/CameraMotion"
   _has_header = False #flag to mark the presence of a Header object
-  _full_text = """bool X_button
-bool B_button
-bool Y_button
-bool A_button
+  _full_text = """int32 X_button
+int32 B_button
+int32 Y_button
+int32 A_button
 """
   __slots__ = ['X_button','B_button','Y_button','A_button']
-  _slot_types = ['bool','bool','bool','bool']
+  _slot_types = ['int32','int32','int32','int32']
 
   def __init__(self, *args, **kwds):
     """
@@ -36,18 +36,18 @@ bool A_button
       super(CameraMotion, self).__init__(*args, **kwds)
       #message fields cannot be None, assign default values for those that are
       if self.X_button is None:
-        self.X_button = False
+        self.X_button = 0
       if self.B_button is None:
-        self.B_button = False
+        self.B_button = 0
       if self.Y_button is None:
-        self.Y_button = False
+        self.Y_button = 0
       if self.A_button is None:
-        self.A_button = False
+        self.A_button = 0
     else:
-      self.X_button = False
-      self.B_button = False
-      self.Y_button = False
-      self.A_button = False
+      self.X_button = 0
+      self.B_button = 0
+      self.Y_button = 0
+      self.A_button = 0
 
   def _get_types(self):
     """
@@ -62,7 +62,7 @@ bool A_button
     """
     try:
       _x = self
-      buff.write(_struct_4B.pack(_x.X_button, _x.B_button, _x.Y_button, _x.A_button))
+      buff.write(_struct_4i.pack(_x.X_button, _x.B_button, _x.Y_button, _x.A_button))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -75,12 +75,8 @@ bool A_button
       end = 0
       _x = self
       start = end
-      end += 4
-      (_x.X_button, _x.B_button, _x.Y_button, _x.A_button,) = _struct_4B.unpack(str[start:end])
-      self.X_button = bool(self.X_button)
-      self.B_button = bool(self.B_button)
-      self.Y_button = bool(self.Y_button)
-      self.A_button = bool(self.A_button)
+      end += 16
+      (_x.X_button, _x.B_button, _x.Y_button, _x.A_button,) = _struct_4i.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -94,7 +90,7 @@ bool A_button
     """
     try:
       _x = self
-      buff.write(_struct_4B.pack(_x.X_button, _x.B_button, _x.Y_button, _x.A_button))
+      buff.write(_struct_4i.pack(_x.X_button, _x.B_button, _x.Y_button, _x.A_button))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -108,15 +104,11 @@ bool A_button
       end = 0
       _x = self
       start = end
-      end += 4
-      (_x.X_button, _x.B_button, _x.Y_button, _x.A_button,) = _struct_4B.unpack(str[start:end])
-      self.X_button = bool(self.X_button)
-      self.B_button = bool(self.B_button)
-      self.Y_button = bool(self.Y_button)
-      self.A_button = bool(self.A_button)
+      end += 16
+      (_x.X_button, _x.B_button, _x.Y_button, _x.A_button,) = _struct_4i.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
-_struct_4B = struct.Struct("<4B")
+_struct_4i = struct.Struct("<4i")

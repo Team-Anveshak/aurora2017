@@ -7,6 +7,7 @@ project(rover_msgs)
 find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -52,6 +53,7 @@ add_message_files(
    GPS.msg
    Power.msg
    WheelVelPower.msg
+   MPU.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -72,6 +74,7 @@ add_message_files(
 generate_messages(
    DEPENDENCIES
    std_msgs
+   geometry_msgs
 )
 
 ################################################
