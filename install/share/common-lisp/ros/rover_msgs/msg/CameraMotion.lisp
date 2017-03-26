@@ -10,23 +10,23 @@
   ((X_button
     :reader X_button
     :initarg :X_button
-    :type cl:boolean
-    :initform cl:nil)
+    :type cl:integer
+    :initform 0)
    (B_button
     :reader B_button
     :initarg :B_button
-    :type cl:boolean
-    :initform cl:nil)
+    :type cl:integer
+    :initform 0)
    (Y_button
     :reader Y_button
     :initarg :Y_button
-    :type cl:boolean
-    :initform cl:nil)
+    :type cl:integer
+    :initform 0)
    (A_button
     :reader A_button
     :initarg :A_button
-    :type cl:boolean
-    :initform cl:nil))
+    :type cl:integer
+    :initform 0))
 )
 
 (cl:defclass CameraMotion (<CameraMotion>)
@@ -58,17 +58,57 @@
   (A_button m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <CameraMotion>) ostream)
   "Serializes a message object of type '<CameraMotion>"
-  (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'X_button) 1 0)) ostream)
-  (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'B_button) 1 0)) ostream)
-  (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'Y_button) 1 0)) ostream)
-  (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'A_button) 1 0)) ostream)
+  (cl:let* ((signed (cl:slot-value msg 'X_button)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
+    )
+  (cl:let* ((signed (cl:slot-value msg 'B_button)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
+    )
+  (cl:let* ((signed (cl:slot-value msg 'Y_button)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
+    )
+  (cl:let* ((signed (cl:slot-value msg 'A_button)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
+    )
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <CameraMotion>) istream)
   "Deserializes a message object of type '<CameraMotion>"
-    (cl:setf (cl:slot-value msg 'X_button) (cl:not (cl:zerop (cl:read-byte istream))))
-    (cl:setf (cl:slot-value msg 'B_button) (cl:not (cl:zerop (cl:read-byte istream))))
-    (cl:setf (cl:slot-value msg 'Y_button) (cl:not (cl:zerop (cl:read-byte istream))))
-    (cl:setf (cl:slot-value msg 'A_button) (cl:not (cl:zerop (cl:read-byte istream))))
+    (cl:let ((unsigned 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'X_button) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
+    (cl:let ((unsigned 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'B_button) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
+    (cl:let ((unsigned 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'Y_button) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
+    (cl:let ((unsigned 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'A_button) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<CameraMotion>)))
@@ -79,22 +119,22 @@
   "rover_msgs/CameraMotion")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<CameraMotion>)))
   "Returns md5sum for a message object of type '<CameraMotion>"
-  "b767c6f7caee821455d285d718340233")
+  "88cb68eb53c6c53209c17372919da333")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'CameraMotion)))
   "Returns md5sum for a message object of type 'CameraMotion"
-  "b767c6f7caee821455d285d718340233")
+  "88cb68eb53c6c53209c17372919da333")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<CameraMotion>)))
   "Returns full string definition for message of type '<CameraMotion>"
-  (cl:format cl:nil "bool X_button~%bool B_button~%bool Y_button~%bool A_button~%~%~%"))
+  (cl:format cl:nil "int32 X_button~%int32 B_button~%int32 Y_button~%int32 A_button~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'CameraMotion)))
   "Returns full string definition for message of type 'CameraMotion"
-  (cl:format cl:nil "bool X_button~%bool B_button~%bool Y_button~%bool A_button~%~%~%"))
+  (cl:format cl:nil "int32 X_button~%int32 B_button~%int32 Y_button~%int32 A_button~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <CameraMotion>))
   (cl:+ 0
-     1
-     1
-     1
-     1
+     4
+     4
+     4
+     4
 ))
 (cl:defmethod roslisp-msg-protocol:ros-message-to-list ((msg <CameraMotion>))
   "Converts a ROS message object to a list"

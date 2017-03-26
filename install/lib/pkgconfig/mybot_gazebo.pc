@@ -1,8 +1,8 @@
-prefix=/home/aniket/2/rover-control/install
+prefix=/home/achu/Documents/rover-control/install
 
 Name: mybot_gazebo
 Description: Description of mybot_gazebo
 Version: 0.0.0
 Cflags: 
-Libs: -L/home/aniket/2/rover-control/install/lib 
+Libs: -L/home/achu/Documents/rover-control/install/lib 
 Requires: 

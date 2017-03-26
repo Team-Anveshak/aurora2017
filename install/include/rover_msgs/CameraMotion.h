@@ -24,31 +24,31 @@ struct CameraMotion_
   typedef CameraMotion_<ContainerAllocator> Type;
 
   CameraMotion_()
-    : X_button(false)
-    , B_button(false)
-    , Y_button(false)
-    , A_button(false)  {
+    : X_button(0)
+    , B_button(0)
+    , Y_button(0)
+    , A_button(0)  {
     }
   CameraMotion_(const ContainerAllocator& _alloc)
-    : X_button(false)
-    , B_button(false)
-    , Y_button(false)
-    , A_button(false)  {
+    : X_button(0)
+    , B_button(0)
+    , Y_button(0)
+    , A_button(0)  {
   (void)_alloc;
     }
 
 
 
-   typedef uint8_t _X_button_type;
+   typedef int32_t _X_button_type;
   _X_button_type X_button;
 
-   typedef uint8_t _B_button_type;
+   typedef int32_t _B_button_type;
   _B_button_type B_button;
 
-   typedef uint8_t _Y_button_type;
+   typedef int32_t _Y_button_type;
   _Y_button_type Y_button;
 
-   typedef uint8_t _A_button_type;
+   typedef int32_t _A_button_type;
   _A_button_type A_button;
 
 
@@ -85,7 +85,7 @@ namespace message_traits
 
 
 // BOOLTRAITS {'IsFixedSize': True, 'IsMessage': True, 'HasHeader': False}
-// {'std_msgs': ['/opt/ros/indigo/share/std_msgs/cmake/../msg'], 'rover_msgs': ['/home/aniket/2/rover-control/src/rover_msgs/msg']}
+// {'std_msgs': ['/opt/ros/indigo/share/std_msgs/cmake/../msg'], 'rover_msgs': ['/home/achu/Documents/rover-control/src/rover_msgs/msg']}
 
 // !!!!!!!!!!! ['__class__', '__delattr__', '__dict__', '__doc__', '__eq__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_parsed_fields', 'constants', 'fields', 'full_name', 'has_header', 'header_present', 'names', 'package', 'parsed_fields', 'short_name', 'text', 'types']
 
@@ -128,12 +128,12 @@ struct MD5Sum< ::rover_msgs::CameraMotion_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "b767c6f7caee821455d285d718340233";
+    return "88cb68eb53c6c53209c17372919da333";
   }
 
   static const char* value(const ::rover_msgs::CameraMotion_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xb767c6f7caee8214ULL;
-  static const uint64_t static_value2 = 0x55d285d718340233ULL;
+  static const uint64_t static_value1 = 0x88cb68eb53c6c532ULL;
+  static const uint64_t static_value2 = 0x09c17372919da333ULL;
 };
 
 template<class ContainerAllocator>
@@ -152,10 +152,10 @@ struct Definition< ::rover_msgs::CameraMotion_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "bool X_button\n\
-bool B_button\n\
-bool Y_button\n\
-bool A_button\n\
+    return "int32 X_button\n\
+int32 B_button\n\
+int32 Y_button\n\
+int32 A_button\n\
 ";
   }
 
@@ -197,13 +197,13 @@ struct Printer< ::rover_msgs::CameraMotion_<ContainerAllocator> >
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::rover_msgs::CameraMotion_<ContainerAllocator>& v)
   {
     s << indent << "X_button: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.X_button);
+    Printer<int32_t>::stream(s, indent + "  ", v.X_button);
     s << indent << "B_button: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.B_button);
+    Printer<int32_t>::stream(s, indent + "  ", v.B_button);
     s << indent << "Y_button: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.Y_button);
+    Printer<int32_t>::stream(s, indent + "  ", v.Y_button);
     s << indent << "A_button: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.A_button);
+    Printer<int32_t>::stream(s, indent + "  ", v.A_button);
   }
 };
 
