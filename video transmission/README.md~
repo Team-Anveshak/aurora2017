@@ -1,6 +1,6 @@
 + PREREQUISITES:
 
-sudo apt-get install build-essential autoconf libjpeg-dev libavformat-dev libavcodec-dev libswscale-dev ffmpeg subversion git
+sudo apt-get install build-essential autoconf libjpeg-dev libavformat-dev libavcodec-dev libswscale-dev subversion git
 
 + installing ffmpeg file
 
