@@ -19,7 +19,7 @@ https://sourceforge.net/projects/motion/files/motion%20-%203.2/3.2.12/
 
 + UNPACKING AND INSTALLATION:(provide path to the downloaded motion .tar file)
 
-tar -xvzf /path/to/motion-3.2.12.tar.gz 
+tar -xvzf /path_to/motion-3.2.12.tar.gz 
 cd motion-3.2.12/
 
 + INCLUDE in track.h -- <code>#include </usr/include/linux/videodev.h></code>
