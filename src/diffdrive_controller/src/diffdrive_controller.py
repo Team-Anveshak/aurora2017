@@ -4,17 +4,17 @@ import roslib
 
 # Messages
 from geometry_msgs.msg import Twist
-from std_msgs.msg import Float32
+from rover_msgs.msg import WheelVelocity
 
 class CmdVelToDiffDriveMotors:
   def __init__(self):
     rospy.init_node('diffdrive_controller')
     self.cmdvel_sub = rospy.Subscriber('cmd_vel', Twist, self.twistCallback)
-    self.lwheel_tangent_vel_target_pub = rospy.Publisher('lwheel_tangent_vel_target', Float32, queue_size=10)
-    self.rwheel_tangent_vel_target_pub = rospy.Publisher('rwheel_tangent_vel_target', Float32, queue_size=10)
+    # self.lwheel_tangent_vel_target_pub = rospy.Publisher('lwheel_tangent_vel_target', Float32, queue_size=10)
+    self.vel_pub = rospy.Publisher('rover1/wheel_vel', WheelVelocity, queue_size=20)
 
-    self.L = rospy.get_param('~robot_wheel_separation_distance', 0.14) 
-    self.R = rospy.get_param('~robot_wheel_radius', 0.03)
+    self.L = rospy.get_param('~robot_wheel_separation_distance', 0.64) 
+    self.R = rospy.get_param('~robot_wheel_radius', 0.125)
 
     self.rate = rospy.get_param('~rate', 50)
     self.timeout_idle = rospy.get_param('~timeout_idle', 2)
@@ -41,8 +41,15 @@ class CmdVelToDiffDriveMotors:
   def shutdown(self):
     rospy.loginfo("Stop diffdrive_controller")
   	# Stop message
-    self.lwheel_tangent_vel_target_pub.publish(0)
-    self.rwheel_tangent_vel_target_pub.publish(0)
+    vel=WheelVelocity()
+    vel.left_front_vel = 0
+    vel.left_middle_vel = 0;
+    vel.left_back_vel = 0
+    vel.right_front_vel = 0
+    vel.right_middle_vel = 0
+    vel.right_back_vel = 0
+    self.vel_pub.publish(vel)
+
     rospy.sleep(1)    
 
   def update(self):
@@ -53,11 +60,20 @@ class CmdVelToDiffDriveMotors:
     # Relate Lw = R (vr - vl) because rotation is a function of counter-clockwise wheel speeds
     # Compute vr = (2v + wL) / 2R
     # Compute vl = (2v - wL) / 2R
-    vr = (2*self.target_v + self.target_w*self.L) / (2)
-    vl = (2*self.target_v - self.target_w*self.L) / (2)
+    # vr = (2*self.target_v + self.target_w*self.L) / (2)
+    # vl = (2*self.target_v - self.target_w*self.L) / (2)
+    vel=WheelVelocity()
 
-    self.rwheel_tangent_vel_target_pub.publish(vr)
-    self.lwheel_tangent_vel_target_pub.publish(vl)
+    vel.left_front_vel = (2*self.target_v - self.target_w*self.L) / (2*0.0125)
+    vel.left_middle_vel = (2*self.target_v - self.target_w*self.L) / (2*0.0125)
+    vel.left_back_vel = (2*self.target_v - self.target_w*self.L) / (2*0.0125)
+    vel.right_front_vel = (2*self.target_v + self.target_w*self.L) / (2*0.0125)
+    vel.right_middle_vel = (2*self.target_v + self.target_w*self.L) / (2*0.0125)
+    vel.right_back_vel = (2*self.target_v + self.target_w*self.L) / (2*0.0125)
+
+    # self.rwheel_tangent_vel_target_pub.publish(vr)
+    # self.lwheel_tangent_vel_target_pub.publish(vl)
+    self.vel_pub.publish(vel)
 
   def twistCallback(self,msg):
     self.target_v = msg.linear.x;
