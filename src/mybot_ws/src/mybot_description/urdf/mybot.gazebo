@@ -16,7 +16,7 @@
       <kd value="0.00001" />
       <maxVel value="1.0" />
       <minDepth value="0.0001" />
-  </gazebo-->    
+  </gazebo    
 
   <gazebo>
     <plugin name="diffdrive_plugin_multiwheel" filename="libdiffdrive_plugin_multi_wheel.so">
@@ -36,7 +36,7 @@
       <publishOdometryTf>1</publishOdometryTf>
       <publishOdometryMsg>0</publishOdometryMsg>
     </plugin>
-  </gazebo>
+  </gazebo>-->
 
 
   <gazebo reference="chassis">
