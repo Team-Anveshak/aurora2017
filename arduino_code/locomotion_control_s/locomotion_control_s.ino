@@ -1,6 +1,7 @@
 /* rosserial Subscriber For Locomotion Control */
 #include <ros.h>
 #include <rover_msgs/WheelVelocity.h>
+//#include <sensor_msgs/Joy.h>
 
 int dir1=2;
 int pwm1=3;
@@ -22,8 +23,9 @@ ros::NodeHandle nh;
 //rover_msgs::WheelVelocity RoverVelocity;
 
 rover_msgs::WheelVelocity RoverVel;
-ros::Publisher vel_pub("rover1/wheel", &RoverVel);
+ros::Publisher WheelVelocity("rover1/wheel", &RoverVel);
 
+//ros::Subscriber joy_sub;
 
 void loco(int vel,int dir_pin,int pwm_pin)
 {
@@ -52,7 +54,7 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   RoverVel.right_middle_vel = map((int)RoverVelocity.right_middle_vel,-50,50,-255,255);
   RoverVel.left_back_vel = map((int)RoverVelocity.left_back_vel,-50,50,-255,255);
   RoverVel.right_back_vel = map((int)RoverVelocity.right_back_vel,-50,50,-255,255);
-  vel_pub.publish(&RoverVel);
+  WheelVelocity.publish(&RoverVel);
    
   loco(tl,dir1,pwm1);
   loco(tr,dir2,pwm2);
@@ -62,12 +64,22 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   loco(br,dir6,pwm6);
  }
  
+//void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
+// {
+//  ge+ometry_msgs::Twist twist;
+//  twist.angular.z = a_scale_*joy->axes[angular_];
+//  twist.linear.x = l_scale_*joy->axes[linear_];
+//  vel_pub_.publish(twist);
+// } 
+
+//joy_sub = nh.subscribe<sensor_msgs::Joy>("joy", 10, &joyCallback, this);
+ 
  ros::Subscriber<rover_msgs::WheelVelocity> locomotion_sub("rover1/wheel_vel", &roverMotionCallback);
  
  void setup(){
     nh.initNode();
     nh.subscribe(locomotion_sub);
-    nh.advertise(vel_pub);
+    nh.advertise(WheelVelocity);
     pinMode(dir1,OUTPUT);
     pinMode(dir2,OUTPUT);
     pinMode(dir3,OUTPUT);
@@ -86,6 +98,7 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
  
  void loop(){
     //nh.spinOnce();
+    //WheelVelocity.publish(&RoverVel);
     nh.spinOnce();
     delay(10);
 }

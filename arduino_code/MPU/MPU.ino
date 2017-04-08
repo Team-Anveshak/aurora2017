@@ -11,7 +11,7 @@
 
 ros::NodeHandle nh;
 rover_msgs::MPU values;
-ros::Publisher MPU("test",&values);
+ros::Publisher MPU("imu_data",&values);
   
 
 MPU6050 mpu;
@@ -24,6 +24,9 @@ MPU6050 mpu;
 
 #define INTERRUPT_PIN 2  
 #define LED_PIN 13 
+
+int16_t ax, ay, az;
+int16_t gx, gy, gz;
 bool blinkState = false;
 
 // MPU control/status vars
@@ -151,6 +154,7 @@ void loop() {
 
        
             mpu.dmpGetQuaternion(&q, fifoBuffer);
+           
             
     
     
@@ -163,14 +167,11 @@ void loop() {
             //values.orientation_covariance = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
             
         
+             mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
         
-        
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
-            mpu.dmpGetGravity(&gravity, &q);
-            mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-            values.angular_velocity.x = ypr[0];
-            values.angular_velocity.y = ypr[1];
-            values.angular_velocity.z = ypr[2];
+            values.angular_velocity.x = gx;
+            values.angular_velocity.y = gy;
+            values.angular_velocity.z = gz;
              for(int i=0;i<9;i++)
             {values.angular_velocity_covariance[i] = 0.0 ;}
            // values.angular_velocity_covariance = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}; 

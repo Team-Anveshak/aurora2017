@@ -1,0 +1,12 @@
+<launch>
+<node pkg="tf" type="tf_remap" name="tf_remapper" output="screen">
+  <rosparam param="mappings">
+    [{old: hokuyo, new: base_laser_link}]
+  </rosparam>
+</node>
+
+<node pkg="rosbag" type="play" name="player" args="$(find transform)/bag/bag.bag">
+  <remap from="/tf" to="/tf_old" />
+  <remap from="/base_scan" to="/mybot/laser/scan" />
+</node>
+</launch>
