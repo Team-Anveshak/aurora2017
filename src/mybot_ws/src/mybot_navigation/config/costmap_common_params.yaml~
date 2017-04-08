@@ -1,6 +1,6 @@
 obstacle_range: 2.5
 raytrace_range: 3.0
-transform_tolerance: 10
+transform_tolerance: 5
 #footprint: [[x0, y0], [x1, y1], ... [xn, yn]]
 #robot_radius: ir_of_robot
 robot_radius: 0.5 # distance a circular robot should be clear of the obstacle

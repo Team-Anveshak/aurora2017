@@ -16,8 +16,7 @@ void Callback(const geometry_msgs::Twist::ConstPtr& msg){
 	vx = msg->linear.x;
 	vy = msg->linear.y;
 	vth = msg->angular.z;
-  ROS_DEBUG("Hello %s", "World");
-  
+  //ROS_INFO_STREAM("scale");  
 }
 
 int main(int argc, char** argv){
@@ -28,24 +27,16 @@ int main(int argc, char** argv){
   tf::TransformBroadcaster odom_broadcaster;
   ros::Subscriber cmdvel = n.subscribe<geometry_msgs::Twist>("cmd_vel",1000,Callback);
    	
- /* double x = 0.0;
-  double y = 0.0;
-  double th = 0.0;
-
-  double vx = 0.1;
-  double vy = -0.1;
-  double vth = 0.1;*/
-
   ros::Time current_time, last_time;
   current_time = ros::Time::now();
   last_time = ros::Time::now();
 
-  ros::Rate r(1.0);
+  //ros::Rate r(0.5);
   while(n.ok()){
     
     ros::spinOnce(); // check for incoming messages
     current_time = ros::Time::now();
-    ROS_INFO_STREAM("scale");
+    //ROS_INFO_STREAM("scale");
 
     //compute odometry in a typical way given the velocities of the robot
     double dt = (current_time - last_time).toSec();
@@ -95,6 +86,6 @@ int main(int argc, char** argv){
     odom_pub.publish(odom);
 
     last_time = current_time;
-    r.sleep();
+    //r.sleep();
   }
 }
