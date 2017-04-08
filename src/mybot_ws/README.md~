@@ -1,7 +1,0 @@
-# mybot_ws
-This is a metapackage for simulation for 2d autonomous navigation of a 6-Wheel differential drive robot using ros - navigation stack.
-
-This package is a modification of the moorerobot package.
-  
-For more information on running the code:
-http://www.moorerobots.com/2016/09/27/tutorial-getting-started-with-ros-simulations/

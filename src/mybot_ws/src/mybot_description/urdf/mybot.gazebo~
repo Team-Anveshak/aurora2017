@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<<<<<<< HEAD
 <robot>
 
   <!--gazebo reference="left_wheel_hinge">
@@ -18,6 +19,9 @@
       <minDepth value="0.0001" />
   </gazebo>    
 
+=======
+<robot>    
+>>>>>>> 6928982795ce2507cf6b67ff86f1b50930592414
   <gazebo>
     <plugin name="diffdrive_plugin_multiwheel" filename="libdiffdrive_plugin_multi_wheel.so">
       <legacyMode>false</legacyMode>
@@ -33,10 +37,17 @@
       <commandTopic>/cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>       
+<<<<<<< HEAD
       <publishOdometryTf>1</publishOdometryTf>
       <publishOdometryMsg>0</publishOdometryMsg>
     </plugin>
   </gazebo> -->
+=======
+      <publishOdometryTf>0</publishOdometryTf>
+      <publishOdometryMsg>0</publishOdometryMsg>
+    </plugin>
+  </gazebo>
+>>>>>>> 6928982795ce2507cf6b67ff86f1b50930592414
 
 
   <gazebo reference="chassis">

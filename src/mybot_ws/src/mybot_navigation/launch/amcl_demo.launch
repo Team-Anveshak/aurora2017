@@ -10,7 +10,7 @@
   <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster"
       args="0 0 0 0 0 0 map odom 100"/>
 
-  <!-- Localization -->
+  
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
     <remap from="scan" to="mybot/laser/scan"/>
     <param name="odom_frame_id" value="odom"/>

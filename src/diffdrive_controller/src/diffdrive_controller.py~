@@ -64,14 +64,21 @@ class CmdVelToDiffDriveMotors:
     # vl = (2*self.target_v - self.target_w*self.L) / (2)
     vel=WheelVelocity()
 
-
+<<<<<<< HEAD
     vel.left_front_vel = (2*self.target_v - self.target_w*self.L) / (2*0.0125)
     vel.left_middle_vel = (2*self.target_v - self.target_w*self.L) / (2*0.0125)
     vel.left_back_vel = (2*self.target_v - self.target_w*self.L) / (2*0.0125)
     vel.right_front_vel = (2*self.target_v + self.target_w*self.L) / (2*0.0125)
     vel.right_middle_vel = (2*self.target_v + self.target_w*self.L) / (2*0.0125)
     vel.right_back_vel = (2*self.target_v + self.target_w*self.L) / (2*0.0125)
-
+=======
+    vel.left_front_vel = (2*self.target_v + self.target_w*self.L) / (2)
+    vel.left_middle_vel = (2*self.target_v + self.target_w*self.L) / (2)
+    vel.left_back_vel = (2*self.target_v + self.target_w*self.L) / (2)
+    vel.right_front_vel = (2*self.target_v - self.target_w*self.L) / (2)
+    vel.right_middle_vel = (2*self.target_v - self.target_w*self.L) / (2)
+    vel.right_back_vel = (2*self.target_v - self.target_w*self.L) / (2)
+>>>>>>> 938e3bd622dcf6df409f37050e2f86dfe4853118
 
     # self.rwheel_tangent_vel_target_pub.publish(vr)
     # self.lwheel_tangent_vel_target_pub.publish(vl)
