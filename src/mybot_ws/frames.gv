@@ -1,24 +1,16 @@
 digraph G {
-<<<<<<< HEAD
-"map" -> "odom"[label="Broadcaster: /map_odom_broadcaster\nAverage rate: 10.204 Hz\nMost recent transform: 470.830 ( -0.020 sec old)\nBuffer length: 4.900 sec\n"];
-"odom" -> "chassis"[label="Broadcaster: /odom_chassis_broadcaster\nAverage rate: 10.208 Hz\nMost recent transform: 470.830 ( -0.020 sec old)\nBuffer length: 4.800 sec\n"];
+"chassis" -> "camera"[label="Broadcaster: /robot_state_publisher\nAverage rate: 50.204 Hz\nMost recent transform: 811.000 ( -0.490 sec old)\nBuffer length: 4.900 sec\n"];
+"odom" -> "chassis"[label="Broadcaster: /ekf_localization\nAverage rate: 47.959 Hz\nMost recent transform: 810.500 ( 0.010 sec old)\nBuffer length: 4.900 sec\n"];
+"chassis" -> "hokuyo"[label="Broadcaster: /robot_state_publisher\nAverage rate: 50.204 Hz\nMost recent transform: 811.000 ( -0.490 sec old)\nBuffer length: 4.900 sec\n"];
+"map" -> "odom"[label="Broadcaster: /amcl\nAverage rate: 36.939 Hz\nMost recent transform: 810.560 ( -0.050 sec old)\nBuffer length: 4.900 sec\n"];
+"chassis" -> "left_wheel_1"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 810.440 ( 0.070 sec old)\nBuffer length: 4.800 sec\n"];
+"chassis" -> "left_wheel_2"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 810.440 ( 0.070 sec old)\nBuffer length: 4.800 sec\n"];
+"chassis" -> "left_wheel_3"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 810.440 ( 0.070 sec old)\nBuffer length: 4.800 sec\n"];
+"chassis" -> "right_wheel_1"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 810.440 ( 0.070 sec old)\nBuffer length: 4.800 sec\n"];
+"chassis" -> "right_wheel_2"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 810.440 ( 0.070 sec old)\nBuffer length: 4.800 sec\n"];
+"chassis" -> "right_wheel_3"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 810.440 ( 0.070 sec old)\nBuffer length: 4.800 sec\n"];
 edge [style=invis];
  subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
-"Recorded at time: 470.810"[ shape=plaintext ] ;
-=======
-"chassis" -> "camera"[label="Broadcaster: /robot_state_publisher\nAverage rate: 50.201 Hz\nMost recent transform: 43.960 ( -0.500 sec old)\nBuffer length: 4.980 sec\n"];
-"odom" -> "chassis"[label="Broadcaster: /gazebo\nAverage rate: 25.202 Hz\nMost recent transform: 43.450 ( 0.010 sec old)\nBuffer length: 4.960 sec\n"];
-"chassis" -> "hokuyo"[label="Broadcaster: /robot_state_publisher\nAverage rate: 50.201 Hz\nMost recent transform: 43.960 ( -0.500 sec old)\nBuffer length: 4.980 sec\n"];
-"map" -> "odom"[label="Broadcaster: /amcl\nAverage rate: 43.320 Hz\nMost recent transform: 43.520 ( -0.060 sec old)\nBuffer length: 4.940 sec\n"];
-"chassis" -> "left_wheel_1"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.204 Hz\nMost recent transform: 43.450 ( 0.010 sec old)\nBuffer length: 4.900 sec\n"];
-"chassis" -> "left_wheel_2"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.204 Hz\nMost recent transform: 43.450 ( 0.010 sec old)\nBuffer length: 4.900 sec\n"];
-"chassis" -> "left_wheel_3"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.204 Hz\nMost recent transform: 43.450 ( 0.010 sec old)\nBuffer length: 4.900 sec\n"];
-"chassis" -> "right_wheel_1"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.204 Hz\nMost recent transform: 43.450 ( 0.010 sec old)\nBuffer length: 4.900 sec\n"];
-"chassis" -> "right_wheel_2"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.204 Hz\nMost recent transform: 43.450 ( 0.010 sec old)\nBuffer length: 4.900 sec\n"];
-"chassis" -> "right_wheel_3"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.204 Hz\nMost recent transform: 43.450 ( 0.010 sec old)\nBuffer length: 4.900 sec\n"];
-edge [style=invis];
- subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
-"Recorded at time: 43.460"[ shape=plaintext ] ;
->>>>>>> 6928982795ce2507cf6b67ff86f1b50930592414
+"Recorded at time: 810.510"[ shape=plaintext ] ;
  }->"map";
 }
