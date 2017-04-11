@@ -1,5 +1,5 @@
 #include<ros.h>
-#include <rover_msgs/MPU.h>
+#include <sensor_msgs/Imu.h>
 #include<Arduino.h>
 #include "I2Cdev.h"
 
@@ -10,8 +10,8 @@
 #endif
 
 ros::NodeHandle nh;
-rover_msgs::MPU values;
-ros::Publisher MPU("imu_data",&values);
+sensor_msgs::Imu values;
+ros::Publisher Imu("imu/data",&values);
   
 
 MPU6050 mpu;
@@ -68,7 +68,7 @@ void setup() {
     #endif
    //Serial.begin(115200);
     nh.initNode();
-    nh.advertise(MPU);
+    nh.advertise(Imu);
   
 
     
@@ -206,7 +206,7 @@ void loop() {
         // blink LED to indicate activity
         blinkState = !blinkState;
         digitalWrite(LED_PIN, blinkState);
-        MPU.publish(&values);
+        Imu.publish(&values);
         nh.spinOnce();;
        
     }
