@@ -123,7 +123,7 @@ class Source:
         distance=0
         r=distance
         flag=0
-	done=0
+        done=0
 
         cvb = CvBridge()
 	
@@ -191,7 +191,8 @@ class Source:
                         count_n+=1
                         #cv2.imshow("encl_circle",frame)
                         continue
-                if ((center[0] in range(169,474)) and (center[1] in range(62,380)) and count_y>30 and count_n<10 and done==0) :
+                # if ((center[0] in range(169,474)) and (center[1] in range(62,380)) and count_y>30 and count_n<10 and done==0) :
+                if ((center[0] in range(169,474)) and count_y>30 and count_n<10 and done==0) :
                     r=distance
 		    done=1
                     flag=1
