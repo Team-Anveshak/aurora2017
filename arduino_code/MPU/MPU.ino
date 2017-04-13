@@ -71,7 +71,7 @@ void setup() {
     nh.advertise(Imu);
   
 
-    
+    values.header.frame_id = "imu_link"
 
     
    
@@ -153,11 +153,11 @@ void loop() {
         fifoCount -= packetSize;
 
        
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
-           
+          
+            
             
     
-    
+            mpu.dmpGetQuaternion(&q, fifoBuffer);
             values.orientation.x = q.x;
             values.orientation.y = q.y;
             values.orientation.z = q.z;
