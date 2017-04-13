@@ -6,7 +6,7 @@ two_d_mode: true
 
 frequency: 50
 
-odom0: odometry
+odom0: odometry/gps
 odom0_config: [true, true, true,
                false, false, true,
                true, true, false,

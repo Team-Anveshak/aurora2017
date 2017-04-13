@@ -13,29 +13,29 @@
   double vy;
   double vth;
 
-void Callback(const geometry_msgs::Twist::ConstPtr& msg){
+/*void Callback(const geometry_msgs::Twist::ConstPtr& msg){
 	vx = msg->linear.x;
 	vy = msg->linear.y;
 	vth = msg->angular.z;
-}
+}*/
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "odometry_publisher");
 
   ros::NodeHandle n;
 
-  ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odometry", 1000);
+  ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odometry/gps", 1000);
   ros::Subscriber cmdvel;
    	
   ros::Time current_time, last_time;
   current_time = ros::Time::now();
   last_time = ros::Time::now();
-  cmdvel = n.subscribe<geometry_msgs::Twist>("cmd_vel",1000,&Callback);
+  //cmdvel = n.subscribe<geometry_msgs::Twist>("cmd_vel",1000,&Callback);
   
   //ros::Rate r(0.04);
   while(n.ok()){
     
-    ros::spinOnce(); // check for incoming messages
+     // check for incoming messages
     current_time = ros::Time::now();
     //ROS_INFO_STREAM("scale");
 
@@ -59,20 +59,23 @@ int main(int argc, char** argv){
     odom.header.frame_id = "odom";
 
     //set the position
-    odom.pose.pose.position.x = x;
-    odom.pose.pose.position.y = y;
+    odom.pose.pose.position.x = 0.0;
+    odom.pose.pose.position.y = 0.0;
     odom.pose.pose.position.z = 0.0;
-    odom.pose.pose.orientation = odom_quat;
+    odom.pose.pose.orientation.x =0.0 ;
+	odom.pose.pose.orientation.y =0.0 ;
+	odom.pose.pose.orientation.z =0.0 ;
+	odom.pose.pose.orientation.w =0.0 ;
 
     //set the velocity
     odom.child_frame_id = "chassis";
-    odom.twist.twist.linear.x = vx;
-    odom.twist.twist.linear.y = vy;
-    odom.twist.twist.angular.z = vth;
+    odom.twist.twist.linear.x = 0.0;
+    odom.twist.twist.linear.y = 0.0;
+    odom.twist.twist.angular.z = 0.0;
 
     //publish the message
     odom_pub.publish(odom);
-
+	ros::spinOnce();
     last_time = current_time;
 
   }
