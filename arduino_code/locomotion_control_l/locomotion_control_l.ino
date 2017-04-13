@@ -6,18 +6,18 @@
 
 
 
-#define dir1 23
-#define pwm1 7
-#define dir2 25
-#define pwm2 8
-#define dir3 27
-#define pwm3 9
-#define dir4 29
-#define pwm4 10
-#define dir5 31
-#define pwm5 12
-#define dir6 33
-#define pwm6 13
+#define dir1 25
+#define pwm1 3
+#define dir2 23
+#define pwm2 2
+#define dir3 29
+#define pwm3 5
+#define dir4 27
+#define pwm4 4
+#define dir5 3
+#define pwm5 7
+#define dir6 31
+#define pwm6 6
 
 
 
