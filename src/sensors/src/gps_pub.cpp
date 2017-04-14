@@ -18,7 +18,7 @@ int main(int argc,char **argv)
 	ros::NodeHandle n;
 	ros::Subscriber sub = n.subscribe("phone1/android/fix",1000,gpsCallback);
 	ros::Publisher gps_pub = n.advertise<sensor_msgs::NavSatFix>("gps/fix",1000);
-	ros::Rate loop_rate(10);
+	//ros::Rate loop_rate(1);
 
 while(ros::ok())
 {
@@ -33,7 +33,7 @@ while(ros::ok())
 	gps.status.service = service;
 
 	gps_pub.publish(gps);
-	loop_rate.sleep();
+	//loop_rate.sleep();
 	
 }
 	ros::spin();
