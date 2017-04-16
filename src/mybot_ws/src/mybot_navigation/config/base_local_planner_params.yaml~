@@ -18,7 +18,7 @@ DWAPlannerROS:
    meter_scoring: true
    prefer_forward_cost_function: 0.0
 
-   heading_lookahead: 1.0
+   heading_lookahead: 0.0
    heading_scoring: false
    heading_scoring_timestep: 0.8
    occdist_scale: 0.1
