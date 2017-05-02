@@ -50,11 +50,12 @@ int main(int argc,char **argv)
 	ros::Subscriber gps_sub = n.subscribe("/phone1/android/fix",1000,gpsCallback);
 	ros::Subscriber ortn_sub = n.subscribe("/phone1/android/magnetic_field",1000,ortnCallback);
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
-	ros::Rate loop_rate(10);	
+	ros::Rate loop_rate(5);	
 
 	float a = (sin((lat_dest-lat_init)/2))*(sin((lat_dest-lat_init)/2)) + (cos (lat_init))*(cos (lat_dest))*(sin((logg_dest-logg_init)/2))*(sin((logg_dest-logg_init)/2));
 	float c = 2 * atan2(sqrt(a),sqrt(1-a));
 	dist_init= R*c;
+
 
 	while(ros::ok())
 	{
