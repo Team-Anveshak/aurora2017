@@ -12,6 +12,7 @@ double lat_init,logg_init;
 double lat_dest,logg_dest;
 double lat,logg,brng,dist,brng_cur,decl;
 int service,status;
+int countR,countL;
 
 float a = (sin((lat_dest-lat_init)/2))*(sin((lat_dest-lat_init)/2)) + (cos (lat_init))*(cos (lat_dest))*(sin((logg_dest-logg_init)/2))*(sin((logg_dest-logg_init)/2));
 float c = 2 * atan2(sqrt(a),sqrt(1-a));
@@ -38,14 +39,14 @@ void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg){
 	if(y<0)		theta = PI - theta;
 
 	if( decl > 0 ){
-		if(y>0 && (theta+decl-PI)<0 )		brng_cur = theta + decl;
-		if(y>0 && (theta+decl-PI)>0 )	 brng_cur = theta + decl - 2*PI;
+		if(y>0 && (theta+decl-PI)<0 )	brng_cur = theta + decl;
+		if(y>0 && (theta+decl-PI)>0 )	brng_cur = theta + decl - 2*PI;
 		if(y<0)		brng_cur = theta + decl -PI;	
 	}
 	else {
-		if(y<0 && (theta-fabs(decl))<0 )		brng_cur = theta + PI - decl;
-		if(y<0 && (theta-fabs(decl))>0 )	 brng_cur = theta - decl - PI;
-		if(y>0)		brng_cur = theta - decl;	
+		if(y<0 && (theta-fabs(decl))<0 )	brng_cur = theta + PI - decl;
+		if(y<0 && (theta-fabs(decl))>0 )	brng_cur = theta - decl - PI;
+		if(y>0)	brng_cur = theta - decl;	
 	}
 
 }
@@ -68,15 +69,13 @@ void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg){
 		}
 
 
-		if (countL>=5 && countR<=5){
-			dir = i-2;		
+		if (countR>=5 && countL<=5){
+			dir = (i-2);		
 		}
-		else if(countL<=5 && countR>=5){
-			dir = -i+2;
+		else if(countR<=5 && countL>=5){
+			dir = (-i+2);
 		}
 	}
-
-
 	
 }
 
@@ -88,12 +87,14 @@ int main(int argc,char **argv)
 	ros::Subscriber gps_sub = n.subscribe("/phone1/android/fix",1000,gpsCallback);
 	ros::Subscriber ortn_sub = n.subscribe("/phone1/android/magnetic_field",1000,ortnCallback);
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
-	ros::Rate loop_rate(5);	
+	ros::Rate loop_rate(5);
 
-	while(ros::ok())
-	{
+	int mode = 0;	
+
+	while(ros::ok()){
 	ros::spinOnce();
 	rover_msgs::WheelVelocity vel;
+
 	if(fabs(dist_init-dist)>0.002){
 		if(fabs(brng-brng_cur)>=5*PI/180){
 			if (brng-brng_cur<=0){
@@ -110,15 +111,39 @@ int main(int argc,char **argv)
         		vel.left_middle_vel = -180;
         		vel.right_middle_vel = 180;
         		vel.left_back_vel = -180;
+        		vel.left_back_vel = 180;
+        		vel.right_back_vel = -180;	
+			}
+			else{0;
         		vel.right_back_vel = 180;
 			}
 		
+		}
+		else if(dir!=0){
+			if(dir>0){
+				vel.left_front_vel = 180;
+    	 	   	vel.right_front_vel = -180;
+        		vel.left_middle_vel = 180;
+        		vel.right_middle_vel = -180;
+        		vel.left_back_vel = 180;
+        		vel.right_back_vel = -180;
+			}
+			else{
+				vel.left_front_vel = -180;
+        		vel.right_front_vel = 180;
+        		vel.left_middle_vel = -180;
+        		vel.right_middle_vel = 180;
+        		vel.left_back_vel = -180;
+        		vel.left_back_vel = 180;
+        		vel.right_back_vel = -180;
+			}			
 		}
 		else{
 			vel.left_front_vel = 180;
         	vel.right_front_vel = 180;
         	vel.left_middle_vel = 180;
         	vel.right_middle_vel = 180;
+        	vel.left_back_vel = 180;
         	vel.left_back_vel = 180;
         	vel.right_back_vel = 180;
 		}
@@ -133,6 +158,9 @@ int main(int argc,char **argv)
 	}
 	vel_pub.publish(vel);
 	loop_rate.sleep();
+
+	}
+	
 	
 }
 	ros::spin();
