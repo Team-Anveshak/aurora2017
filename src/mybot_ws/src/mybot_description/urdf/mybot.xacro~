@@ -299,35 +299,6 @@
     <child link="gps_link"/>
   </joint>
 
-  <link name="laser_link">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-    <box size="0.1 0.1 0.1"/>
-      </geometry>
-    </collision>
-
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://mybot_description/meshes/hokuyo.dae"/>
-      </geometry>
-    </visual>
-
-    <inertial>
-      <mass value="1e-5" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
-    </inertial>
-  </link>
-
-  <joint name="laser_joint" type="fixed">
-    <axis xyz="0 1 0" />
-    <origin xyz=".15 0 0.15" rpy="0 0 0"/>
-    <parent link="chassis"/>
-    <child link="laser_link"/>
-  </joint>
-
   <!--link name="camera">
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -358,5 +329,36 @@
     <parent link="chassis"/>
     <child link="camera"/>
   </joint-->
+
+
+  <joint name="hokuyo_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz=".15 0 0.15" rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="hokuyo"/>
+  </joint>
+
+  <link name="hokuyo">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://mybot_description/meshes/hokuyo.dae"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
 
 </robot>

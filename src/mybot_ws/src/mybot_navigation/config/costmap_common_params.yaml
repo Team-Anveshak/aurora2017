@@ -10,6 +10,6 @@ observation_sources: laser_scan_sensor #point_cloud_sensor
 
 # marking - add obstacle information to cost map
 # clearing - clear obstacle information to cost map
-laser_scan_sensor: {sensor_frame: hokuyo, data_type: LaserScan, topic: /mybot/laser/scan, marking: true, clearing: true}
+laser_scan_sensor: {sensor_frame: laser_link, data_type: LaserScan, topic: /scan, marking: true, clearing: true}
 
 #point_cloud_sensor: {sensor_frame: frame_name, data_type: PointCloud, topic: topic_name, marking: true, clearing: true}
