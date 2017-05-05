@@ -321,7 +321,7 @@
     </inertial>
   </link>
 
-  <joint name="laser_joint" type="fixed">
+  <joint name="laser_joint" type="continuous">
     <axis xyz="0 1 0" />
     <origin xyz=".15 0 0.15" rpy="0 0 0"/>
     <parent link="chassis"/>
