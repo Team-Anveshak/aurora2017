@@ -200,3 +200,7 @@ include_directories(
 add_executable(gps_pub src/gps_pub.cpp)
 target_link_libraries(gps_pub ${catkin_LIBRARIES})
 add_dependencies(gps_pub ${catkin_EXPORTED_TARGETS})
+
+add_executable(imu_pub src/imu_pub.cpp)
+target_link_libraries(imu_pub ${catkin_LIBRARIES})
+add_dependencies(imu_pub ${catkin_EXPORTED_TARGETS})
