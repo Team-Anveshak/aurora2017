@@ -25,7 +25,7 @@ int main(int argc, char** argv){
   ros::NodeHandle n;
   ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odom", 1000);
   tf::TransformBroadcaster odom_broadcaster;
-  ros::Subscriber cmdvel = n.subscribe<geometry_msgs::Twist>("cmd_vel",1000,Callback);
+  ros::Subscriber cmdvel = n.subscribe<geometry_msgs::Twist>("enc_pub",1000,Callback);
    	
   ros::Time current_time, last_time;
   current_time = ros::Time::now();
