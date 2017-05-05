@@ -89,7 +89,7 @@ int main(int argc,char **argv)
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
 	ros::Rate loop_rate(5);
 
-	int mode = 0;	
+	
 
 	while(ros::ok()){
 	ros::spinOnce();
