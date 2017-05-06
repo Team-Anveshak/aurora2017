@@ -2,21 +2,18 @@
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/MagneticField.h>
 #include <rover_msgs/WheelVelocity.h>
+#include <sensor_msgs/LaserScan.h>
 #include <cstdlib>
 #include <cmath>
 
 #define PI 3.14159
 #define R 6371
 
-double lat_init,logg_init;
+double lat_init,logg_init,dist_init;
 double lat_dest,logg_dest;
 double lat,logg,brng,dist,brng_cur,decl;
 int service,status;
-int countR,countL;
-
-float a = (sin((lat_dest-lat_init)/2))*(sin((lat_dest-lat_init)/2)) + (cos (lat_init))*(cos (lat_dest))*(sin((logg_dest-logg_init)/2))*(sin((logg_dest-logg_init)/2));
-float c = 2 * atan2(sqrt(a),sqrt(1-a));
-float dist_init= R*c;
+int countR,countL,dir;
 
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg){
 	lat = (msg->latitude)*PI/180;
@@ -89,15 +86,18 @@ int main(int argc,char **argv)
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
 	ros::Rate loop_rate(5);
 
-	
+	float a = (sin((lat_dest-lat_init)/2))*(sin((lat_dest-lat_init)/2)) + (cos (lat_init))*(cos (lat_dest))*(sin((logg_dest-logg_init)/2))*(sin((logg_dest-logg_init)/2));
+	float c = 2 * atan2(sqrt(a),sqrt(1-a));
+	dist_init= R*c;
+	int mode = 0;
 
 	while(ros::ok()){
 	ros::spinOnce();
 	rover_msgs::WheelVelocity vel;
 
 	if(fabs(dist_init-dist)>0.002){
-		if(fabs(brng-brng_cur)>=5*PI/180){
-			if (brng-brng_cur<=0){
+		if((fabs(brng-brng_cur) >= 5*PI/180) && (mode==0)){
+			if (brng-brng_cur>=0){
 				vel.left_front_vel = 180;
     	 	   	vel.right_front_vel = -180;
         		vel.left_middle_vel = 180;
@@ -114,12 +114,10 @@ int main(int argc,char **argv)
         		vel.left_back_vel = 180;
         		vel.right_back_vel = -180;	
 			}
-			else{0;
-        		vel.right_back_vel = 180;
-			}
 		
 		}
 		else if(dir!=0){
+			mode=1;
 			if(dir>0){
 				vel.left_front_vel = 180;
     	 	   	vel.right_front_vel = -180;
@@ -139,13 +137,20 @@ int main(int argc,char **argv)
 			}			
 		}
 		else{
-			vel.left_front_vel = 180;
-        	vel.right_front_vel = 180;
-        	vel.left_middle_vel = 180;
-        	vel.right_middle_vel = 180;
-        	vel.left_back_vel = 180;
-        	vel.left_back_vel = 180;
-        	vel.right_back_vel = 180;
+			ros::Time current_time, last_time;
+			current_time = ros::Time::now();
+			last_time = ros::Time::now();
+			while(13 - ((current_time - last_time).toSec()) >= 0.5){
+				vel.left_front_vel = 180;
+        		vel.right_front_vel = 180;
+        		vel.left_middle_vel = 180;
+        		vel.right_middle_vel = 180;
+        		vel.left_back_vel = 180;
+        		vel.left_back_vel = 180;
+        		vel.right_back_vel = 180;
+        		current_time = ros::Time::now();
+        	}
+        	mode=0;
 		}
 	}
 	else{
@@ -161,8 +166,6 @@ int main(int argc,char **argv)
 
 	}
 	
-	
-}
 	ros::spin();
 	return 0 ;
 }

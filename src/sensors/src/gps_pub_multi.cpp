@@ -10,9 +10,10 @@
 
 double lat_init,logg_init,dist_init;
 double lat_dest,logg_dest;
-double lat,logg,dist,brng,brng_cur,decl;
+double latt[5]={0,0,0,0,0},logi[5]={0,0,0,0,0};
+double lat,logg,brng,dist,brng_cur,decl;
 int service,status;
-
+int i;
 
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
@@ -49,11 +50,18 @@ void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg)
 
 }
 
+void recieve_gps(int i){
+	lat_init=latt[i];
+	logg_init=logi[i];
+	lat_dest=latt[i+1];
+	logg_dest=logi[i+1];
+}
+
 int main(int argc,char **argv)
 {
 	ros::init(argc,argv,"gps");
 	ros::NodeHandle n;
-
+	recieve_gps(0);                          //recieve initial gps init and dest 
 	ros::Subscriber gps_sub = n.subscribe("/phone1/android/fix",1000,gpsCallback);
 	ros::Subscriber ortn_sub = n.subscribe("/phone1/android/magnetic_field",1000,ortnCallback);
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
@@ -67,6 +75,10 @@ int main(int argc,char **argv)
 	{
 	ros::spinOnce();
 	rover_msgs::WheelVelocity vel;
+	float a = (sin((lat_dest-lat_init)/2))*(sin((lat_dest-lat_init)/2)) + (cos (lat_init))*(cos (lat_dest))*(sin((logg_dest-logg_init)/2))*(sin((logg_dest-logg_init)/2));
+	float c = 2 * atan2(sqrt(a),sqrt(1-a));
+	dist_init= R*c;
+	
 	if(fabs(dist_init-dist)>0.002){
 		if(fabs(brng-brng_cur)>=5*PI/180){
 			if (brng-brng_cur>=0){
@@ -103,6 +115,7 @@ int main(int argc,char **argv)
         vel.right_middle_vel = 0;
         vel.left_back_vel = 0;
         vel.right_back_vel = 0;
+		if(i<=2)	recieve_gps(++i);
 	}
 	vel_pub.publish(vel);
 	loop_rate.sleep();
