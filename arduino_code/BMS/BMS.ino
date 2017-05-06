@@ -116,31 +116,52 @@ void binInput(int count)
 
 /***************BMS FUNCTION CALL*************/
 void BMS()
-{ 
-/***************MUX3--A4**************/
-  for(int i=0;i<6;i++)
-  {
-    binInput(i);
-    x[i]=analogRead(4);
-  }
-  for(int i=10;i<16;i++)
-  {
-    binInput(i);
-    x[i]=analogRead(4);
-  }
-  for(int i=6;i<9;i++)
-  {
-    binInput(i);
-    x[i]=analogRead(4);
-  }
 
-  for(int i=0;i<4;i++)
-    bat[7][i]=(x[i]-x[i+1])*k;
+{ 
+  binInput(0);
+  x[0]=analogRead(4);
+  binInput(1);
+  x[1]=analogRead(4);
+  binInput(2);
+  x[2]=analogRead(4);
+  binInput(3);
+  x[3]=analogRead(4);
+  binInput(4);
+  x[4]=analogRead(4);
+  binInput(5);
+  x[5]=analogRead(4);
+  binInput(10);
+  x[10]=analogRead(4);
+  binInput(11);
+  x[11]=analogRead(4);
+  binInput(12);
+  x[12]=analogRead(4);
+  binInput(13);
+  x[13]=analogRead(4);
+  binInput(14);
+  x[14]=analogRead(4);
+  binInput(15);
+  x[15]=analogRead(4);
+  binInput(6);
+  x[6]=analogRead(4);
+  binInput(7);
+  x[7]=analogRead(4);
+  binInput(8);
+  x[8]=analogRead(4);
+
+  bat[7][0]=(x[0]-x[1])*k;
+  bat[7][1]=(x[1]-x[2])*k;
+  bat[7][2]=(x[2]-x[3])*k; 
+  bat[7][3]=(x[3]-x[4])*k;
+  bat[7][4]=(x[4]-x[5])*k;
   bat[7][5]=(x[5])*k; 
   bat[7][6]=x[0]*k;            //Final VolTage
   
-  for(int i=0;i<5;i++)
-    bat[8][i]=(x[15-i]-x[15-(i+1)])*k;
+  bat[8][0]=(x[15]-x[14])*k;
+  bat[8][1]=(x[14]-x[13])*k;
+  bat[8][2]=(x[13]-x[12])*k;
+  bat[8][3]=(x[12]-x[11])*k;
+  bat[8][4]=(x[11]-x[10])*k;
   bat[8][5]=(x[10])*k;
   bat[8][6]=x[15]*k;           //Final VolTage
 
@@ -150,30 +171,51 @@ void BMS()
   bat[9][3]=x[7]*k;             //Final VolTage
   
 
-/****************MUX2--A3****************/
-  for(int i=0;i<6;i++)
-  {
-    binInput(i);
-    x[i]=analogRead(3);
-  }
-  for(int i=10;i<16;i++)
-  {
-    binInput(i);
-    x[i]=analogRead(3);
-  }
-  for(int i=6;i<9;i++)
-  {
-    binInput(i);
-    x[i]=analogRead(3);
-  }
-
-  for(int i=0;i<5;i++)
-    bat[4][i]=(x[i]-x[i+1])*k;
+    ///////////////////////////////MUX2--A3
+  binInput(0);
+  x[0]=analogRead(3);
+  binInput(1);
+  x[1]=analogRead(3);
+  binInput(2);
+  x[2]=analogRead(3);
+  binInput(3);
+  x[3]=analogRead(3);
+  binInput(4);
+  x[4]=analogRead(3);
+  binInput(5);
+  x[5]=analogRead(3);
+  binInput(10);
+  x[10]=analogRead(3);
+  binInput(11);
+  x[11]=analogRead(3);
+  binInput(12);
+  x[12]=analogRead(3);
+  binInput(13);
+  x[13]=analogRead(3);
+  binInput(14);
+  x[14]=analogRead(3);
+  binInput(15);
+  x[15]=analogRead(3);
+  binInput(6);
+  x[6]=analogRead(3);
+  binInput(7);
+  x[7]=analogRead(3);
+  binInput(8);
+  x[8]=analogRead(3);
+  
+  bat[4][0]=(x[0]-x[1])*k;
+  bat[4][1]=(x[1]-x[2])*k;
+  bat[4][2]=(x[2]-x[3])*k; 
+  bat[4][3]=(x[3]-x[4])*k;
+  bat[4][4]=(x[4]-x[5])*k;
   bat[4][5]=(x[5])*k; 
   bat[4][6]=x[0]*k;                     //Final VolTage
   
-  for(int i=0;i<5;i++)
-    bat[5][i]=(x[15-i]-x[15-(i+1)])*k;
+  bat[5][0]=(x[15]-x[14])*k;
+  bat[5][1]=(x[14]-x[13])*k;
+  bat[5][2]=(x[13]-x[12])*k;
+  bat[5][3]=(x[12]-x[11])*k;
+  bat[5][4]=(x[11]-x[10])*k;
   bat[5][5]=(x[10])*k;
   bat[5][6]=x[15]*k;           //Final VolTage
 
@@ -184,39 +226,59 @@ void BMS()
 
   
 
-  /***************MUX1--A2****************/
-  for(int i=0;i<6;i++)
-  {
-    binInput(i);
-    x[i]=analogRead(2);
-  }
-  for(int i=10;i<16;i++)
-  {
-    binInput(i);
-    x[i]=analogRead(2);
-  }
-  for(int i=6;i<9;i++)
-  {
-    binInput(i);
-    x[i]=analogRead(2);
-  }  
-
-  for(int i=0;i<5;i++)
-    bat[1][i]=(x[i]-x[i+1])*k;
-  bat[1][5]=(x[5])*k; 
-  bat[1][6]=x[0]*k;               //Final VolTage
+     ///////////////////////////////MUX1--A2
+  binInput(0);
+  x[0]=analogRead(2);
+  binInput(1);
+  x[1]=analogRead(2);
+  binInput(2);
+  x[2]=analogRead(2);
+  binInput(3);
+  x[3]=analogRead(2);
+  binInput(4);
+  x[4]=analogRead(2);
+  binInput(5);
+  x[5]=analogRead(2);
+  binInput(10);
+  x[10]=analogRead(2);
+  binInput(11);
+  x[11]=analogRead(2);
+  binInput(12);
+  x[12]=analogRead(2);
+  binInput(13);
+  x[13]=analogRead(2);
+  binInput(14);
+  x[14]=analogRead(2);
+  binInput(15);
+  x[15]=analogRead(2);
+  binInput(6);
+  x[6]=analogRead(2);
+  binInput(7);
+  x[7]=analogRead(2);
+  binInput(8);
+  x[8]=analogRead(2);
   
-  for(int i=0;i<5;i++)
-    bat[2][i]=(x[15-i]-x[15-(i+1)])*k;
+  bat[1][0]=(x[0]-x[1])*k;
+  bat[1][1]=(x[1]-x[2])*k;
+  bat[1][2]=(x[2]-x[3])*k; 
+  bat[1][3]=(x[3]-x[4])*k;
+  bat[1][4]=(x[4]-x[5])*k;
+  bat[1][5]=(x[5])*k; 
+  bat[1][6]=x[0]*k;                     //Final VolTage
+
+  bat[2][0]=(x[15]-x[14])*k;
+  bat[2][1]=(x[14]-x[13])*k;
+  bat[2][2]=(x[13]-x[12])*k;
+  bat[2][3]=(x[12]-x[11])*k;
+  bat[2][4]=(x[11]-x[10])*k;
   bat[2][5]=(x[10])*k;
   bat[2][6]=x[15]*k;           //Final VolTage
+
 
   bat[3][2]=(x[8])*k;
   bat[3][1]=(x[8]-x[7])*k;
   bat[3][0]=(x[7]-x[6])*k;
-  bat[3][3]=x[6]*k;             //Final VolTage
-
-  /**********************Publishing battery levels***************************/
+  bat[3][3]=x[6]*k;            //Final VolTage
 
   level.batt1=bat[0][6];
   level.batt2=bat[3][6];
@@ -226,6 +288,7 @@ void BMS()
     if(bat[i][6]<minimum_bat_level)
       level.batt=i;  //0,3,and 6 refers to front,middle and back wheel battery
   Battery_level.publish(&level);
+ 
   
 }
 
@@ -270,8 +333,6 @@ void loop()
 {
   BMS();
   nh.spinOnce();
- 
-
   delay(1); 
   
  /* Serial.print(x[6]);

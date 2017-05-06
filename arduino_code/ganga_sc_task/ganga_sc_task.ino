@@ -1,5 +1,5 @@
 #include <ros.h>
-#include <geometry_msgs/Vector3.h>
+#include <rover_msgs/SC_task.h>
 
 #include <OneWire.h>
 #include <SFE_BMP180.h>
@@ -9,7 +9,7 @@
 
 ros::NodeHandle nh;
 
-geometry_msgs/Vector3 sensor_mgs;
+rover_msgs::SC_task sensor_mgs;
 ros::Publisher sensor_pub("SC_Task_Sensors", &sensor_msg);
 
 int HighByte, LowByte, TReading, SignBit, Tc_100, Whole, Fract;
@@ -25,7 +25,6 @@ void setup() {
     // initialize inputs/outputs
   // start serial port
   nh.initNode();
-  Serial.begin(9600);
   pinMode(hum, INPUT);  //Soil moisture sensor. Humidity in percentage
   
   // Initialize the sensor (it is important to get calibration values stored on the device).

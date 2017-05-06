@@ -57,6 +57,7 @@ add_message_files(
    MPU.msg
    Battery_level.msg
    Enc.msg
+   SC_task.msg
  )
 
 ## Generate services in the 'srv' folder
