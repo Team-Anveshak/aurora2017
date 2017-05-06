@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   rover_msgs
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -221,3 +222,4 @@ add_dependencies(Obs_gps_multi_pub ${catkin_EXPORTED_TARGETS})
 add_executable(obsGps_pub src/obsGps_pub.cpp)
 target_link_libraries(obsGps_pub ${catkin_LIBRARIES})
 add_dependencies(obsGps_pub ${catkin_EXPORTED_TARGETS})
+
