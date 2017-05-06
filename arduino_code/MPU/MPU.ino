@@ -207,7 +207,7 @@ void loop() {
         blinkState = !blinkState;
         digitalWrite(LED_PIN, blinkState);
         Imu.publish(&values);
-        nh.spinOnce();;
+        nh.spinOnce();
        
     }
 }

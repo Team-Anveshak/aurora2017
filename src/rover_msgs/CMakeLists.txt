@@ -55,6 +55,8 @@ add_message_files(
    Power.msg
    WheelVelPower.msg
    MPU.msg
+   Battery_level.msg
+   Enc.msg
  )
 
 ## Generate services in the 'srv' folder
