@@ -51,12 +51,12 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
 
   
 
-  lt = map(RoverVelocity.left_front_vel,-70,70,175,175);
-  rt = map(RoverVelocity.right_front_vel,-70,70,175,175);
-  lm = map(RoverVelocity.left_middle_vel,-70,70,175,175);
-  rm = map(RoverVelocity.right_middle_vel,-70,70,175,175);
-  lb = map(RoverVelocity.left_back_vel,-70,70,175,175);
-  rb = map(RoverVelocity.right_back_vel,-70,70,175,175);
+  lt = map(RoverVelocity.left_front_vel,-70,70,-175,175);
+  rt = map(RoverVelocity.right_front_vel,-70,70,-175,175);
+  lm = map(RoverVelocity.left_middle_vel,-70,70,-175,175);
+  rm = map(RoverVelocity.right_middle_vel,-70,70,-175,175);
+  lb = map(RoverVelocity.left_back_vel,-70,70,-175,175);
+  rb = map(RoverVelocity.right_back_vel,-70,70,-175,175);
   
   tl = (int)lt;///k1*mink;
   tr = (int)rt;///k1*mink;

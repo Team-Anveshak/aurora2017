@@ -68,8 +68,8 @@ int main(int argc,char **argv)
 	ros::spinOnce();
 	rover_msgs::WheelVelocity vel;
 	if(fabs(dist_init-dist)>0.002){
-		if(fabs(brng-brng_cur)>=5*PI/180){
-			if (brng-brng_cur>=0){
+		if(fabs(brng-brng_cur)>=20*PI/180 ){
+			if (brng-brng_cur<=0){
 				vel.left_front_vel = 180;
     	 	   	vel.right_front_vel = -180;
         		vel.left_middle_vel = 180;
@@ -87,14 +87,40 @@ int main(int argc,char **argv)
 			}
 		
 		}
-		else{
-			vel.left_front_vel = 180;
-        	vel.right_front_vel = 180;
-        	vel.left_middle_vel = 180;
-        	vel.right_middle_vel = 180;
-        	vel.left_back_vel = 180;
-        	vel.right_back_vel = 180;
+		else if(fabs(brng-brng_cur)<=20*PI/180 && fabs(brng-brng_cur)>5*PI/180){
+			
+			if (brng-brng_cur<=0){
+
+			vel.left_front_vel = 120;
+    	 	   	vel.right_front_vel = -120;
+        		vel.left_middle_vel = 120;
+        		vel.right_middle_vel = -120;
+        		vel.left_back_vel = 120;
+        		vel.right_back_vel = -120;	
+
+			}
+			else{
+				vel.left_front_vel = -120;
+        		vel.right_front_vel = 120;
+        		vel.left_middle_vel = -120;
+        		vel.right_middle_vel = 120;
+        		vel.left_back_vel = -120;
+        		vel.right_back_vel = 120;
+			}
+
 		}
+		else(){
+			
+			vel.left_front_vel = 180;
+    	 	   	vel.right_front_vel = 180;
+        		vel.left_middle_vel = 180;
+        		vel.right_middle_vel = 180;
+        		vel.left_back_vel = 180;
+        		vel.right_back_vel = 180;
+			}	
+			
+
+
 	}
 	else{
 		vel.left_front_vel = 0;

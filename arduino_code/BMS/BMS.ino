@@ -238,7 +238,7 @@ void setup()
    nh.subscribe(locomotion_sub);
    nh.advertise(Battery_level);
    
-   Serial.begin(9600);
+   //Serial.begin(9600);
    
 /**************Multiplexer digital inputs************/
    
