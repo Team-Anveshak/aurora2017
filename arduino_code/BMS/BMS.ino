@@ -18,8 +18,7 @@ float k=0.0273; // ??
 #define pwm6 6
 
 
-float bat[10][7]={};
-float x[15]={};
+float bat[7][7]={};
 int i;
 int lowest_vol=0;
 
@@ -71,21 +70,21 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity)
   int k2=factor/bat[3][6];  //middle
   int k3=factor/bat[6][6];  //back
   
-  lt = map(RoverVelocity.left_front_vel,-70*k1,70*k1,175*k1,175*k1);
-  rt = map(RoverVelocity.right_front_vel,-70*k1,70*k1,175*k1,175*k1);
-  lm = map(RoverVelocity.left_middle_vel,-70*k2,70*k2,175*k2,175*k2);
-  rm = map(RoverVelocity.right_middle_vel,-70*k2,70*k2,175*k2,175*k2);
-  lb = map(RoverVelocity.left_back_vel,-70*k3,70*k3,175*k3,175*k3);
-  rb = map(RoverVelocity.right_back_vel,-70*k3,70*k3,175*k3,175*k3);
+  lt = map(RoverVelocity.left_front_vel,-70,70,-175,175);
+  rt = map(RoverVelocity.right_front_vel,-70,70,-175,175);
+  lm = map(RoverVelocity.left_middle_vel,-70,70,-175,175);
+  rm = map(RoverVelocity.right_middle_vel,-70,70,-175,175);
+  lb = map(RoverVelocity.left_back_vel,-70,70,-175,175);
+  rb = map(RoverVelocity.right_back_vel,-70,70,-175,175);
   
-  tl = (int)lt;///k1*mink;
-  tr = (int)rt;///k1*mink;
+  tl = (int)lt*k1;
+  tr = (int)rt*k1;
    
-  ml = (int)lm;///k2*mink;
-  mr = (int)rm;///k2*mink;
+  ml = (int)lm*k2;
+  mr = (int)rm*k2;
    
-  bl = (int)lb;///k3*mink;
-  br = (int)rb;///k3*mink;
+  bl = (int)lb*k3;
+  br = (int)rb*k3;
 
   loco(tl,dir1,pwm1);
   loco(tr,dir2,pwm2);
@@ -118,59 +117,7 @@ void binInput(int count)
 void BMS()
 
 { 
-  binInput(0);
-  x[0]=analogRead(4);
-  binInput(1);
-  x[1]=analogRead(4);
-  binInput(2);
-  x[2]=analogRead(4);
-  binInput(3);
-  x[3]=analogRead(4);
-  binInput(4);
-  x[4]=analogRead(4);
-  binInput(5);
-  x[5]=analogRead(4);
-  binInput(10);
-  x[10]=analogRead(4);
-  binInput(11);
-  x[11]=analogRead(4);
-  binInput(12);
-  x[12]=analogRead(4);
-  binInput(13);
-  x[13]=analogRead(4);
-  binInput(14);
-  x[14]=analogRead(4);
-  binInput(15);
-  x[15]=analogRead(4);
-  binInput(6);
-  x[6]=analogRead(4);
-  binInput(7);
-  x[7]=analogRead(4);
-  binInput(8);
-  x[8]=analogRead(4);
-
-  bat[7][0]=(x[0]-x[1])*k;
-  bat[7][1]=(x[1]-x[2])*k;
-  bat[7][2]=(x[2]-x[3])*k; 
-  bat[7][3]=(x[3]-x[4])*k;
-  bat[7][4]=(x[4]-x[5])*k;
-  bat[7][5]=(x[5])*k; 
-  bat[7][6]=x[0]*k;            //Final VolTage
-  
-  bat[8][0]=(x[15]-x[14])*k;
-  bat[8][1]=(x[14]-x[13])*k;
-  bat[8][2]=(x[13]-x[12])*k;
-  bat[8][3]=(x[12]-x[11])*k;
-  bat[8][4]=(x[11]-x[10])*k;
-  bat[8][5]=(x[10])*k;
-  bat[8][6]=x[15]*k;           //Final VolTage
-
-  bat[9][0]=(x[8])*k;
-  bat[9][1]=(x[7]-x[8])*k;
-  bat[9][2]=(x[6]-x[7])*k;
-  bat[9][3]=x[7]*k;             //Final VolTage
-  
-
+  float x[15]={};
     ///////////////////////////////MUX2--A3
   binInput(0);
   x[0]=analogRead(3);
@@ -334,31 +281,4 @@ void loop()
   BMS();
   nh.spinOnce();
   delay(1); 
-  
- /* Serial.print(x[6]);
-  Serial.print("\t");
-  Serial.print(x[7]);
-  Serial.print("\t");
-  Serial.print(x[8]);
-  Serial.print("\n");
-  */
-    /*
-  Serial.println(bat[3][0]);
-  Serial.println(bat[3][1]);
-  Serial.println(bat[3][2]);
-  Serial.println(bat[3][3]);
-  */
- /* int i,j;
-  for (j=1; j<10; j=j+1)
-  {  
-    for (i = 0; i < 7; i = i + 1) 
-    {
-      Serial.print(bat[j][i]);
-      Serial.print("\t");
-    }
-  
-      Serial.print("\n");
-  }
-  */
-  //Serial.println(map(bat[1][0],0,1024,0,24));
 }

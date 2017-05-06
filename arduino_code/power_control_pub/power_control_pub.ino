@@ -142,7 +142,7 @@ void loop() {
   for(int i=0; i<7; i++){
    PowerCheck.bat1[i]=bat1[i];  
    PowerCheck.bat2[i]=bat2[i];  
-   PowerCheck.bat3[i]=bat3[i];  
+   //PowerCheck.bat3[i]=bat3[i];  
   }
   
   
