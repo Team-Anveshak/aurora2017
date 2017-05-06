@@ -14,7 +14,7 @@ double latt[5]={0,0,0,0,0},logi[5]={0,0,0,0,0};
 double lat,logg,brng,dist,brng_cur,decl;
 int service,status;
 int i,flg=0;
-float x,theta;
+float dst,theta;
 
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
@@ -55,7 +55,7 @@ void camCallback(const geometry_msgs::Pose2D::ConstPtr& msg)
 {
 	if(flg==1)
 		do{
-		x=msg->x;
+		dst=msg->x;
 		theta=msg->theta;
 		}while(x==0);
 }
