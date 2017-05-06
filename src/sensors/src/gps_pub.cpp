@@ -109,14 +109,13 @@ int main(int argc,char **argv)
 			}
 
 		}
-		else(){
-			
+		else{
 			vel.left_front_vel = 180;
-    	 	   	vel.right_front_vel = 180;
-        		vel.left_middle_vel = 180;
-        		vel.right_middle_vel = 180;
-        		vel.left_back_vel = 180;
-        		vel.right_back_vel = 180;
+    	 	vel.right_front_vel = 180;
+        	vel.left_middle_vel = 180;
+        	vel.right_middle_vel = 180;
+        	vel.left_back_vel = 180;
+        	vel.right_back_vel = 180;
 			}	
 			
 
