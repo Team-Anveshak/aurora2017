@@ -50,28 +50,28 @@ void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg){
 
 void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg){
 	int size = msg->ranges.size();
-
-	for(int i = 0; i < size/2; i++){
-		if(i%6 == 0){
-			countR = 0;
-			countL = 0;
+	countL=0;
+	countR=0;
+	int i,j;
+	for(i = 0; i < size/2; i++){
+		for (j=i; j<i+5; j++){
+			if(msg->ranges[size/2+j]>=6){
+			countR++;	
+			}
+			if(msg->ranges[size/2-j]>=6){
+			countL++;
+			}	
 		}
 		
-		if(msg->ranges[size/2+i]>=6){
-			countR++;
+		if (countR>=4 && countL<=4){
+			dir = (j-2);		
 		}
-
-		if(msg->ranges[size/2-i]>=6){
-			countL++;
+		else if(countR<=4 && countL>=4){
+			dir = (-j+2);
 		}
-
-
-		if (countR>=5 && countL<=5){
-			dir = (i-2);		
-		}
-		else if(countR<=5 && countL>=5){
-			dir = (-i+2);
-		}
+		
+		countL=0;
+		countR=0;
 	}
 	
 }
@@ -116,7 +116,7 @@ int main(int argc,char **argv)
 			}
 		
 		}
-		else if(dir!=0){
+		else if((dir>4) && (dir<-4)){
 			mode=1;
 			if(dir>0){
 				vel.left_front_vel = 180;
