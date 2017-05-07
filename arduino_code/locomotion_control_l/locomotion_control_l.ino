@@ -14,7 +14,7 @@
 #define pwm3 5
 #define dir4 27
 #define pwm4 4
-#define dir5 3
+#define dir5 33
 #define pwm5 7
 #define dir6 31
 #define pwm6 6
@@ -42,6 +42,8 @@ else
     digitalWrite(dir_pin,HIGH);
     analogWrite(pwm_pin,abs(vel));
   }
+   
+  
 }
 
 
@@ -67,12 +69,12 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   bl = (int)lb;///k3*mink;
   br = (int)rb;///k3*mink;
 
-  loco(tl,dir1,pwm1);
-  loco(tr,dir2,pwm2);
-  loco(ml,dir3,pwm3);
-  loco(mr,dir4,pwm4);
-  loco(bl,dir5,pwm5);
-  loco(br,dir6,pwm6);
+  loco(lt,dir1,pwm1);
+  loco(rt,dir2,pwm2);
+  loco(lm,dir3,pwm3);
+  loco(rm,dir4,pwm4);
+  loco(lb,dir5,pwm5);
+  loco(rb,dir6,pwm6);
   
   RoverVel.left_front_vel=tl;
   RoverVel.right_front_vel=tr;
