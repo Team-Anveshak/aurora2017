@@ -2,6 +2,8 @@
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/MagneticField.h>
 #include <rover_msgs/WheelVelocity.h>
+#include <geometry_msgs/Pose2D.h>
+#include <std_msgs/Float32.h>
 #include <cstdlib>
 #include <cmath>
 
@@ -14,7 +16,7 @@ double latt[5]={0,0,0,0,0},logi[5]={0,0,0,0,0};
 double lat,logg,brng,dist,brng_cur,decl;
 int service,status;
 int i,flg=0;
-float dst,theta;
+float x,theta;
 
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
@@ -55,7 +57,7 @@ void camCallback(const geometry_msgs::Pose2D::ConstPtr& msg)
 {
 	if(flg==1)
 		do{
-		dst=msg->x;
+		x=msg->x;
 		theta=msg->theta;
 		}while(x==0);
 }
@@ -79,7 +81,7 @@ int main(int argc,char **argv)
 	ros::Subscriber gps_sub = n.subscribe("/phone1/android/fix",1000,gpsCallback);
 	ros::Subscriber ortn_sub = n.subscribe("/phone1/android/magnetic_field",1000,ortnCallback);
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
-	ros::Publisher flg_pub = n.advertise<std_msgs::float32>("/gps_loc_flg",10);
+	ros::Publisher flg_pub = n.advertise<std_msgs::Float32>("/gps_loc_flg",10);
 	ros::Subscriber cam_sub = n.subscribe("/ball_pos",1000,camCallback);
 	ros::Rate loop_rate(5);	
 
@@ -128,7 +130,7 @@ int main(int argc,char **argv)
         vel.left_back_vel = 0;
         vel.right_back_vel = 0;
 
-		std_msgs::float32 flag;
+		std_msgs::Float32 flag;
 		flag.data=flg=1;
 		flg_pub.publish(flag);
 		ros::spinOnce();
