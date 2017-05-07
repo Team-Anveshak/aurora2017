@@ -33,17 +33,17 @@ void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   				countL++;
  			}	
 		}
-		if (countR>=4 && countL<=4)
+		if (countR>=8 && countL<=8)
 		{
 			dir = (-j+5);
 			break;		
   		}
-  		else if(countR<=4 && countL>=4)
+  		else if(countR<=8 && countL>=8)
 		{
 			dir = (j-5);
 			break;
   		}
-  		else if(countR>=4 && countL>=4)
+  		else if(countR>=8 && countL>=8)
 		{
 			dir = (j-5);
 			break;
