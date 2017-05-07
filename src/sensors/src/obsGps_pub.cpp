@@ -51,29 +51,32 @@ void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg){
 void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg){
 	int size = msg->ranges.size();
 
-	for(int i = 0; i < size/2; i++){
-		if(i%6 == 0){
-			countR = 0;
-			countL = 0;
-		}
+	countL=0;
+	countR=0;
+	int i,j;
+	for(i = -3; i < size/2; i++){
+		for (j=i; j<i+5; j++){
+			if(msg->ranges[size/2+j]>=6){
+			countR++;	
+			}
+ 			if(msg->ranges[size/2-j]>=6){
+  			countL++;
+ 			}	
+
+		if (countR>=4 && countL<=4){
+			dir = (j-2);		
+  		}
+  		else if(countR<=4 && countL>=4){
+			dir = (-j+2);
+  		}
+  		else if(countR>=4 && countL>=4){
+			dir = (j-2);
+  		}
 		
-		if(msg->ranges[size/2+i]>=6){
-			countR++;
-		}
-
-		if(msg->ranges[size/2-i]>=6){
-			countL++;
-		}
-
-
-		if (countR>=5 && countL<=5){
-			dir = (i-2);		
-		}
-		else if(countR<=5 && countL>=5){
-			dir = (-i+2);
+		countL=0;	
+		countR=0;		
 		}
 	}
-	
 }
 
 int main(int argc,char **argv)
@@ -83,6 +86,7 @@ int main(int argc,char **argv)
 
 	ros::Subscriber gps_sub = n.subscribe("/phone1/android/fix",1000,gpsCallback);
 	ros::Subscriber ortn_sub = n.subscribe("/phone1/android/magnetic_field",1000,ortnCallback);
+	ros::Subscriber obs_sub = n.subscribe("/scan",1000,laserCallback);
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
 	ros::Rate loop_rate(5);
 

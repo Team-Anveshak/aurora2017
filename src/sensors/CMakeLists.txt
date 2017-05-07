@@ -226,3 +226,7 @@ add_dependencies(obsGps_pub ${catkin_EXPORTED_TARGETS})
 add_executable(gps_cam_comb src/gps_cam_comb.cpp)
 target_link_libraries(gps_cam_comb ${catkin_LIBRARIES})
 add_dependencies(gps_cam_comb ${catkin_EXPORTED_TARGETS})
+
+add_executable(obs_pub src/obs_pub.cpp)
+target_link_libraries(obs_pub ${catkin_LIBRARIES})
+add_dependencies(obs_pub ${catkin_EXPORTED_TARGETS})
