@@ -13,31 +13,39 @@ double lat,logg,brng,dist,brng_cur,decl;
 int service,status;
 int countR,countL,dir;
 
-void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg){
+void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
+{
 	int size = msg->ranges.size();
 
 	countL=0;
 	countR=0;
 	int i,j;
-	for(i = -3; i < size/2; i++){
-		for (j=i; j<i+5; j++){
-			if(msg->ranges[size/2+j]>=3){
-			countR++;	
+	for(i = -3; i < size/2; i++)
+	{
+		for (j=i; j<i+11; j++)
+		{
+			if(msg->ranges[j]>=1)
+			{
+				countR++;	
 			}
- 			if(msg->ranges[size/2-j]>=3){
-  			countL++;
+ 			if(msg->ranges[size-j]>=1)
+			{
+  				countL++;
  			}	
 		}
-		if (countR>=4 && countL<=4){
-			dir = (j-2);
+		if (countR>=4 && countL<=4)
+		{
+			dir = (-j+5);
 			break;		
   		}
-  		else if(countR<=4 && countL>=4){
-			dir = (-j+2);
+  		else if(countR<=4 && countL>=4)
+		{
+			dir = (j-5);
 			break;
   		}
-  		else if(countR>=4 && countL>=4){
-			dir = (j-2);
+  		else if(countR>=4 && countL>=4)
+		{
+			dir = (j-5);
 			break;
   		}
 		
