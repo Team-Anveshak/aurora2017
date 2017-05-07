@@ -29,13 +29,16 @@ void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg){
  			}	
 		}
 		if (countR>=4 && countL<=4){
-			dir = (j-2);		
+			dir = (j-2);
+			break;		
   		}
   		else if(countR<=4 && countL>=4){
 			dir = (-j+2);
+			break;
   		}
   		else if(countR>=4 && countL>=4){
 			dir = (j-2);
+			break;
   		}
 		
 		countL=0;	
