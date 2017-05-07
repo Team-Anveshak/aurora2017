@@ -20,7 +20,7 @@ void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
 	countL=0;
 	countR=0;
 	int i,j;
-	for(i = -3; i < size/2; i++)
+	for(i = -6; i < size/2; i++)
 	{
 		for (j=i; j<i+11; j++)
 		{
