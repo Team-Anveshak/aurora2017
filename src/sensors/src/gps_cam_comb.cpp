@@ -113,30 +113,30 @@ int main(int argc,char **argv)
 	if(fabs(dist_init-dist)>0.002){
 		if(fabs(brng-brng_cur)>=5*PI/180){
 			if (brng-brng_cur<=0){
-				vel.left_front_vel = 180;
-    	 	   	vel.right_front_vel = -180;
-        		vel.left_middle_vel = 180;
-        		vel.right_middle_vel = -180;
-        		vel.left_back_vel = 180;
-        		vel.right_back_vel = -180;	
+				vel.left_front_vel = 75;
+    	 	   	vel.right_front_vel = -75;
+        		vel.left_middle_vel = 75;
+        		vel.right_middle_vel = -75;
+        		vel.left_back_vel = 75;
+        		vel.right_back_vel = -75;	
 			}
 			else{
-				vel.left_front_vel = -180;
-        		vel.right_front_vel = 180;
-        		vel.left_middle_vel = -180;
-        		vel.right_middle_vel = 180;
-        		vel.left_back_vel = -180;
-        		vel.right_back_vel = 180;
+				vel.left_front_vel = -75;
+        		vel.right_front_vel = 75;
+        		vel.left_middle_vel = -75;
+        		vel.right_middle_vel = 75;
+        		vel.left_back_vel = -75;
+        		vel.right_back_vel = 75;
 			}
 		
 		}
 		else{
-			vel.left_front_vel = 180;
-        	vel.right_front_vel = 180;
-        	vel.left_middle_vel = 180;
-        	vel.right_middle_vel = 180;
-        	vel.left_back_vel = 180;
-        	vel.right_back_vel = 180;
+			vel.left_front_vel = 75;
+        	vel.right_front_vel = 75;
+        	vel.left_middle_vel = 75;
+        	vel.right_middle_vel = 75;
+        	vel.left_back_vel = 75;
+        	vel.right_back_vel = 75;
 		}
 	}
 	else{
@@ -161,37 +161,37 @@ int main(int argc,char **argv)
 			current_time = ros::Time::now();
 			last_time = ros::Time::now();
 			if(theta>0){
-				vel.left_front_vel = 180;
-    	 		vel.right_front_vel = -180;
-        		vel.left_middle_vel = 180;
-        		vel.right_middle_vel = -180;
-        		vel.left_back_vel = 180;
-        		vel.right_back_vel = -180;
+				vel.left_front_vel = 75;
+    	 		vel.right_front_vel = -75;
+        		vel.left_middle_vel = 75;
+        		vel.right_middle_vel = -75;
+        		vel.left_back_vel = 75;
+        		vel.right_back_vel = -75;
 				vel_pub.publish(vel);
 				ros::spinOnce();	
 			}
 			else{
-				vel.left_front_vel = -180;
-        		vel.right_front_vel = 180;
-        		vel.left_middle_vel = -180;
-        		vel.right_middle_vel = 180;
-        		vel.left_back_vel = -180;
-        		vel.right_back_vel = 180;
+				vel.left_front_vel = -75;
+        		vel.right_front_vel = 75;
+        		vel.left_middle_vel = -75;
+        		vel.right_middle_vel = 75;
+        		vel.left_back_vel = -75;
+        		vel.right_back_vel = 75;
 				vel_pub.publish(vel);
 				ros::spinOnce();	
 			}
 			current_time = ros::Time::now();
-			rot=(120*180*(rpml+rpmr)*r*((current_time - last_time).toSec()))/(breadth*PI);
+			rot=(120*75*(rpml+rpmr)*r*((current_time - last_time).toSec()))/(breadth*PI);
 		}
 		while((x-disp)>0){
 			current_time = ros::Time::now();
 			last_time = ros::Time::now();
-			vel.left_front_vel = 180;
-        	vel.right_front_vel = 180;
-        	vel.left_middle_vel = 180;
-        	vel.right_middle_vel = 180;
-        	vel.left_back_vel = 180;
-        	vel.right_back_vel = 180;
+			vel.left_front_vel = 75;
+        	vel.right_front_vel = 75;
+        	vel.left_middle_vel = 75;
+        	vel.right_middle_vel = 75;
+        	vel.left_back_vel = 75;
+        	vel.right_back_vel = 75;
 			vel_pub.publish(vel);
 			ros::spinOnce();
 			current_time = ros::Time::now();

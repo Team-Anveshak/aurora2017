@@ -8,8 +8,8 @@
 #define PI 3.14159
 #define R 6371
 
-double lat_init,logg_init,dist_init;
-double lat_dest,logg_dest;
+double lat_init=12.99181357,logg_init= 80.23113288,dist_init;
+double lat_dest=13.1,logg_dest=80.27;
 double lat,logg,dist,brng,brng_cur,decl;
 int service,status;
 
@@ -70,20 +70,20 @@ int main(int argc,char **argv)
 	if(fabs(dist_init-dist)>0.002){
 		if(fabs(brng-brng_cur)>=20*PI/180 ){
 			if (brng-brng_cur<=0){
-				vel.left_front_vel = 180;
-    	 	   	vel.right_front_vel = -180;
-        		vel.left_middle_vel = 180;
-        		vel.right_middle_vel = -180;
-        		vel.left_back_vel = 180;
-        		vel.right_back_vel = -180;	
+				vel.left_front_vel = 70;
+    	 	   	vel.right_front_vel = -70;
+        		vel.left_middle_vel = 70;
+        		vel.right_middle_vel = -70;
+        		vel.left_back_vel = 70;
+        		vel.right_back_vel = -70;	
 			}
 			else{
-				vel.left_front_vel = -180;
-        		vel.right_front_vel = 180;
-        		vel.left_middle_vel = -180;
-        		vel.right_middle_vel = 180;
-        		vel.left_back_vel = -180;
-        		vel.right_back_vel = 180;
+				vel.left_front_vel = -70;
+        		vel.right_front_vel = 70;
+        		vel.left_middle_vel = -70;
+        		vel.right_middle_vel = 70;
+        		vel.left_back_vel = -70;
+        		vel.right_back_vel = 70;
 			}
 		
 		}
@@ -91,31 +91,31 @@ int main(int argc,char **argv)
 			
 			if (brng-brng_cur<=0){
 
-			vel.left_front_vel = 120;
-    	 	   	vel.right_front_vel = -120;
-        		vel.left_middle_vel = 120;
-        		vel.right_middle_vel = -120;
-        		vel.left_back_vel = 120;
-        		vel.right_back_vel = -120;	
+			vel.left_front_vel = 50;
+    	 	   	vel.right_front_vel = -50;
+        		vel.left_middle_vel = 50;
+        		vel.right_middle_vel = -50;
+        		vel.left_back_vel = 50;
+        		vel.right_back_vel = -50;	
 
 			}
 			else{
-				vel.left_front_vel = -120;
-        		vel.right_front_vel = 120;
-        		vel.left_middle_vel = -120;
-        		vel.right_middle_vel = 120;
-        		vel.left_back_vel = -120;
-        		vel.right_back_vel = 120;
+				vel.left_front_vel = -50;
+        		vel.right_front_vel = 50;
+        		vel.left_middle_vel = -50;
+        		vel.right_middle_vel = 50;
+        		vel.left_back_vel = -50;
+        		vel.right_back_vel = 50;
 			}
 
 		}
 		else{
-			vel.left_front_vel = 180;
-    	 	vel.right_front_vel = 180;
-        	vel.left_middle_vel = 180;
-        	vel.right_middle_vel = 180;
-        	vel.left_back_vel = 180;
-        	vel.right_back_vel = 180;
+			vel.left_front_vel = 70;
+    	 	vel.right_front_vel = 70;
+        	vel.left_middle_vel = 70;
+        	vel.right_middle_vel = 70;
+        	vel.left_back_vel = 70;
+        	vel.right_back_vel = 70;
 			}	
 			
 

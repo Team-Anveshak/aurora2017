@@ -82,20 +82,20 @@ int main(int argc,char **argv)
 	if(fabs(dist_init-dist)>0.002){
 		if(fabs(brng-brng_cur)>=20*PI/180 ){
 			if (brng-brng_cur<=0){
-				vel.left_front_vel = 180;
-    	 	   	vel.right_front_vel = -180;
-        		vel.left_middle_vel = 180;
-        		vel.right_middle_vel = -180;
-        		vel.left_back_vel = 180;
-        		vel.right_back_vel = -180;	
+				vel.left_front_vel = 75;
+    	 	   	vel.right_front_vel = -75;
+        		vel.left_middle_vel = 75;
+        		vel.right_middle_vel = -75;
+        		vel.left_back_vel = 75;
+        		vel.right_back_vel = -75;	
 			}
 			else{
-				vel.left_front_vel = -180;
-        		vel.right_front_vel = 180;
-        		vel.left_middle_vel = -180;
-        		vel.right_middle_vel = 180;
-        		vel.left_back_vel = -180;
-        		vel.right_back_vel = 180;
+				vel.left_front_vel = -75;
+        		vel.right_front_vel = 75;
+        		vel.left_middle_vel = -75;
+        		vel.right_middle_vel = 75;
+        		vel.left_back_vel = -75;
+        		vel.right_back_vel = 75;
 			}
 		
 		}
@@ -123,12 +123,12 @@ int main(int argc,char **argv)
 		}
 		else{
 			
-			vel.left_front_vel = 180;
-    	 	vel.right_front_vel = 180;
-        	vel.left_middle_vel = 180;
-        	vel.right_middle_vel = 180;
-        	vel.left_back_vel = 180;
-        	vel.right_back_vel = 180;
+			vel.left_front_vel = 75;
+    	 	vel.right_front_vel = 75;
+        	vel.left_middle_vel = 75;
+        	vel.right_middle_vel = 75;
+        	vel.left_back_vel = 75;
+        	vel.right_back_vel = 75;
 			}	
 			
 
