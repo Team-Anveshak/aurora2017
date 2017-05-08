@@ -26,7 +26,7 @@ void cam_flgCallback(const std_msgs::Float32 msg){
 void distCallback(const std_msgs::Float32 msg){
 	if(flag==0){
 		pos.x=msg.data;
-    pos.theta=angle-inc;
+    pos.theta=(angle-inc)-90;
     pos_pub.publish(&pos);
 	}
 }
