@@ -66,9 +66,9 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity)
   int factor=minimum(bat[0][6],bat[3][6],bat[6][6]);
 
 //scaling factors for the batteries
-  int k1=factor/bat[0][6];  //front
-  int k2=factor/bat[3][6];  //middle
-  int k3=factor/bat[6][6];  //back
+  int k1=factor/bat[1][6];  //front
+  int k2=factor/bat[2][6];  //middle
+  int k3=factor/bat[4][6];  //back
   
   lt = map(RoverVelocity.left_front_vel,-70,70,-175,175);
   rt = map(RoverVelocity.right_front_vel,-70,70,-175,175);
