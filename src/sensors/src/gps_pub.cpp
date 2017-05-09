@@ -8,18 +8,18 @@
 #define PI 3.14159
 #define R 6371
 
-double lat_init=12.99181357,logg_init= 80.23113288,dist_init;
-double lat_dest=13.1,logg_dest=80.27;
-double lat,logg,dist,brng,brng_cur,decl;
+double lat_init = 12.99178849*PI/180,logg_init = 80.2310192*PI/180, dist_init;
+double lat_dest=11.993511*PI/180,logg_dest=80.272439*PI/180;
+double lat,logg,dist,brng,brng_cur,decl=-4.88*PI/180;
 int service,status;
-
+double theta,x,y; 
 
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
 	lat = (msg->latitude)*PI/180;
 	logg = (msg->longitude)*PI/180;
-	service = msg->status.service;
-	status = msg->status.status;
+	//service = msg->status.service;
+	//status = msg->status.status;
 	
 	brng = atan2((sin(logg_dest - logg))*(cos(lat_dest)),(cos(lat))*(sin(lat_dest))-(sin(lat))*(cos(lat_dest)*(cos(logg_dest-logg))));
 	
@@ -30,10 +30,10 @@ void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 
 void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg)
 {
-	float x = (msg->magnetic_field.x)*PI/180;
-	float y = (msg->magnetic_field.y)*PI/180;
+	x = (msg->magnetic_field.x)*1000000;
+	y = (msg->magnetic_field.y)*1000000;
 	
-	float theta = fabs(atan2( y, x ));
+	theta = fabs(atan2( y, x ));
 	if(y<0)		theta = PI - theta;
 
 	if( decl > 0 ){
@@ -54,8 +54,8 @@ int main(int argc,char **argv)
 	ros::init(argc,argv,"gps");
 	ros::NodeHandle n;
 
-	ros::Subscriber gps_sub = n.subscribe("/phone1/android/fix",1000,gpsCallback);
-	ros::Subscriber ortn_sub = n.subscribe("/phone1/android/magnetic_field",1000,ortnCallback);
+	ros::Subscriber gps_sub = n.subscribe("/phone1/android/fix",100,gpsCallback);
+	ros::Subscriber ortn_sub = n.subscribe("/phone1/android/magnetic_field",100,ortnCallback);
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
 	ros::Rate loop_rate(5);	
 
@@ -68,44 +68,43 @@ int main(int argc,char **argv)
 	ros::spinOnce();
 	rover_msgs::WheelVelocity vel;
 	if(fabs(dist_init-dist)>0.002){
-		if(fabs(brng-brng_cur)>=20*PI/180 ){
+		if(fabs(brng-brng_cur)>=30*PI/180 ){
 			if (brng-brng_cur<=0){
-				vel.left_front_vel = 70;
-    	 	   	vel.right_front_vel = -70;
-        		vel.left_middle_vel = 70;
-        		vel.right_middle_vel = -70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = -70;	
-			}
-			else{
 				vel.left_front_vel = -70;
-        		vel.right_front_vel = 70;
+    	 	   	vel.right_front_vel = 70;
         		vel.left_middle_vel = -70;
         		vel.right_middle_vel = 70;
         		vel.left_back_vel = -70;
-        		vel.right_back_vel = 70;
+        		vel.right_back_vel = 70;	
+			}
+			else{
+				vel.left_front_vel = 70;
+        		vel.right_front_vel = -70;
+        		vel.left_middle_vel = 70;
+        		vel.right_middle_vel = -70;
+        		vel.left_back_vel = 70;
+        		vel.right_back_vel = -70;
 			}
 		
 		}
-		else if(fabs(brng-brng_cur)<=20*PI/180 && fabs(brng-brng_cur)>5*PI/180){
+		else if(fabs(brng-brng_cur)<=30*PI/180 && fabs(brng-brng_cur)>15*PI/180){
 			
 			if (brng-brng_cur<=0){
-
-			vel.left_front_vel = 50;
-    	 	   	vel.right_front_vel = -50;
-        		vel.left_middle_vel = 50;
-        		vel.right_middle_vel = -50;
-        		vel.left_back_vel = 50;
-        		vel.right_back_vel = -50;	
-
-			}
-			else{
 				vel.left_front_vel = -50;
-        		vel.right_front_vel = 50;
+    	 		vel.right_front_vel = 50;
         		vel.left_middle_vel = -50;
         		vel.right_middle_vel = 50;
         		vel.left_back_vel = -50;
-        		vel.right_back_vel = 50;
+        		vel.right_back_vel = 50;	
+			}
+
+			else{
+				vel.left_front_vel = 50;
+        		vel.right_front_vel = -50;
+        		vel.left_middle_vel = 50;
+        		vel.right_middle_vel = -50;
+        		vel.left_back_vel = 50;
+        		vel.right_back_vel = -50;
 			}
 
 		}
@@ -117,8 +116,6 @@ int main(int argc,char **argv)
         	vel.left_back_vel = 70;
         	vel.right_back_vel = 70;
 			}	
-			
-
 
 	}
 	else{
@@ -129,6 +126,7 @@ int main(int argc,char **argv)
         vel.left_back_vel = 0;
         vel.right_back_vel = 0;
 	}
+	ROS_INFO("%lf\t%lf\t%lf\t%lf",brng,brng_cur,vel.left_front_vel,vel.right_front_vel);
 	vel_pub.publish(vel);
 	loop_rate.sleep();
 	

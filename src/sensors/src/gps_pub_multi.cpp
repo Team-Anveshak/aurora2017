@@ -82,20 +82,20 @@ int main(int argc,char **argv)
 	if(fabs(dist_init-dist)>0.002){
 		if(fabs(brng-brng_cur)>=20*PI/180 ){
 			if (brng-brng_cur<=0){
-				vel.left_front_vel = 75;
-    	 	   	vel.right_front_vel = -75;
-        		vel.left_middle_vel = 75;
-        		vel.right_middle_vel = -75;
-        		vel.left_back_vel = 75;
-        		vel.right_back_vel = -75;	
+				vel.left_front_vel = 70;
+    	 	   	vel.right_front_vel = -70;
+        		vel.left_middle_vel = 70;
+        		vel.right_middle_vel = -70;
+        		vel.left_back_vel = 70;
+        		vel.right_back_vel = -70;	
 			}
 			else{
-				vel.left_front_vel = -75;
-        		vel.right_front_vel = 75;
-        		vel.left_middle_vel = -75;
-        		vel.right_middle_vel = 75;
-        		vel.left_back_vel = -75;
-        		vel.right_back_vel = 75;
+				vel.left_front_vel = -70;
+        		vel.right_front_vel = 70;
+        		vel.left_middle_vel = -70;
+        		vel.right_middle_vel = 70;
+        		vel.left_back_vel = -70;
+        		vel.right_back_vel = 70;
 			}
 		
 		}
@@ -103,32 +103,32 @@ int main(int argc,char **argv)
 			
 			if (brng-brng_cur<=0){
 
-			vel.left_front_vel = 120;
-    	 	   	vel.right_front_vel = -120;
-        		vel.left_middle_vel = 120;
-        		vel.right_middle_vel = -120;
-        		vel.left_back_vel = 120;
-        		vel.right_back_vel = -120;	
+			vel.left_front_vel = 50;
+    	 	   	vel.right_front_vel = -50;
+        		vel.left_middle_vel = 50;
+        		vel.right_middle_vel = -50;
+        		vel.left_back_vel = 50;
+        		vel.right_back_vel = -50;	
 
 			}
 			else{
-				vel.left_front_vel = -120;
-        		vel.right_front_vel = 120;
-        		vel.left_middle_vel = -120;
-        		vel.right_middle_vel = 120;
-        		vel.left_back_vel = -120;
-        		vel.right_back_vel = 120;
+				vel.left_front_vel = -50;
+        		vel.right_front_vel = 50;
+        		vel.left_middle_vel = -50;
+        		vel.right_middle_vel = 50;
+        		vel.left_back_vel = -50;
+        		vel.right_back_vel = 50;
 			}
 
 		}
 		else{
 			
-			vel.left_front_vel = 75;
-    	 	vel.right_front_vel = 75;
-        	vel.left_middle_vel = 75;
-        	vel.right_middle_vel = 75;
-        	vel.left_back_vel = 75;
-        	vel.right_back_vel = 75;
+			vel.left_front_vel = 70;
+    	 	vel.right_front_vel = 70;
+        	vel.left_middle_vel = 70;
+        	vel.right_middle_vel = 70;
+        	vel.left_back_vel = 70;
+        	vel.right_back_vel = 70;
 			}	
 			
 

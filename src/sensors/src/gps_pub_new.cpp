@@ -8,12 +8,11 @@
 #define PI 3.14159
 #define R 6371
 
-double lat_init,logg_init,dist_init;
-double lat_dest,logg_dest;
-double latt[5]={0,0,0,0,0},logi[5]={0,0,0,0,0};
-double lat,logg,brng,dist,brng_cur,decl;
+double lat_init=12.99190489,logg_init= 80.23337262,dist_init;
+double lat_dest=12.992511,logg_dest=80.232439;
+double lat,logg,dist,brng,brng_cur,decl;
 int service,status;
-int i;
+
 
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
@@ -50,18 +49,13 @@ void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg)
 
 }
 
-void recieve_gps(int i){
-	lat_init=latt[i];
-	logg_init=logi[i];
-	lat_dest=latt[i+1];
-	logg_dest=logi[i+1];
-}
-
 int main(int argc,char **argv)
 {
 	ros::init(argc,argv,"gps");
 	ros::NodeHandle n;
-	recieve_gps(0);                          //recieve initial gps init and dest 
+
+	ros::Time current_time, last_time;
+
 	ros::Subscriber gps_sub = n.subscribe("/phone1/android/fix",1000,gpsCallback);
 	ros::Subscriber ortn_sub = n.subscribe("/phone1/android/magnetic_field",1000,ortnCallback);
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
@@ -75,69 +69,74 @@ int main(int argc,char **argv)
 	{
 	ros::spinOnce();
 	rover_msgs::WheelVelocity vel;
-	if(fabs(dist_init-dist)>0.002){
-		if(fabs(brng-brng_cur)>=20*PI/180 ){
-			if (brng-brng_cur<=0){
-				vel.left_front_vel = 70;
-    	 	   	vel.right_front_vel = -70;
-        		vel.left_middle_vel = 70;
-        		vel.right_middle_vel = -70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = -70;	
-			}
-			else{
-				vel.left_front_vel = -70;
-        		vel.right_front_vel = 70;
-        		vel.left_middle_vel = -70;
-        		vel.right_middle_vel = 70;
-        		vel.left_back_vel = -70;
-        		vel.right_back_vel = 70;
-			}
-		
-		}
-		else if(fabs(brng-brng_cur)<=20*PI/180 && fabs(brng-brng_cur)>5*PI/180){
-			
-			if (brng-brng_cur<=0){
-
-			vel.left_front_vel = 50;
-    	 	   	vel.right_front_vel = -50;
-        		vel.left_middle_vel = 50;
-        		vel.right_middle_vel = -50;
-        		vel.left_back_vel = 50;
-        		vel.right_back_vel = -50;	
-
-			}
-			else{
-				vel.left_front_vel = -50;
-        		vel.right_front_vel = 50;
-        		vel.left_middle_vel = -50;
-        		vel.right_middle_vel = 50;
-        		vel.left_back_vel = -50;
-        		vel.right_back_vel = 50;
-			}
-
-		}
-		else(){
-			
+	if(fabs(brng-brng_cur)>=30*PI/180 )
+	{
+		if (brng-brng_cur<=0){
 			vel.left_front_vel = 70;
-    	 	   	vel.right_front_vel = 70;
-        		vel.left_middle_vel = 70;
-        		vel.right_middle_vel = 70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = 70;
-			}	
-			
+	 	   	vel.right_front_vel = -70;
+    		vel.left_middle_vel = 70;
+    		vel.right_middle_vel = -70;
+    		vel.left_back_vel = 70;
+    		vel.right_back_vel = -70;	
+		}
+		else{
+			vel.left_front_vel = -70;
+    		vel.right_front_vel = 70;
+    		vel.left_middle_vel = -70;
+    		vel.right_middle_vel = 70;
+    		vel.left_back_vel = -70;
+    		vel.right_back_vel = 70;
+		}
+	
+	}
+	else if(fabs(brng-brng_cur)<=30*PI/180 && fabs(brng-brng_cur)>15*PI/180)
+	{
+		
+		if (brng-brng_cur<=0){
 
+		vel.left_front_vel = 50;
+	 	   	vel.right_front_vel = -50;
+    		vel.left_middle_vel = 50;
+    		vel.right_middle_vel = -50;
+    		vel.left_back_vel = 50;
+    		vel.right_back_vel = -50;	
+
+		}
+		else{
+			vel.left_front_vel = -50;
+    		vel.right_front_vel = 50;
+    		vel.left_middle_vel = -50;
+    		vel.right_middle_vel = 50;
+    		vel.left_back_vel = -50;
+    		vel.right_back_vel = 50;
+		}
 
 	}
-	else{
+	else if(fabs(dist_init-dist)>0.002 && fabs(brng-brng_cur)<=15*PI/180)
+	{
+		current_time = ros::Time::now();
+		last_time = ros::Time::now();
+		while((current_time-last_time).toSec()<=5)
+		{
+			vel.left_front_vel = 70;
+		 	vel.right_front_vel = 70;
+	    	vel.left_middle_vel = 70;
+	    	vel.right_middle_vel = 70;
+	    	vel.left_back_vel = 70;
+	    	vel.right_back_vel = 70;
+			current_time = ros::Time::now();
+
+    	}
+	}	
+			
+	else
+	{
 		vel.left_front_vel = 0;
         vel.right_front_vel = 0;
         vel.left_middle_vel = 0;
         vel.right_middle_vel = 0;
         vel.left_back_vel = 0;
         vel.right_back_vel = 0;
-		if(i<=2)	recieve_gps(++i);
 	}
 	vel_pub.publish(vel);
 	loop_rate.sleep();

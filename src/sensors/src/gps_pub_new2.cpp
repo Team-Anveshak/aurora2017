@@ -2,20 +2,17 @@
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/MagneticField.h>
 #include <rover_msgs/WheelVelocity.h>
-#include <sensor_msgs/LaserScan.h>
 #include <cstdlib>
 #include <cmath>
 
 #define PI 3.14159
 #define R 6371
 
-double lat_init,logg_init,dist_init;
-double lat_dest,logg_dest;
-double latt[5]={0,0,0,0,0},logi[5]={0,0,0,0,0};
-double lat,logg,brng,brng_cur,dist,decl;
+double lat_init=12.99190489,logg_init= 80.23337262,dist_init;
+double lat_dest=12.992511,logg_dest=80.232439;
+double lat,logg,dist,brng,brng_cur,decl;
 int service,status;
-int countR,countL,dir;
-int i;
+
 
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
@@ -52,80 +49,26 @@ void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg)
 
 }
 
-
-void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
-{
-	int size = msg->ranges.size();
-
-	countL=0;
-	countR=0;
-	int i,j;
-	for(i = -6; i < size/2; i++)
-	{
-		for (j=i; j<i+11; j++)
-		{
-			if(msg->ranges[j]>=1)
-			{
-				countR++;	
-			}
- 			if(msg->ranges[size-j]>=1)
-			{
-  				countL++;
- 			}	
-		}
-		if (countR>=8 && countL<=8)
-		{
-			dir = (-j+5);
-			break;		
-  		}
-  		else if(countR<=8 && countL>=8)
-		{
-			dir = (j-5);
-			break;
-  		}
-  		else if(countR>=8 && countL>=8)
-		{
-			dir = (j-5);
-			break;
-  		}
-		
-		countL=0;	
-		countR=0;		
-	}
-}
-
-
-void recieve_gps(int i){
-	lat_init=latt[i];
-	logg_init=logi[i];
-	lat_dest=latt[i+1];
-	logg_dest=logi[i+1];
-}
-
 int main(int argc,char **argv)
 {
 	ros::init(argc,argv,"gps");
 	ros::NodeHandle n;
-	recieve_gps(0);                          //recieve initial gps init and dest 
+
 	ros::Subscriber gps_sub = n.subscribe("/phone1/android/fix",1000,gpsCallback);
 	ros::Subscriber ortn_sub = n.subscribe("/phone1/android/magnetic_field",1000,ortnCallback);
-	ros::Subscriber obs_sub = n.subscribe("/scan",1000,laserCallback);
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
 	ros::Rate loop_rate(5);	
-
-	int mode = 0;
-
-	while(ros::ok())
-	{
-	ros::spinOnce();
-	rover_msgs::WheelVelocity vel;
 
 	float a = (sin((lat_dest-lat_init)/2))*(sin((lat_dest-lat_init)/2)) + (cos (lat_init))*(cos (lat_dest))*(sin((logg_dest-logg_init)/2))*(sin((logg_dest-logg_init)/2));
 	float c = 2 * atan2(sqrt(a),sqrt(1-a));
 	dist_init= R*c;
 
+	while(ros::ok())
+	{
+	ros::spinOnce();
+	rover_msgs::WheelVelocity vel;
 	if(fabs(dist_init-dist)>0.002){
-		if(fabs(brng-brng_cur)>=20*PI/180 && (mode==0)){
+		if(fabs(brng-brng_cur)>=30*PI/180 ){
 			if (brng-brng_cur<=0){
 				vel.left_front_vel = 70;
     	 	   	vel.right_front_vel = -70;
@@ -144,7 +87,7 @@ int main(int argc,char **argv)
 			}
 		
 		}
-		else if(fabs(brng-brng_cur)<=20*PI/180 && fabs(brng-brng_cur)>5*PI/180 && (mode==0)){
+		else if(fabs(brng-brng_cur)<=30*PI/180 && fabs(brng-brng_cur)>15*PI/180){
 			
 			if (brng-brng_cur<=0){
 
@@ -156,52 +99,35 @@ int main(int argc,char **argv)
         		vel.right_back_vel = -50;	
 
 			}
-			else{
-				vel.left_front_vel = -50;
-        		vel.right_front_vel = 50;
-        		vel.left_middle_vel = -50;
-        		vel.right_middle_vel = 50;
-        		vel.left_back_vel = -50;
-        		vel.right_back_vel = 50;
+			else
+			{
+				current_time = ros::Time::now();
+				last_time = ros::Time::now();
+				while((current_time-last_time).toSec()<=5)
+				{
+					vel.left_front_vel = 70;
+				 	vel.right_front_vel = 70;
+			    	vel.left_middle_vel = 70;
+			    	vel.right_middle_vel = 70;
+			    	vel.left_back_vel = 70;
+			    	vel.right_back_vel = 70;
+					current_time = ros::Time::now();
+
+		    	}
 			}
-		
-		}
-		else if(dir!=0){
-			mode=1;
-			if(dir>0){
-				vel.left_front_vel = 70;
-    	 	   	vel.right_front_vel = -70;
-        		vel.left_middle_vel = 70;
-        		vel.right_middle_vel = -70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = -70;
-			}
-			else{
-				vel.left_front_vel = -70;
-        		vel.right_front_vel = 70;
-        		vel.left_middle_vel = -70;
-        		vel.right_middle_vel = 70;
-        		vel.left_back_vel = -70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = -70;
-			}			
+
 		}
 		else{
-			ros::Time current_time, last_time;
-			current_time = ros::Time::now();
-			last_time = ros::Time::now();
-			while(13 - ((current_time - last_time).toSec()) >= 0.5){
 			vel.left_front_vel = 70;
-        	vel.right_front_vel = 70;
+    	 	vel.right_front_vel = 70;
         	vel.left_middle_vel = 70;
         	vel.right_middle_vel = 70;
         	vel.left_back_vel = 70;
-        	vel.left_back_vel = 70;
         	vel.right_back_vel = 70;
-        	current_time = ros::Time::now();
-        	}
-        	mode=0;
-		}
+			}	
+			
+
+
 	}
 	else{
 		vel.left_front_vel = 0;
@@ -210,7 +136,6 @@ int main(int argc,char **argv)
         vel.right_middle_vel = 0;
         vel.left_back_vel = 0;
         vel.right_back_vel = 0;
-		if(i<=2)	recieve_gps(++i);
 	}
 	vel_pub.publish(vel);
 	loop_rate.sleep();
