@@ -60,6 +60,43 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   lb = map(RoverVelocity.left_back_vel,-70,70,-175,175);
   rb = map(RoverVelocity.right_back_vel,-70,70,-175,175);
   
+  if(lt>0){
+    lt/=1.00513;
+  }
+  else if(lt<0){
+    lt/=1.0477;
+  }
+  if(rt>0){
+    rt/=1.0299;
+  }
+  else if(rt<0){
+    rt/=1.087986;
+  }
+  if(lm>0){
+    lm/=1.0735;
+  }
+  else if(lm<0){
+    lm/=1.07597;
+  }
+  if(rm>0){
+    rm/=1.0735;
+  }
+  else if(rm<0){
+    rm/=1.08657;
+  }
+  if(lb>0){
+    lb/=1.05128;
+  }
+  else if(lb<0){
+    lb/=1.05477;
+  }
+  if(rb>0){
+    rb/=1;
+  }
+  else if(rb<0){
+    rb/=1;
+  }
+
   tl = (int)lt;///k1*mink;
   tr = (int)rt;///k1*mink;
    
