@@ -17,7 +17,7 @@ void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg){
 	logg = (msg->longitude)*PI/180;
 	dist = (sqrt((lat_initR-lat)*(lat_initR-lat)*100 + (logg_initR-logg)*(logg_initR-logg)*100))/10.0;
 	dist_diff = (sqrt((lat_initB-lat)*(lat_initB-lat)*100 + (logg_initB-logg)*(logg_initB-logg)*100))/10.0;
-	theta =	(dist*dist + dist_init*dist_init - dist_diff*dist_diff)/(2*dist*dist_init);
+	theta =	acos((dist*dist + dist_init*dist_init - dist_diff*dist_diff)/(2*dist*dist_init));
 }
 
 int main(int argc,char **argv){
@@ -33,12 +33,12 @@ int main(int argc,char **argv){
 		ros::spinOnce();
 		rover_msgs::RouterAngle Angle;
 		if(theta>phi){
-			Angle.angle = theta-phi;
+			Angle.angle = theta-phi*180/PI;
 		}
 		else{
-			Angle.angle = theta-phi;
+			Angle.angle = theta-phi*180/PI;
 		}
-		ROS_INFO("%lf",theta-phi);
+		//ROS_INFO("%lf",theta-phi);
 	
 		angle_pub.publish(Angle);
 		loop_rate.sleep();		
