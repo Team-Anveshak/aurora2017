@@ -58,6 +58,7 @@ add_message_files(
    Battery_level.msg
    Enc.msg
    SC_task.msg
+   RouterAngle.msg
  )
 
 ## Generate services in the 'srv' folder
