@@ -4,15 +4,20 @@
 #include <rover_msgs/WheelVelocity.h>
 #include <cstdlib>
 #include <cmath>
+#include <time.h>
+
+time_t start, end;
+
 
 #define PI 3.14159
 #define R 6371
 
-double lat_init = 12.99178849*PI/180,logg_init = 80.2310192*PI/180, dist_init;
-double lat_dest=11.993511*PI/180,logg_dest=80.272439*PI/180;
+double lat_init = 12.99162399*PI/180,logg_init = 80.23115731*PI/180, dist_init;
+double lat_dest=12.991422*PI/180,logg_dest=80.231841*PI/180;
 double lat,logg,dist,brng,brng_cur,decl=-4.88*PI/180;
 int service,status;
 double theta,x,y; 
+ros::Time current_time, last_time;
 
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
@@ -67,38 +72,17 @@ int main(int argc,char **argv)
 	{
 	ros::spinOnce();
 	rover_msgs::WheelVelocity vel;
-	if(fabs(dist_init-dist)>0.002){
-		if(fabs(brng-brng_cur)>=10*PI/180 ){
-			if (brng-brng_cur<=0){
-				vel.left_front_vel = -70;
-    	 	   	vel.right_front_vel = 70;
-        		vel.left_middle_vel = -70;
-        		vel.right_middle_vel = 70;
-        		vel.left_back_vel = -70;
-        		vel.right_back_vel = 70;	
-			}
-			else{
-				vel.left_front_vel = 70;
-        		vel.right_front_vel = -70;
-        		vel.left_middle_vel = 70;
-        		vel.right_middle_vel = -70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = -70;
-			}
-		
-		}
-	/*	else if(fabs(brng-brng_cur)<=30*PI/180 && fabs(brng-brng_cur)>15*PI/180)
-		{
-			
+	if(fabs(dist)>0.002){
+		if(fabs(brng-brng_cur)*180/PI>=80 ){
 			if (brng-brng_cur<=0){
 				vel.left_front_vel = -50;
-    	 		vel.right_front_vel = 50;
+    	 	   	vel.right_front_vel = 50;
         		vel.left_middle_vel = -50;
         		vel.right_middle_vel = 50;
         		vel.left_back_vel = -50;
         		vel.right_back_vel = 50;	
+				vel_pub.publish(vel);
 			}
-
 			else{
 				vel.left_front_vel = 50;
         		vel.right_front_vel = -50;
@@ -106,18 +90,52 @@ int main(int argc,char **argv)
         		vel.right_middle_vel = -50;
         		vel.left_back_vel = 50;
         		vel.right_back_vel = -50;
+        		vel_pub.publish(vel);
+			}
+		
+		}
+		else if(fabs(brng-brng_cur)<=80*PI/180 && fabs(brng-brng_cur)>30*PI/180)
+		{
+			
+			if (brng-brng_cur<=0){
+				vel.left_front_vel = -30;
+    	 		vel.right_front_vel = 30;
+        		vel.left_middle_vel = -30;
+        		vel.right_middle_vel = 30;
+        		vel.left_back_vel = -30;
+        		vel.right_back_vel = 30;	
+				vel_pub.publish(vel);
 			}
 
-		}*/
-		else{
-			vel.left_front_vel = 70;
-    	 	vel.right_front_vel = 70;
-        	vel.left_middle_vel = 70;
-        	vel.right_middle_vel = 70;
-        	vel.left_back_vel = 70;
-        	vel.right_back_vel = 70;
-			}	
+			else{
+				vel.left_front_vel = 30;
+        		vel.right_front_vel = -30;
+        		vel.left_middle_vel = 30;
+        		vel.right_middle_vel = -30;
+        		vel.left_back_vel = 30;
+        		vel.right_back_vel = -30;
+        		vel_pub.publish(vel);
+			}
 
+		}
+		else{
+			time(&start);
+			time(&end);
+			while((difftime(end,start) < .01))
+			{
+				vel.left_front_vel = 50;
+        		vel.right_front_vel = 50;
+        		vel.left_middle_vel = 50;
+        		vel.right_middle_vel = 50;
+        		vel.left_back_vel = 50;
+        		vel.left_back_vel = 50;
+        		vel.right_back_vel = 50;
+        		time(&end);
+        		//ROS_INFO("%f\n",difftime(end,start));
+        		vel_pub.publish(vel);
+        		
+        	}
+		}	
 	}
 	else{
 		vel.left_front_vel = 0;
@@ -126,11 +144,11 @@ int main(int argc,char **argv)
         vel.right_middle_vel = 0;
         vel.left_back_vel = 0;
         vel.right_back_vel = 0;
+        vel_pub.publish(vel);
 	}
-	ROS_INFO("%lf\t%lf\t%lf\t%lf",brng,brng_cur,vel.left_front_vel,vel.right_front_vel);
-	vel_pub.publish(vel);
+	//ROS_INFO("%lf\t%lf\t%lf\t%lf",brng,brng_cur,vel.left_front_vel,vel.right_front_vel);
 	loop_rate.sleep();
-	
+	vel_pub.publish(vel);
 }
 	ros::spin();
 	return 0 ;

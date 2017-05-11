@@ -114,20 +114,20 @@ int main(int argc,char **argv)
 	if(fabs(dist_init-dist)>0.002){
 		if(fabs(brng-brng_cur)>=20*PI/180 && (mode==0)){
 			if (brng-brng_cur<=0){
-				vel.left_front_vel = 70;
-    	 	   	vel.right_front_vel = -70;
-        		vel.left_middle_vel = 70;
-        		vel.right_middle_vel = -70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = -70;	
+				vel.left_front_vel = 50;
+    	 	   	vel.right_front_vel = -50;
+        		vel.left_middle_vel = 50;
+        		vel.right_middle_vel = -50;
+        		vel.left_back_vel = 50;
+        		vel.right_back_vel = -50;	
 			}
 			else{
-				vel.left_front_vel = -70;
-        		vel.right_front_vel = 70;
-        		vel.left_middle_vel = -70;
-        		vel.right_middle_vel = 70;
-        		vel.left_back_vel = -70;
-        		vel.right_back_vel = 70;
+				vel.left_front_vel = -50;
+        		vel.right_front_vel = 50;
+        		vel.left_middle_vel = -50;
+        		vel.right_middle_vel = 50;
+        		vel.left_back_vel = -50;
+        		vel.right_back_vel = 50;
 			}
 		
 		}
@@ -156,21 +156,21 @@ int main(int argc,char **argv)
 		else if(dir!=0){
 			mode=1;
 			if(dir>0){
-				vel.left_front_vel = 70;
-    	 	   	vel.right_front_vel = -70;
-        		vel.left_middle_vel = 70;
-        		vel.right_middle_vel = -70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = -70;
+				vel.left_front_vel = 50;
+    	 	   	vel.right_front_vel = -50;
+        		vel.left_middle_vel = 50;
+        		vel.right_middle_vel = -50;
+        		vel.left_back_vel = 50;
+        		vel.right_back_vel = -50;
 			}
 			else{
-				vel.left_front_vel = -70;
-        		vel.right_front_vel = 70;
-        		vel.left_middle_vel = -70;
-        		vel.right_middle_vel = 70;
-        		vel.left_back_vel = -70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = -70;
+				vel.left_front_vel = -50;
+        		vel.right_front_vel = 50;
+        		vel.left_middle_vel = -50;
+        		vel.right_middle_vel = 50;
+        		vel.left_back_vel = -50;
+        		vel.left_back_vel = 50;
+        		vel.right_back_vel = -50;
 			}			
 		}
 		else{
@@ -178,13 +178,13 @@ int main(int argc,char **argv)
 			current_time = ros::Time::now();
 			last_time = ros::Time::now();
 			while(13 - ((current_time - last_time).toSec()) >= 0.5){
-				vel.left_front_vel = 70;
-        		vel.right_front_vel = 70;
-        		vel.left_middle_vel = 70;
-        		vel.right_middle_vel = 70;
-        		vel.left_back_vel = 70;
-        		vel.left_back_vel = 70;
-        		vel.right_back_vel = 70;
+				vel.left_front_vel = 50;
+        		vel.right_front_vel = 50;
+        		vel.left_middle_vel = 50;
+        		vel.right_middle_vel = 50;
+        		vel.left_back_vel = 50;
+        		vel.left_back_vel = 50;
+        		vel.right_back_vel = 50;
         		current_time = ros::Time::now();
         	}
         	mode=0;
