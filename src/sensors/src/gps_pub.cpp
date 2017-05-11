@@ -73,7 +73,7 @@ int main(int argc,char **argv)
 	ros::spinOnce();
 	rover_msgs::WheelVelocity vel;
 	if(fabs(dist)>0.002){
-		if(fabs(brng-brng_cur)*180/PI>=80 ){
+		if(fabs(brng-brng_cur)*180/PI>=10 ){
 			if (brng-brng_cur<=0){
 				vel.left_front_vel = -50;
     	 	   	vel.right_front_vel = 50;
@@ -94,7 +94,7 @@ int main(int argc,char **argv)
 			}
 		
 		}
-		else if(fabs(brng-brng_cur)<=80*PI/180 && fabs(brng-brng_cur)>30*PI/180)
+		else if(fabs(brng-brng_cur)<=10*PI/180 && fabs(brng-brng_cur)>5*PI/180)
 		{
 			
 			if (brng-brng_cur<=0){
@@ -121,7 +121,7 @@ int main(int argc,char **argv)
 		else{
 			time(&start);
 			time(&end);
-			while((difftime(end,start) < .01))
+			while((difftime(end,start) < 3))
 			{
 				vel.left_front_vel = 50;
         		vel.right_front_vel = 50;
@@ -131,7 +131,7 @@ int main(int argc,char **argv)
         		vel.left_back_vel = 50;
         		vel.right_back_vel = 50;
         		time(&end);
-        		//ROS_INFO("%f\n",difftime(end,start));
+        		ROS_INFO("%f\n",difftime(end,start));
         		vel_pub.publish(vel);
         		
         	}
