@@ -1,10 +1,6 @@
 /* rosserial Subscriber For Locomotion Control*/
 #include <ros.h>
 #include <rover_msgs/WheelVelocity.h>
-#include <rover_msgs/CameraMotion.h>
-
-
-
 
 #define dir1 25
 #define pwm1 3
@@ -59,8 +55,19 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   rm = map(RoverVelocity.right_middle_vel,-70,70,-175,175);
   lb = map(RoverVelocity.left_back_vel,-70,70,-175,175);
   rb = map(RoverVelocity.right_back_vel,-70,70,-175,175);
+
+
   
-  if(lt>0){
+  RoverVel.left_front_vel=tl;
+  RoverVel.right_front_vel=tr;
+  RoverVel.left_middle_vel=ml;
+  RoverVel.right_middle_vel=mr;
+  RoverVel.left_back_vel=bl;
+  RoverVel.right_back_vel=br;
+  
+  vel_pub.publish(&RoverVel);
+   
+/*if(lt>0){
     lt/=1.00513;
   }
   else if(lt<0){
@@ -96,7 +103,7 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   else if(rb<0){
     rb/=1;
   }
-
+*/
   tl = (int)lt;///k1*mink;
   tr = (int)rt;///k1*mink;
    
@@ -113,16 +120,6 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   loco(lb,dir5,pwm5);
   loco(rb,dir6,pwm6);
   
-  RoverVel.left_front_vel=tl;
-  RoverVel.right_front_vel=tr;
-  RoverVel.left_middle_vel=ml;
-  RoverVel.right_middle_vel=mr;
-  RoverVel.left_back_vel=bl;
-  RoverVel.right_back_vel=br;
-  
-  vel_pub.publish(&RoverVel);
- 
-
  }
  
  ros::Subscriber<rover_msgs::WheelVelocity> locomotion_sub("rover1/wheel_vel", &roverMotionCallback);
