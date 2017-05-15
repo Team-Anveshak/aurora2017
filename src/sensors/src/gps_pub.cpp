@@ -15,9 +15,8 @@ time_t start, end;
 //double lat_init = 12.99116073*PI/180,logg_init = 80.23184033*PI/180, dist_init;
 double lat_dest=12.99151885*PI/180,logg_dest=80.23199121*PI/180;
 double lat,logg,dist,brng,brng_cur,decl=-1.666666666666667*PI/180;
-int service,status;
+//int service,status;
 double theta,x,y; 
-ros::Time current_time, last_time;
 
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
@@ -46,7 +45,6 @@ void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg)
 
 	//ROS_INFO("%lf",brng_cur);
 	
-
 	/*if(y<0)		theta = PI - theta;
 
 	if( decl > 0 ){
@@ -129,7 +127,6 @@ int main(int argc,char **argv)
         	vel.right_front_vel = 70;
         	vel.left_middle_vel = 70;
         	vel.right_middle_vel = 70;
-        	vel.left_back_vel = 70;
         	vel.left_back_vel = 70;
         	vel.right_back_vel = 70;
  			vel_pub.publish(vel);	
