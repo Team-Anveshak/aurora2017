@@ -12,9 +12,9 @@ time_t start, end;
 #define PI 3.14159
 #define R 6371
 
-double lat_init = 12.991745*PI/180,logg_init = 80.230513*PI/180, dist_init;
-double lat_dest=12.98787313574108*PI/180,logg_dest=80.22311210632324*PI/180;
-double lat,logg,dist,brng,brng_cur,decl=-1.666666666666667;
+//double lat_init = 12.99116073*PI/180,logg_init = 80.23184033*PI/180, dist_init;
+double lat_dest=12.99151885*PI/180,logg_dest=80.23199121*PI/180;
+double lat,logg,dist,brng,brng_cur,decl=-1.666666666666667*PI/180;
 int service,status;
 double theta,x,y; 
 ros::Time current_time, last_time;
@@ -28,7 +28,7 @@ void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 	
 	brng = atan2((sin(logg_dest - logg))*(cos(lat_dest)),(cos(lat))*(sin(lat_dest))-(sin(lat))*(cos(lat_dest)*(cos(logg_dest-logg))));
 	if(brng>=0)	brng=brng;
-	else	brng=brng+360;
+	else	brng=brng+2*PI;
 	float a = (sin((lat_dest-lat)/2))*(sin((lat_dest-lat)/2)) + (cos(lat))*(cos(lat_dest))*(sin((logg_dest-logg)/2))*(sin((logg_dest-logg)/2));
 	float c = 2 * atan2(sqrt(a),sqrt(1-a));
 	dist= R*c;
@@ -39,11 +39,13 @@ void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg)
 	x = (msg->magnetic_field.x)*1000000;
 	y = (msg->magnetic_field.y)*1000000;
 	
-	theta = atan2( y, x );
+	theta = atan2(x,y);
 
 	brng_cur=decl-theta;
-	if(brng_cur>=0)	brng_cur=brng_cur;
-	else	brng_cur=brng_cur+360;
+	if(brng_cur<0)  brng_cur=brng_cur+2*PI;
+
+	//ROS_INFO("%lf",brng_cur);
+	
 
 	/*if(y<0)		theta = PI - theta;
 
@@ -70,17 +72,17 @@ int main(int argc,char **argv)
 	ros::Publisher vel_pub = n.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
 	ros::Rate loop_rate(5);	
 
-	float a = (sin((lat_dest-lat_init)/2))*(sin((lat_dest-lat_init)/2)) + (cos (lat_init))*(cos (lat_dest))*(sin((logg_dest-logg_init)/2))*(sin((logg_dest-logg_init)/2));
+	/*float a = (sin((lat_dest-lat_init)/2))*(sin((lat_dest-lat_init)/2)) + (cos (lat_init))*(cos (lat_dest))*(sin((logg_dest-logg_init)/2))*(sin((logg_dest-logg_init)/2));
 	float c = 2 * atan2(sqrt(a),sqrt(1-a));
 	dist_init= R*c;
-
+	*/
 	while(ros::ok())
 	{
 	ros::spinOnce();
 	rover_msgs::WheelVelocity vel;
 	if(fabs(dist)>0.002){
-		if(fabs(brng-brng_cur)*180/PI>=30 ){
-			if (brng-brng_cur<=-30){
+		if(fabs(brng-brng_cur)*180/PI>=15 ){
+			if ((brng-brng_cur)*180/PI<=-15){
 				vel.left_front_vel = -50;
     	 	   	vel.right_front_vel = 50;
         		vel.left_middle_vel = -50;
@@ -123,13 +125,13 @@ int main(int argc,char **argv)
 
 		}*/
 		else{
-			vel.left_front_vel = 50;
-        	vel.right_front_vel = 50;
-        	vel.left_middle_vel = 50;
-        	vel.right_middle_vel = 50;
-        	vel.left_back_vel = 50;
-        	vel.left_back_vel = 50;
-        	vel.right_back_vel = 50;
+			vel.left_front_vel = 70;
+        	vel.right_front_vel = 70;
+        	vel.left_middle_vel = 70;
+        	vel.right_middle_vel = 70;
+        	vel.left_back_vel = 70;
+        	vel.left_back_vel = 70;
+        	vel.right_back_vel = 70;
  			vel_pub.publish(vel);	
 			time(&start);
 			time(&end);
