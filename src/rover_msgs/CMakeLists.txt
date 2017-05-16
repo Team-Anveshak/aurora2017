@@ -50,13 +50,9 @@ add_message_files(
    WheelVelocity.msg
    CameraMotion.msg
    ArmAngle.msg
-   GripperMotion.msg
    GPS.msg
    Power.msg
-   WheelVelPower.msg
-   MPU.msg
    Battery_level.msg
-   Enc.msg
    SC_task.msg
  )
 

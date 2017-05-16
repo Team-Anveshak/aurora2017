@@ -203,23 +203,3 @@ add_executable(gps_pub src/gps_pub.cpp)
 target_link_libraries(gps_pub ${catkin_LIBRARIES})
 add_dependencies(gps_pub ${catkin_EXPORTED_TARGETS})
 
-add_executable(imu_pub src/imu_pub.cpp)
-target_link_libraries(imu_pub ${catkin_LIBRARIES})
-add_dependencies(imu_pub ${catkin_EXPORTED_TARGETS})
-
-add_executable(gps_pub_multi src/gps_pub_multi.cpp)
-target_link_libraries(gps_pub_multi ${catkin_LIBRARIES})
-add_dependencies(gps_pub_multi ${catkin_EXPORTED_TARGETS})
-
-add_executable(gps_pub_raw src/gps_pub_raw.cpp)
-target_link_libraries(gps_pub_raw ${catkin_LIBRARIES})
-add_dependencies(gps_pub_raw ${catkin_EXPORTED_TARGETS})
-
-add_executable(Obs_gps_multi_pub src/Obs_gps_multi_pub.cpp)
-target_link_libraries(Obs_gps_multi_pub ${catkin_LIBRARIES})
-add_dependencies(Obs_gps_multi_pub ${catkin_EXPORTED_TARGETS})
-
-add_executable(obsGps_pub src/obsGps_pub.cpp)
-target_link_libraries(obsGps_pub ${catkin_LIBRARIES})
-add_dependencies(obsGps_pub ${catkin_EXPORTED_TARGETS})
-
