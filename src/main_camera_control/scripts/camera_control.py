@@ -26,7 +26,7 @@ class CameraControl:
 
     def start(self):
         cam_pub = rospy.Publisher('/rover1/camera_dir', CameraMotion, queue_size = 10)
-        joy_sub = rospy.Subscriber('/joy', Joy, self.joyCallback)
+        joy_sub = rospy.Subscriber('/joy1', Joy, self.joyCallback)
         rate = rospy.Rate(10)
        
         while not rospy.is_shutdown():

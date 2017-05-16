@@ -27,7 +27,7 @@ class LocomotionControl{
 // @joy_sub is assigned to subscribe the /joy message
 LocomotionControl::LocomotionControl(){
     vel_pub = nh.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
-    joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy",10,&LocomotionControl::joyCallback,this);
+    joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy1",10,&LocomotionControl::joyCallback,this);
 }
 
 //      @x_axis_value- x axis position of joystick controller
