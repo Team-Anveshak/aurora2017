@@ -59,6 +59,7 @@ add_message_files(
    Enc.msg
    SC_task.msg
    RouterAngle.msg
+   digger.msg
  )
 
 ## Generate services in the 'srv' folder
