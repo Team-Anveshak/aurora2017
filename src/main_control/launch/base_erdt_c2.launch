@@ -1,7 +1,0 @@
-<launch>
-<!-- joy node -->
- <node pkg="joy" type="joy_node" name="comp2_joy" >
- 	<param name="dev" type="string" value="/dev/input/js1" />
-	<remap from="joy" to="joy2" />
- </node>
-</launch>

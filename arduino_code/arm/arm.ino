@@ -31,12 +31,12 @@ void CallBack(const sensor_msgs::Joy& joy)
     msg.angle_1=1500;
   }
   if(joy.buttons[1]==1){
-    Chn.writeMicroseconds(1700);
-    msg.angle_2=1700;
+    Chn.writeMicroseconds(1850);
+    msg.angle_2=1850;
   }
   else if(joy.buttons[2]==1){
-    Chn.writeMicroseconds(1300);    
-    msg.angle_2=1300;
+    Chn.writeMicroseconds(1150);    
+    msg.angle_2=1150;
   }
   else{
     Chn.writeMicroseconds(1500);
