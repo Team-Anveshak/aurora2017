@@ -1,4 +1,8 @@
-float32 a
-float32 b
-float32 c
-float32 d
+int16 Step_UD_dir 
+int16 Step_UD_step 
+int16 LR_dir
+int16 LR_step 
+int16 probe_dir 
+int16 probe_step
+int16 drill
+int16 sensor_flag
