@@ -1,30 +1,43 @@
 /* rosserial Subscriber For Locomotion Control*/
 #include <ros.h>
 #include <rover_msgs/WheelVelocity.h>
+#include <rover_msgs/SC_task.h>
 
-#define dir1 25
-#define pwm1 3
-#define dir2 23
-#define pwm2 2
+#include <Wire.h>
+#include <Adafruit_BMP085.h>
+#include <DallasTemperature.h>
+#define ONE_WIRE_BUS 24
+
+Adafruit_BMP085 bmp;
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+float Celsius =0, Fahrenheit = 0;
+const int HumidSensor= 2;
+
+
+
+#define dir1 47
+#define pwm1 7
+#define dir2 49
+#define pwm2 6
 #define dir3 29
 #define pwm3 5
 #define dir4 27
 #define pwm4 4
-#define dir5 33
-#define pwm5 7
-#define dir6 31
-#define pwm6 6
-
+#define dir5 25
+#define pwm5 3
+#define dir6 23
+#define pwm6 2
+#define drill_pin 48
 
 
 int tl = 0,tr = 0,ml = 0, mr = 0, bl = 0, br = 0;
 float lt = 0,rt = 0,lm = 0,rm = 0,lb = 0,rb = 0; 
 
 ros::NodeHandle nh;
+rover_msgs::SC_task sensor_msg;
+ros::Publisher sensor_pub("SC_Task_Sensors", &sensor_msg);
 
-
-rover_msgs::WheelVelocity RoverVel;
-ros::Publisher vel_pub("rover1/wheel", &RoverVel);
 
 void loco(int vel,int dir_pin,int pwm_pin)
 {
@@ -56,62 +69,8 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   lb = map(RoverVelocity.left_back_vel,-70,70,-175,175);
   rb = map(RoverVelocity.right_back_vel,-70,70,-175,175);
 
+   
 
-  
-  RoverVel.left_front_vel=tl;
-  RoverVel.right_front_vel=tr;
-  RoverVel.left_middle_vel=ml;
-  RoverVel.right_middle_vel=mr;
-  RoverVel.left_back_vel=bl;
-  RoverVel.right_back_vel=br;
-  
-  vel_pub.publish(&RoverVel);
-   
-/*if(lt>0){
-    lt/=1.00513;
-  }
-  else if(lt<0){
-    lt/=1.0477;
-  }
-  if(rt>0){
-    rt/=1.0299;
-  }
-  else if(rt<0){
-    rt/=1.087986;
-  }
-  if(lm>0){
-    lm/=1.0735;
-  }
-  else if(lm<0){
-    lm/=1.07597;
-  }
-  if(rm>0){
-    rm/=1.0735;
-  }
-  else if(rm<0){
-    rm/=1.08657;
-  }
-  if(lb>0){
-    lb/=1.05128;
-  }
-  else if(lb<0){
-    lb/=1.05477;
-  }
-  if(rb>0){
-    rb/=1;
-  }
-  else if(rb<0){
-    rb/=1;
-  }
-*/
-  tl = (int)lt;///k1*mink;
-  tr = (int)rt;///k1*mink;
-   
-  ml = (int)lm;///k2*mink;
-  mr = (int)rm;///k2*mink;
-   
-  bl = (int)lb;///k3*mink;
-  br = (int)rb;///k3*mink;
 
   loco(lt,dir1,pwm1);
   loco(rt,dir2,pwm2);
@@ -119,6 +78,15 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
   loco(rm,dir4,pwm4);
   loco(lb,dir5,pwm5);
   loco(rb,dir6,pwm6);
+  
+  if (RoverVelocity.drill==1)
+  {
+    digitalWrite(drill_pin,HIGH);
+  }
+  else
+  {
+    digitalWrite(drill_pin,LOW);
+  }
   
  }
  
@@ -128,8 +96,11 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
    nh.initNode();
  
    nh.subscribe(locomotion_sub);
-   nh.advertise(vel_pub);
+   nh.advertise(sensor_pub);
  
+  bmp.begin();
+  sensors.begin();
+  
    pinMode(dir1,OUTPUT);
    pinMode(dir2,OUTPUT);
    pinMode(dir3,OUTPUT);
@@ -149,6 +120,24 @@ void roverMotionCallback(const rover_msgs::WheelVelocity& RoverVelocity){
  }
  
  void loop(){
+   
+     
+ sensor_msg.Atm_temp=bmp.readTemperature();
+
+ sensor_msg.Atm_press=bmp.readPressure();
+
+ sensor_msg.Soil_humi=analogRead(HumidSensor);
+ 
+ sensor_msg.Altitude=bmp.readAltitude();
+ 
+  sensors.requestTemperatures();
+  Celsius = sensors.getTempCByIndex(0);
+  Fahrenheit = sensors.toFahrenheit(Celsius);
+ 
+ sensor_msg.Soil_temp=Celsius;
+ 
+ sensor_pub.publish( &sensor_msg );
    nh.spinOnce();
    delay(1);
 }
+

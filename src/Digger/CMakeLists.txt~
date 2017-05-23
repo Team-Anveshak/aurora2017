@@ -198,6 +198,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_executable(digger src/digger.cpp)
-target_link_libraries(digger ${catkin_LIBRARIES})
-add_dependencies(digger ${catkin_EXPORTED_TARGETS})
+add_executable(Digger src/Digger.cpp)
+target_link_libraries(Digger ${catkin_LIBRARIES})
+add_dependencies(Digger ${catkin_EXPORTED_TARGETS})

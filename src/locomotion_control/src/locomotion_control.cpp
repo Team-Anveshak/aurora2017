@@ -12,8 +12,16 @@
 //     @nh initialise the NodeHandler object
 //     @vel_pub publisher variable
 //     @joy_sub subscriber variable
+float x_axis_val;
+float y_axis_val;
+float sp_inc;
+float sp_dec;
+float count= 0;
+float c2;
+int flag,flag2 ;
+int Drill;
 
-class LocomotionControl{
+/*class LocomotionControl{
     public:
         LocomotionControl();
     private:
@@ -27,60 +35,43 @@ class LocomotionControl{
 // @joy_sub is assigned to subscribe the /joy message
 LocomotionControl::LocomotionControl(){
     vel_pub = nh.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
-    joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy",10,&LocomotionControl::joyCallback,this);
-}
+    joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy1",10,&LocomotionControl::joyCallback,this);
+}*/
 
 //      @x_axis_value- x axis position of joystick controller
 //      @y_axis_value- y axis position of joystick controller
 //      @scale- magnitude of a vector, lies between (0, 5)
 //      @angle- horizontal plane angle made by controller
-void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
-    rover_msgs::WheelVelocity vel;
+void joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
     
-    float x_axis_val = joy->axes[0];
-    float y_axis_val = joy->axes[1];
-    float sp_inc = joy->axes[5];
-    float sp_dec = joy->axes[2];
-    static float count= 0;
-    static float c2;
-    static int flag,flag2 ;
-
-    if(sp_inc <0.0 && count<2 && flag==1)
-	{
-	  count++;
-	  flag = 0;
-	}
-
-    if (sp_inc >0.0)  flag=1;
-    if(sp_dec <0.0 && count>0 && flag2 ==1)
-	{
-	  count--;
-	  flag2= 0;
-	}
-     if (sp_dec >0.0) flag2=1;
-	  
-
-    c2 = (0.8 + (count/10.0)) ;
+    
+     x_axis_val = joy->axes[0];
+     y_axis_val = joy->axes[1];
+     sp_inc = joy->axes[5];
+     sp_dec = joy->axes[2];
+    
+     Drill = joy->buttons[8];
+   
 
     //double angle = atan2(y_axis_val,x_axis_val);
 
     //float scale = sqrt(x_axis_val * x_axis_val + y_axis_val * y_axis_val);
     //ROS_INFO_STREAM("scale : " << scale);
-    float e= 4;
+   /* float e= 4;
     float b = 45;
     float a = 110;
-    float c1 = 45;
+    float c1 = 45;*/
 
     //% velocity algorithm
 
-    float v = c2 * y_axis_val;
+    /*float v = c2 * y_axis_val;
     float r;
     if(fabs(x_axis_val)>=0.2 && fabs(x_axis_val<0.5)){
         r = c1*e;
     }
     else if(x_axis_val>=0.5){
         r = c1*e*2;
-    }
+    }*/
    /* float dem = (1+ b/r)*(1+ b/r) + (a/2/r)*(a/2/r);
 
     float v1 = v;
@@ -150,7 +141,51 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
             vel.right_back_vel = v3;   
         }
     }*/
-	if ((y_axis_val>0.25) && (fabs(y_axis_val)>fabs(x_axis_val)))
+	
+	
+
+  
+
+   
+}
+
+// @init initialises the ros
+// creates a LocomotionControl object
+
+int main(int argc, char** argv) {
+    ros::init(argc,argv,"locomotion_control");
+
+    //LocomotionControl locomotion_control;
+    ros::NodeHandle nh;
+    ros::Publisher vel_pub = nh.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
+    ros::Subscriber joy_sub = nh.subscribe<sensor_msgs::Joy>("/joy1",10,joyCallback);
+    ros::Rate loop_rate(100);	
+
+while(ros::ok())
+	{
+
+	ros::spinOnce();
+    rover_msgs::WheelVelocity vel;
+
+
+     if(sp_inc <0.0 && count<2 && flag==1)
+	{
+	  count++;
+	  flag = 0;
+	}
+
+    if (sp_inc >0.0)  flag=1;
+    if(sp_dec <0.0 && count>0 && flag2 ==1)
+	{
+	  count--;
+	  flag2= 0;
+	}
+     if (sp_dec >0.0) flag2=1;
+	  
+
+    c2 = (0.8 + (count/10.0)) ;
+
+    if ((y_axis_val>0.25) && (fabs(y_axis_val)>fabs(x_axis_val)))
 	{
 		
 	vel.left_front_vel = c2 * y_axis_val*70;
@@ -204,19 +239,11 @@ void LocomotionControl::joyCallback(const sensor_msgs::Joy::ConstPtr& joy){
         vel.left_back_vel =  0;
         vel.right_back_vel =  0;
 	}
-	
 
-  
-
-vel_pub.publish(vel);    
+	vel.drill = Drill;
+    vel_pub.publish(vel);
+	loop_rate.sleep();
 }
-
-// @init initialises the ros
-// creates a LocomotionControl object
-
-int main(int argc, char** argv) {
-    ros::init(argc,argv,"locomotion_control");
-    LocomotionControl locomotion_control;
     ros::spin();
     return 0;
 }
