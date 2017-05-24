@@ -1,1 +1,0 @@
-python navigation_to_specificPoint.py 

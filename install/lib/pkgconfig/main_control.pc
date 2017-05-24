@@ -1,8 +1,0 @@
-prefix=/home/achu/Documents/rover-control/install
-
-Name: main_control
-Description: Description of main_control
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/achu/Documents/rover-control/install/lib 
-Requires: 

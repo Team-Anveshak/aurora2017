@@ -1,8 +1,0 @@
-prefix=/home/aniket/2/rover-control/install
-
-Name: depthimage_to_laserscan
-Description: Description of depthimage_to_laserscan
-Version: 1.0.7
-Cflags: -I/home/aniket/2/rover-control/install/include
-Libs: -L/home/aniket/2/rover-control/install/lib -lDepthImageToLaserScan -lDepthImageToLaserScanROS -lDepthImageToLaserScanNodelet
-Requires: dynamic_reconfigure image_geometry image_transport nodelet roscpp sensor_msgs
