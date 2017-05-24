@@ -1,0 +1,8 @@
+int16 Step_UD_dir 
+int16 Step_UD_step 
+int16 LR_dir
+int16 LR_step 
+int16 probe_dir 
+int16 probe_step
+int16 sensor_flag
+int16 drill

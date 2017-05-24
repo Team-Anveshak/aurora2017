@@ -1,0 +1,10 @@
+int16 acc_forw
+int16 acc_back
+int16 chain_forw
+int16 chain_back
+int16 base_right
+int16 base_left
+int16 grip
+int16 rotate_clk
+int16 rotate_aclk
+int16 wrist
