@@ -73,7 +73,8 @@ class Source:
 
         hsv = cv2.cvtColor(imag,cv2.COLOR_BGR2HSV)      #converting to hsv space
 
-        # define threshold range of yellow color in HSV
+# define threshold range of yellow color in HSV
+# *********************************************************************** 
         lower_yellow = np.array([26, 162, 66])
         upper_yellow = np.array([52, 255, 255])
 
@@ -111,10 +112,12 @@ class Source:
 
         # cv2.imshow("encl_circle", imag)
             
-        # initialize the known distance from the camera to the object
+# initialize the known distance from the camera to the object
+# *********************************************************************** 
         KNOWN_DISTANCE = 50.0
          
-        # initialize the known object width
+# initialize the known object width
+# *********************************************************************** 
         KNOWN_WIDTH = 6.5
           
         perWidth=2*radius
@@ -147,9 +150,9 @@ class Source:
             img = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
 
             hsv = cv2.cvtColor(imag,cv2.COLOR_BGR2HSV)      #converting to hsv space
-            # define range of yellow color in HSV
-            # lower_yellow = np.array([29, 16, 159])
-            # upper_yellow = np.array([65, 112, 255])
+
+# define range of yellow color in HSV
+# *********************************************************************** 
             lower_yellow = np.array([26, 162, 66])
             upper_yellow = np.array([52, 255, 255])
 
