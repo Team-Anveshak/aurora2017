@@ -32,6 +32,8 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+
+#check if it checks for the status of the gps flag from time to time. The code needs to be modified. Also, In case the the ball wasn't detected, we should proceed to the next gps coordinate provided. This has to be taken care of too.. 
 import sys
 import time
 import math
@@ -44,7 +46,6 @@ from cv_bridge import CvBridge
 
 flg=0;
 
-# Send black pic with a circle as regular and compressed ros msgs.
 class Source:
 
     def __init__(self):
@@ -72,12 +73,12 @@ class Source:
 
         hsv = cv2.cvtColor(imag,cv2.COLOR_BGR2HSV)      #converting to hsv space
 
-        # define range of red color in HSV
-        lower_red = np.array([26, 162, 66])
-        upper_red = np.array([52, 255, 255])
+        # define threshold range of yellow color in HSV
+        lower_yellow = np.array([26, 162, 66])
+        upper_yellow = np.array([52, 255, 255])
 
-        # Threshold the HSV image to get only red colors
-        mask1 = cv2.inRange(hsv, lower_red, upper_red)
+        # Threshold the HSV image to get only yellow colors
+        mask1 = cv2.inRange(hsv, lower_yellow, upper_yellow)
         mask = cv2.dilate(mask1, None, iterations=2)
         mask = cv2.erode(mask, None, iterations=2)
 
@@ -146,14 +147,14 @@ class Source:
             img = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
 
             hsv = cv2.cvtColor(imag,cv2.COLOR_BGR2HSV)      #converting to hsv space
-            # define range of red color in HSV
-            # lower_red = np.array([29, 16, 159])
-            # upper_red = np.array([65, 112, 255])
-            lower_red = np.array([26, 162, 66])
-            upper_red = np.array([52, 255, 255])
+            # define range of yellow color in HSV
+            # lower_yellow = np.array([29, 16, 159])
+            # upper_yellow = np.array([65, 112, 255])
+            lower_yellow = np.array([26, 162, 66])
+            upper_yellow = np.array([52, 255, 255])
 
-            # Threshold the HSV image to get only red colors
-            mask1 = cv2.inRange(hsv, lower_red, upper_red)
+            # Threshold the HSV image to get only yellow colors
+            mask1 = cv2.inRange(hsv, lower_yellow, upper_yellow)
             mask = cv2.dilate(mask1, None, iterations=2)
             mask = cv2.erode(mask, None, iterations=2)
 
@@ -199,7 +200,7 @@ class Source:
                         #cv2.imshow("encl_circle",frame)
                         continue
                 # if ((center[0] in range(169,474)) and (center[1] in range(62,380)) and count_y>30 and count_n<10 and done==0) :
-                if ((center[0] in range(169,474)) and count_y>30 and count_n<10 and done==0) :
+                if ((center[0] in range(169,474)) and count_y>30 and count_n<10 and done==0) : #only horizontally bounded
                     r=distance
 		    done=1
                     flag=1

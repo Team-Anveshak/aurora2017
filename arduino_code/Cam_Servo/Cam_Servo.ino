@@ -1,3 +1,5 @@
+/* When the rover reaches the gps location, flg becomes 1. The camera starts rotating. When the ball gets identified, flag becomes 0 and the camera stops rotating and the pos=>(r,theta) is published. (Note : the publisher is inside an if condition which means it is not continuously publishing. Have to check this this part. I'm not sure. Also, the gps code should be publishing the flg value too.)*/ 
+
 #include<ros.h>
 #include<Arduino.h>
 #include<Servo.h>
@@ -45,16 +47,17 @@ void setup() {
 }
 
 void loop() {
-  if(flag==1 && flg==1){
+  if(flag==1 && flg==1)
+  {
   	angle=(angle%180);
-		servo.write(angle);
-		if(angle==1)	inc=+1;
-		if(angle==179)	inc=-1;
-		angle+=inc;
+	servo.write(angle);
+	if(angle==1)	inc=+1;
+	if(angle==179)	inc=-1;
+	angle+=inc;
   }
-  if(flag==0 && flg==1){
+  //if(flag==0 && flg==1){
     //pos_pub.publish(&pos);
-  }
+  //}
   nh.spinOnce();
   delay(100);
 }

@@ -63,9 +63,9 @@ while True:
     # sdisplay=cv2.bitwise_and(frame,frame,mask=sthresh)
     # vdisplay=cv2.bitwise_and(frame,frame,mask=vthresh)
 
-	cv2.imshow("HueComp", hthresh)
-	cv2.imshow("SatComp", sthresh)
-	cv2.imshow("ValComp", vthresh)
+	cv2.imshow("HueComp", hthresh) #gives u the 'h' threshold range
+	cv2.imshow("SatComp", sthresh) #gives u the 's' threshold range
+	cv2.imshow("ValComp", vthresh) #gives u the 'v' threshold range
 
 
     
