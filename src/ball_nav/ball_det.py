@@ -138,7 +138,7 @@ class Source:
 
         cvb = CvBridge()
 	
-        while not rospy.core.is_shutdown():
+        while done==0:
 
             ret, frame = cap.read()
             # cv2.imshow('frame',frame)
@@ -205,7 +205,7 @@ class Source:
                 # if ((center[0] in range(169,474)) and (center[1] in range(62,380)) and count_y>30 and count_n<10 and done==0) :
                 if ((center[0] in range(169,474)) and count_y>30 and count_n<10 and done==0) : #only horizontally bounded
                     r=distance
-		    done=1
+                    done=1
                     flag=1
 
             self.dist_pub.publish(r)
@@ -217,11 +217,12 @@ def main(args):
     s = Source()
     rospy.init_node('Source')
     try:
-	s.subsciber_flag()
-	if(flg==1):
-	  s.spin()
-        rospy.spin()
-        outcome = 'test completed'
+        while(True):
+            s.subsciber_flag()
+            if(flg==1):
+                s.spin()
+                rospy.spin()
+                outcome = 'test completed'
     except KeyboardInterrupt:
         print "shutting down"
         outcome = 'keyboard interrupt'
