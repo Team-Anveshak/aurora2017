@@ -81,20 +81,14 @@ int main(int argc,char **argv)
 	if(fabs(dist)>0.002){
 		if(fabs(brng-brng_cur)*180/PI>=15 ){
 			if ((brng-brng_cur)*180/PI<=-15){
-				vel.left_front_vel = -50;
-    	 	   	vel.right_front_vel = 50;
-        		vel.left_middle_vel = -50;
-        		vel.right_middle_vel = 50;
-        		vel.left_back_vel = -50;
-        		vel.right_back_vel = 50;
+				vel.left = -50;
+    	 	   	vel.right = 50;
+        		
 			}
 			else{
-				vel.left_front_vel = 50;
-        		vel.right_front_vel = -50;
-        		vel.left_middle_vel = 50;
-        		vel.right_middle_vel = -50;
-        		vel.left_back_vel = 50;
-        		vel.right_back_vel = -50;
+				vel.left = 50;
+        		vel.right = -50;
+        		
 			}
 		
 		}
@@ -123,12 +117,9 @@ int main(int argc,char **argv)
 
 		}*/
 		else{
-			vel.left_front_vel = 70;
-        	vel.right_front_vel = 70;
-        	vel.left_middle_vel = 70;
-        	vel.right_middle_vel = 70;
-        	vel.left_back_vel = 70;
-        	vel.right_back_vel = 70;
+			vel.left = 70;
+        	vel.right = 70;
+        	
  			vel_pub.publish(vel);	
 			time(&start);
 			time(&end);
@@ -140,15 +131,12 @@ int main(int argc,char **argv)
 		}	
 	}
 	else{
-		vel.left_front_vel = 0;
-        vel.right_front_vel = 0;
-        vel.left_middle_vel = 0;
-        vel.right_middle_vel = 0;
-        vel.left_back_vel = 0;
-        vel.right_back_vel = 0;
+		vel.left = 0;
+        vel.right = 0;
+        
  	}
  	vel_pub.publish(vel);
-	ROS_INFO("%lf\t%lf\t%lf\t%lf",brng,brng_cur,vel.left_front_vel,vel.right_front_vel);
+	ROS_INFO("%lf\t%lf",brng,brng_cur);
 	loop_rate.sleep();
 }
 	ros::spin();

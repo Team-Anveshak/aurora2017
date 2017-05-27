@@ -6,3 +6,4 @@ int16 probe_dir
 int16 probe_step
 int16 sensor_flag
 int16 drill
+int16 reset_flag

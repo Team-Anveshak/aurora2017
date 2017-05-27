@@ -1,0 +1,4 @@
+<launch>
+ <node pkg = "rosserial_python" type = "serial_node.py" args="/dev/ttyACM0" name = "loco_ard"/>
+ <node pkg = "rosserial_python" type = "serial_node.py" args="/dev/ttyACM1" name = "erdt_ard"/>
+</launch>

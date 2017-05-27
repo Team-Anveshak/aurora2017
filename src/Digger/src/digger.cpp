@@ -3,7 +3,7 @@
 #include <rover_msgs/digger.h>
 
 float ver_up,ver_do,hor_r,hor_l,probe_up,probe_do,Drill;
-int value,value1,value2,sensor_key;
+int value,value1,value2,sensor_key,count;
 
 void joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 { 
@@ -15,7 +15,7 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
  probe_up=joy->buttons[6];
  probe_do=joy->buttons[7];
  Drill=joy->buttons[8]; 
- sensor_key=joy->buttons[5];
+ sensor_key=joy->buttons[4];
 
 }
 
@@ -25,7 +25,7 @@ int main(int argc,char **argv)
 	ros::init(argc,argv,"dig");
 	ros::NodeHandle n;
 
-	ros::Subscriber dig_sub = n.subscribe("/joy",100,joyCallback);
+	ros::Subscriber dig_sub = n.subscribe("/joy2",100,joyCallback);
 	ros::Publisher dig_pub = n.advertise<rover_msgs::digger>("/dig",10);
 	ros::Rate loop_rate(10);	
 	
@@ -90,8 +90,18 @@ int main(int argc,char **argv)
 		else value2=1;
 		Digger.probe_step = value2;
 	}
+        
+
            Digger.drill=Drill;
-           Digger.sensor_flag = sensor_key;
+           if(count==5)
+           {
+            
+            Digger.reset_flag = 1;
+           	count=0;
+           }
+            count++;
+           	Digger.sensor_flag = sensor_key;
+
 
 	dig_pub.publish(Digger);
     loop_rate.sleep();

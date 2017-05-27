@@ -1,0 +1,15 @@
+<launch>
+<!-- joy node -->
+ <node pkg="joy" type="joy_node" name="joy_1" >
+ 	<param name="dev" type="string" value="/dev/input/js1" />
+	<remap from="joy" to="joy1" />
+ </node>
+ <node pkg="joy" type="joy_node" name="joy_2" >
+ 	<param name="dev" type="string" value="/dev/input/js2" />
+	<remap from="joy" to="joy2" />
+ </node>
+ <node pkg="locomotion_control" type="locomotion_control" name="loco"></node> 
+ <node pkg="Digger" type="digger" name="digger"></node> 
+ <node pkg="main_camera_control" type="camera_control.py" name="camera"></node>
+</launch>
+

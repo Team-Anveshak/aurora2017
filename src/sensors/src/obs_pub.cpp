@@ -75,29 +75,20 @@ int main(int argc,char **argv){
 	if(dir>25 || dir<-25){
 			mode=1;
 			if(dir>25){
-				vel.left_front_vel = 50;
-    	 	   	vel.right_front_vel = -50;
-        		vel.left_middle_vel = 50;
-        		vel.right_middle_vel = -50;
-        		vel.left_back_vel = 50;
-        		vel.right_back_vel = -50;
+				vel.left = 50;
+    	 	   	vel.right = -50;
+        		
 			}
 			else{
-				vel.left_front_vel = -50;
-        		vel.right_front_vel = 50;
-        		vel.left_middle_vel = -50;
-        		vel.right_middle_vel = 50;
-        		vel.left_back_vel = -50;
-        		vel.right_back_vel = 50;
+				vel.left = -50;
+        		vel.right = 50;
+        		
 			}			
 		}
 		else{
-			vel.left_front_vel = 50;
-        	vel.right_front_vel = 50;
-        	vel.left_middle_vel = 50;
-        	vel.right_middle_vel = 50;
-        	vel.left_back_vel = 50;
-        	vel.right_back_vel = 50;
+			vel.left = 50;
+        	vel.right = 50;
+        	
         	vel_pub.publish(vel);	
 			time(&start);
 			time(&end);

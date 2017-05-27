@@ -20,6 +20,7 @@ double lat,logg,dist,brng,brng_cur,decl=-1.666666666666667*PI/180;
 double theta,x,y;
 int bi,flg=0,nav_flg=0;
 float b_angle,b_dist,brng_int,b_time;
+int temp=0;
  
 void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
@@ -93,22 +94,16 @@ int main(int argc,char **argv)
             {
                 if ((brng-brng_cur)*180/PI<=-15)
                 {
-                    vel.left_front_vel = -50;
-                        vel.right_front_vel = 50;
-                    vel.left_middle_vel = -50;
-                    vel.right_middle_vel = 50;
-                    vel.left_back_vel = -50;
-                    vel.right_back_vel = 50;
+                    vel.left = -50;
+                    vel.right = 50;
+                
                     vel_pub.publish(vel);
                 }
                 else
                 {
-                    vel.left_front_vel = 50;
-                    vel.right_front_vel = -50;
-                    vel.left_middle_vel = 50;
-                    vel.right_middle_vel = -50;
-                    vel.left_back_vel = 50;
-                    vel.right_back_vel = -50;
+                    vel.left = 50;
+                    vel.right = -50;
+                  
                     vel_pub.publish(vel);
                 }
             
@@ -139,12 +134,9 @@ int main(int argc,char **argv)
             }*/
             else
             {
-                vel.left_front_vel = 70;
-                vel.right_front_vel = 70;
-                vel.left_middle_vel = 70;
-                vel.right_middle_vel = 70;
-                vel.left_back_vel = 70;
-                vel.right_back_vel = 70;
+                vel.left = 70;
+                vel.right = 70;
+               
                  vel_pub.publish(vel);    
                 time(&start);
                 time(&end);
@@ -157,12 +149,9 @@ int main(int argc,char **argv)
         }
         else
         {
-            vel.left_front_vel = 0;
-            vel.right_front_vel = 0;
-            vel.left_middle_vel = 0;
-            vel.right_middle_vel = 0;
-            vel.left_back_vel = 0;
-            vel.right_back_vel = 0;
+            vel.left = 0;
+            vel.right = 0;
+           
             vel_pub.publish(vel);
  
             std_msgs::Float32 flag;
@@ -172,8 +161,9 @@ int main(int argc,char **argv)
             flag.data=flg=0;
             flg_pub.publish(flag);
             
-            if(b_dist>0)
-            {
+            if(b_dist>0 && b_dist<500)
+            {    
+                temp=0;
                 //nav_to(b_dist,b_angle); towards the ball
                 nav_flg=1;
                 brng_int=brng_cur;
@@ -183,56 +173,53 @@ int main(int argc,char **argv)
                 {           //10 deg is set as error, change it an angle where rover will stop doing oscillations...
                     if ((brng_int-brng_cur)*180/PI<=-fabs(b_angle))
                     {                   //check for the direction of rotation.make it proper
-                        vel.left_front_vel = -50;
-                            vel.right_front_vel = 50;
-                        vel.left_middle_vel = -50;
-                        vel.right_middle_vel = 50;
-                        vel.left_back_vel = -50;
-                        vel.right_back_vel = 50;
+                        vel.left = -50;
+                        vel.right = 50;
+                       
                         vel_pub.publish(vel);
                     }
                     else
                     {
-                        vel.left_front_vel = 50;
-                        vel.right_front_vel = -50;
-                        vel.left_middle_vel = 50;
-                        vel.right_middle_vel = -50;
-                        vel.left_back_vel = 50;
-                        vel.right_back_vel = -50;
+                        vel.left = 50;
+                        vel.right = -50;
+                        
                         vel_pub.publish(vel);
                     }
                     ros::spinOnce();
                     time(&end);
-                    if(difftime(end,start)>30)    break;                                //assuming rover will take less than 30s for 360 deg rotation    
-                }
-                vel.left_front_vel = 70;
-                vel.right_front_vel = 70;
-                vel.left_middle_vel = 70;
-                vel.right_middle_vel = 70;
-                vel.left_back_vel = 70;
-                vel.right_back_vel = 70;
-                vel_pub.publish(vel);    
-                time(&start);
-                time(&end);
-                b_time=b_dist*.05;                                                //max rpm=175,dist is in cm, then min time taken for travelling 1m @ 175/255 is 5s
+                    if(difftime(end,start)>30)
+				       {
+						  break;                                //assuming rover will take less than 30s for 360 deg rotation    
+						  temp=1;
+					   }		
+ 				}
+ 
+                if(temp==0)
+		        {
+				    vel.left = 70;
+                    vel.right = 70;
+                    
+                    vel_pub.publish(vel);    
+                    time(&start);
+                    time(&end);
+                    b_time=b_dist*.05;                                                //max rpm=175,dist is in cm, then min time taken for travelling 1m @ 175/255 is 5s
                 
-                while(difftime(end,start) < b_time)
-                {
-                       time(&end);
-                }
+                    while(difftime(end,start) < b_time)
+                    {
+                               time(&end);
+                    }
+                    
+                vel.left = 0;
+                vel.right = 0;
                 
-                vel.left_front_vel = 0;
-                vel.right_front_vel = 0;
-                vel.left_middle_vel = 0;
-                vel.right_middle_vel = 0;
-                vel.left_back_vel = 0;
-                vel.right_back_vel = 0;
                 vel_pub.publish(vel);
                 nav_flg=0;
                 ROS_INFO("===Successfully navigated towards the ball===");            //navigaton to ball done
+				}
             }
-            else if (b_dist==0)
-                ROS_INFO("===Ball was not detected, proceeding to next gps location===");
+            
+            else if (b_dist==0)   ROS_INFO("===Ball was not detected, proceeding to next gps location===");
+              
 /*********************************************************************************************************2 denotes the given number of gps coordinates******************************************************/
             if(i<=2)
             {
@@ -253,13 +240,8 @@ int main(int argc,char **argv)
     ros::spin();
     return 0 ;
 }
- 
- 
- 
- 
-//Reorient camera
- 
- 
+
+
  
  
 
