@@ -13,7 +13,7 @@ time_t start, end;
 #define PI 3.14159
 #define R 6371
 
-double latt[5]={0,0,0,0,0},logi[5]={0,0,0,0,0};
+double latt[5]={1,2,3,4,5},logi[5]={1,2,3,4,5};
 int i=0;
 double lat_dest=latt[i]*PI/180,logg_dest=logi[i]*PI/180;
 double lat,logg,dist,brng,brng_cur,decl=-1.666666666666667*PI/180;
@@ -50,13 +50,19 @@ void ortnCallback(const sensor_msgs::MagneticField::ConstPtr& msg)
 }
 
 void camCallback(const geometry_msgs::Pose2D::ConstPtr& msg)
-{
-	if(flg==1)
+{	
+	if(flg==1){
+		time(&start);
+		time(&end);
 		do{
 		b_dist=msg->x;
 		b_angle=msg->theta;
 		flg=0;
+		time(&end);
+		if(difftime(end,start)>120)							//if ball was not detected in 2 min's
+			break;
 		}while(b_dist==0);
+	}
 }
 
 void recieve_gps(int i){
@@ -149,6 +155,7 @@ int main(int argc,char **argv)
         vel.right_middle_vel = 0;
         vel.left_back_vel = 0;
         vel.right_back_vel = 0;
+        vel_pub.publish(vel);
 
 		std_msgs::Float32 flag;
 		flag.data=flg=1;
@@ -157,33 +164,33 @@ int main(int argc,char **argv)
 		flag.data=flg=0;
 		flg_pub.publish(flag);
 		
-		//nav_to(b_dist,b_angle); towards the ball
-		nav_flg=1;
-		brng_int=brng_cur;
-		time(&start);
-		time(&end);
-		while(fabs(brng_int-brng_cur)*180/PI<=fabs(fabs(b_angle)-15)){           //15 deg is set as error, change it an angle where rover will stop doing oscillations...
-			if ((brng_int-brng_cur)*180/PI<=-fabs(b_angle)){                   //check for the direction of rotation.make it proper
-				vel.left_front_vel = -50;
-    	 	   	vel.right_front_vel = 50;
-        		vel.left_middle_vel = -50;
-        		vel.right_middle_vel = 50;
-        		vel.left_back_vel = -50;
-        		vel.right_back_vel = 50;
-			}
-			else{
-				vel.left_front_vel = 50;
-        		vel.right_front_vel = -50;
-        		vel.left_middle_vel = 50;
-        		vel.right_middle_vel = -50;
-        		vel.left_back_vel = 50;
-        		vel.right_back_vel = -50;
-			}
-			ros::spinOnce();
+		if(b_dist>0){
+			//nav_to(b_dist,b_angle); towards the ball
+			nav_flg=1;
+			brng_int=brng_cur;
+			time(&start);
 			time(&end);
-			if(difftime(end,start)>30)	break;								//assuming rover will take less than 30s for 360 deg rotation	
-		}
-		if(dist>0){
+			while(fabs(brng_int-brng_cur)*180/PI<=fabs(fabs(b_angle)-15)){           //15 deg is set as error, change it an angle where rover will stop doing oscillations...
+				if ((brng_int-brng_cur)*180/PI<=-fabs(b_angle)){                   //check for the direction of rotation.make it proper
+					vel.left_front_vel = -50;
+    	 		   	vel.right_front_vel = 50;
+        			vel.left_middle_vel = -50;
+        			vel.right_middle_vel = 50;
+        			vel.left_back_vel = -50;
+        			vel.right_back_vel = 50;
+				}
+				else{
+					vel.left_front_vel = 50;
+        			vel.right_front_vel = -50;
+        			vel.left_middle_vel = 50;
+        			vel.right_middle_vel = -50;
+        			vel.left_back_vel = 50;
+        			vel.right_back_vel = -50;
+				}
+				ros::spinOnce();
+				time(&end);
+				if(difftime(end,start)>30)	break;								//assuming rover will take less than 30s for 360 deg rotation	
+			}
 			vel.left_front_vel = 70;
         	vel.right_front_vel = 70;
         	vel.left_middle_vel = 70;
@@ -198,14 +205,26 @@ int main(int argc,char **argv)
 			{
        		time(&end);
         	}
+        	vel.left_front_vel = 0;
+        	vel.right_front_vel = 0;
+        	vel.left_middle_vel = 0;
+        	vel.right_middle_vel = 0;
+        	vel.left_back_vel = 0;
+        	vel.right_back_vel = 0;
+        	vel_pub.publish(vel);
+			nav_flg=0;
+			ROS_INFO("===Successfully navigated towards the ball===");			//navigaton to ball done
 		}
-		nav_flg=0;
-		ROS_INFO("===Successfully navigated towards the ball===");			//navigaton to ball done
+		else if (b_dist==0)
+			ROS_INFO("===Ball was not detected, proceeding to next gps location===");
 		if(i<=2){
 			recieve_gps(++i);
 			ROS_INFO("===New gps destn set===");
 		}
-		else	ROS_INFO("===Final destn reached===");
+		else{
+			ROS_INFO("===Final destn reached===");
+			break;
+		}
 	}
 	vel_pub.publish(vel);
 	//ROS_INFO("%lf\t%lf\t%lf\t%lf",brng,brng_cur,vel.left_front_vel,vel.right_front_vel);
