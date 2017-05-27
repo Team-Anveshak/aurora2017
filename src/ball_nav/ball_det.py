@@ -61,7 +61,8 @@ class Source:
     def spin(self):
         time.sleep(1.0)
         started = time.time()
-        
+
+#************************************************************************************************************        
         imag = cv2.imread('/home/niyas/cfi/rover-control/src/ball_nav/ball.jpg',1)
 
         imags=imag
@@ -74,7 +75,7 @@ class Source:
         hsv = cv2.cvtColor(imag,cv2.COLOR_BGR2HSV)      #converting to hsv space
 
 # define threshold range of yellow color in HSV
-# *********************************************************************** 
+# ************************************************************************************************************
         lower_yellow = np.array([26, 162, 66])
         upper_yellow = np.array([52, 255, 255])
 
@@ -113,16 +114,17 @@ class Source:
         # cv2.imshow("encl_circle", imag)
             
 # initialize the known distance from the camera to the object
-# *********************************************************************** 
+# *****************************************************************************************************
         KNOWN_DISTANCE = 50.0
          
 # initialize the known object width
-# *********************************************************************** 
+# *****************************************************************************************************
         KNOWN_WIDTH = 6.5
           
         perWidth=2*radius
         focalLength = (perWidth * KNOWN_DISTANCE) / KNOWN_WIDTH
 
+#******************************************************************************************************
         cap = cv2.VideoCapture(0)
         # print "\nDistance to traverse : \n\n"
         #cv2.namedWindow('encl_circle',cv2.WINDOW_NORMAL)
@@ -135,6 +137,7 @@ class Source:
         r=distance
         flag=0
         done=0
+        temp=0
 
         cvb = CvBridge()
 	
@@ -183,7 +186,7 @@ class Source:
                 if radius>5:
                     M = cv2.moments(c)
                     try:
-                        x1,y1,w,h = cv2.boundingRect(c)
+                        x1,y15w,h = cv2.boundingRect(c)
                         center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 
                         #cv2.circle(imag, (int(x), int(y)), int(radius),(0, 255, 255), 2)
@@ -198,16 +201,17 @@ class Source:
                         distance = (KNOWN_WIDTH * focalLength) / perWidth
                     
                         count_y+=1
+                        temp+=distance
                     except :
                         count_n+=1
                         #cv2.imshow("encl_circle",frame)
                         continue
                 # if ((center[0] in range(169,474)) and (center[1] in range(62,380)) and count_y>30 and count_n<10 and done==0) :
-                if ((center[0] in range(169,474)) and count_y>30 and count_n<10 and done==0) : #only horizontally bounded
-                    r=distance
+                if ((center[0] in range(169,474)) and count_y>6 and count_n<3) : #only horizontally bounded
+                    r=temp*1.0/count_y
                     done=1
                     flag=1
-
+#Computing r as an average over count_y readings
             self.dist_pub.publish(r)
             self.flag_pub.publish(flag)
             time.sleep(0.03)

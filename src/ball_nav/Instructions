@@ -1,0 +1,56 @@
+The places where changes have to be made has been marked with *************************************************** in the code
+
+ball_det.py
+-------------------------
+1.)Line 66
+		
+	imag = cv2.imread('/home/niyas/cfi/rover-control/src/ball_nav/ball.jpg',1)
+	
+	
+	Change the path.The image has to be changed to the one you have taken there. So replace the jpg image by an image u've taken at a 		known distance of the ball there.
+
+2.)Line 79,80
+
+	lower_yellow = np.array([26, 162, 66])
+	upper_yellow = np.array([52, 255, 255])
+
+	Put the threshold values caliberated using thresh.py . You have to do this there with the ball you have, in your current environment.
+
+3.)Line 118
+
+	KNOWN_DISTANCE = 50.0
+	
+	Change it to the distance at which you have placed the ball in your image file. 
+
+4.)Line 122
+
+	KNOWN_WIDTH = 6.5
+	
+	Diameter of your ball
+
+5.)Line 128
+
+	cap = cv2.VideoCapture(0)
+
+	Change it according to your video input.
+
+2.)Line 158,159
+
+	lower_yellow = np.array([26, 162, 66])
+	upper_yellow = np.array([52, 255, 255])
+
+	Put the threshold values caliberated using thresh.py . You have to do this there with the ball you have, in your current environment.
+	(Same as in ball_iden_dist.py. You may make small changes here if you want by checking the threshold before the beginning of the 		task)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+NOTE :
+---------------------------------------------------------------------------------------------------------------------------------------------
+@@@@@@@ USE THE SAME CAMERA while taking the picture and also while running the video @@@@@@@
+
+$$$$$$$$$$   THE CODE IS AS GOOD AS THE CALIBRATIONS DONE     $$$$$$$$$$
+
+So try to get as good a threshold range as possible once you're near the competition area. Don't wait for the time before beginning of the autonomous task (Note: only 15minutes given). You may verify whether the range is accurate enough before the beginning of autonomous task and make slight changes if necessary in the threshold for the input video (inside the while loop inside the class in ball_det.py). 
+
+But take a pic of the ball and input it as jpg to the folder ,replacing the current image, as soon as you reach there. This pic should be taken at a known distance because you need to input that value inside the code. Measure the correct diameter of the ball and input that value as well. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
