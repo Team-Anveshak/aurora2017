@@ -207,7 +207,7 @@ class Source:
                         #cv2.imshow("encl_circle",frame)
                         continue
                 # if ((center[0] in range(169,474)) and (center[1] in range(62,380)) and count_y>30 and count_n<10 and done==0) :
-                if ((center[0] in range(169,474)) and count_y>6 and count_n<3) : #only horizontally bounded
+                if ((center[0] in range(169,474)) and count_y>5) : #only horizontally bounded
                     r=temp*1.0/count_y
                     done=1
                     flag=1
