@@ -54,7 +54,7 @@ class Source:
         time.sleep(1.0)
         started = time.time()
         
-        imag = cv2.imread('/home/ganga/Documents/rover-control/src/ball_nav/ball.jpg',1)
+        imag = cv2.imread('/home/niyas/cfi/URC_final/rover-control/src/ball_nav/ball.jpg',1)
 
         imags=imag
 
@@ -130,7 +130,7 @@ class Source:
         while not rospy.core.is_shutdown():
 
             ret, frame = cap.read()
-            # cv2.imshow('frame',frame)
+            cv2.imshow('frame',frame)
             imag=frame
             imags=imag
 

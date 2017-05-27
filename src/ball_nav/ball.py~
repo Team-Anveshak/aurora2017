@@ -54,7 +54,7 @@ class Source:
         time.sleep(1.0)
         started = time.time()
         
-        imag = cv2.imread('/home/ganga/Documents/rover-control/src/ball_nav/ball.jpg',1)
+        imag = cv2.imread('/home/niyas/cfi/URC_final/rover-control/src/ball_nav/ball.jpg',1)
 
         imags=imag
 
@@ -123,14 +123,14 @@ class Source:
         distance=0
         r=distance
         flag=0
-	done=0
+        done=0
 
         cvb = CvBridge()
 	
         while not rospy.core.is_shutdown():
 
             ret, frame = cap.read()
-            # cv2.imshow('frame',frame)
+            cv2.imshow('frame',frame)
             imag=frame
             imags=imag
 
@@ -191,7 +191,8 @@ class Source:
                         count_n+=1
                         #cv2.imshow("encl_circle",frame)
                         continue
-                if ((center[0] in range(169,474)) and (center[1] in range(62,380)) and count_y>30 and count_n<10 and done==0) :
+                # if ((center[0] in range(169,474)) and (center[1] in range(62,380)) and count_y>30 and count_n<10 and done==0) :
+                if ((center[0] in range(169,474)) and count_y>30 and count_n<10 and done==0) :
                     r=distance
 		    done=1
                     flag=1

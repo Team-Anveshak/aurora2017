@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from collections import deque
 import numpy as np
 #import imutils
@@ -38,8 +40,7 @@ cap = cv2.VideoCapture(0)
 while True:
 	# grab the current frame
 	_,frame = cap.read()
-	#frame = imutils.resize(frame, width=600)
-	# blurred = cv2.GaussianBlur(frame, (11, 11), 0)
+	
 	hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 	hue,sat,val = cv2.split(hsv)
 	
@@ -58,21 +59,11 @@ while True:
 	sthresh = cv2.inRange(np.array(sat),np.array(smn),np.array(smx))
 	vthresh = cv2.inRange(np.array(val),np.array(vmn),np.array(vmx))
 	mask = cv2.bitwise_and(hthresh,cv2.bitwise_and(sthresh,vthresh))
-     
-    # hdisplay=cv2.bitwise_and(frame,frame,mask=hthresh)
-    # sdisplay=cv2.bitwise_and(frame,frame,mask=sthresh)
-    # vdisplay=cv2.bitwise_and(frame,frame,mask=vthresh)
 
 	cv2.imshow("HueComp", hthresh)
 	cv2.imshow("SatComp", sthresh)
 	cv2.imshow("ValComp", vthresh)
 
-
-    
-	# construct a mask for the color "green", then perform
-	# a series of dilations and erosions to remove any small
-	# blobs left in the mask
-	#mask = cv2.inRange(hsv, yellowLower, yellowUpper)
 	mask = cv2.erode(mask, None, iterations=2)
 	mask = cv2.dilate(mask, None, iterations=2)
 
@@ -103,18 +94,6 @@ while True:
 	# update the points queue
 	pts.appendleft(center)
 
-	# loop over the set of tracked points
-	#for i in xrange(1, len(pts)):
-		# if either of the tracked points are None, ignore
-		# them
-		#if pts[i - 1] is None or pts[i] is None:
-			#continue
-
-		# otherwise, compute the thickness of the line and
-		# draw the connecting lines
-		#thickness = int(np.sqrt(100 / float(i + 1)) * 1.5)
-		#cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
-
 	# show the frame to our screen
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
@@ -124,5 +103,5 @@ while True:
 		break
 
 # cleanup the camera and close any open windows
-camera.release()
+cap.release()
 cv2.destroyAllWindows()
