@@ -14,6 +14,7 @@ class CameraMotion(genpy.Message):
 int32 B_button
 int32 Y_button
 int32 A_button
+
 """
   __slots__ = ['X_button','B_button','Y_button','A_button']
   _slot_types = ['int32','int32','int32','int32']

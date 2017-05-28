@@ -24,42 +24,27 @@ struct WheelVelocity_
   typedef WheelVelocity_<ContainerAllocator> Type;
 
   WheelVelocity_()
-    : left_front_vel(0.0)
-    , right_front_vel(0.0)
-    , left_middle_vel(0.0)
-    , right_middle_vel(0.0)
-    , left_back_vel(0.0)
-    , right_back_vel(0.0)  {
+    : left(0.0)
+    , right(0.0)
+    , reset_flag(0)  {
     }
   WheelVelocity_(const ContainerAllocator& _alloc)
-    : left_front_vel(0.0)
-    , right_front_vel(0.0)
-    , left_middle_vel(0.0)
-    , right_middle_vel(0.0)
-    , left_back_vel(0.0)
-    , right_back_vel(0.0)  {
+    : left(0.0)
+    , right(0.0)
+    , reset_flag(0)  {
   (void)_alloc;
     }
 
 
 
-   typedef double _left_front_vel_type;
-  _left_front_vel_type left_front_vel;
+   typedef double _left_type;
+  _left_type left;
 
-   typedef double _right_front_vel_type;
-  _right_front_vel_type right_front_vel;
+   typedef double _right_type;
+  _right_type right;
 
-   typedef double _left_middle_vel_type;
-  _left_middle_vel_type left_middle_vel;
-
-   typedef double _right_middle_vel_type;
-  _right_middle_vel_type right_middle_vel;
-
-   typedef double _left_back_vel_type;
-  _left_back_vel_type left_back_vel;
-
-   typedef double _right_back_vel_type;
-  _right_back_vel_type right_back_vel;
+   typedef int16_t _reset_flag_type;
+  _reset_flag_type reset_flag;
 
 
 
@@ -95,7 +80,7 @@ namespace message_traits
 
 
 // BOOLTRAITS {'IsFixedSize': True, 'IsMessage': True, 'HasHeader': False}
-// {'std_msgs': ['/opt/ros/indigo/share/std_msgs/cmake/../msg'], 'rover_msgs': ['/home/achu/Documents/rover-control/src/rover_msgs/msg']}
+// {'sensor_msgs': ['/opt/ros/indigo/share/sensor_msgs/cmake/../msg'], 'geometry_msgs': ['/opt/ros/indigo/share/geometry_msgs/cmake/../msg'], 'std_msgs': ['/opt/ros/indigo/share/std_msgs/cmake/../msg'], 'rover_msgs': ['/home/aniket/URC_final/master/rover-control/src/rover_msgs/msg']}
 
 // !!!!!!!!!!! ['__class__', '__delattr__', '__dict__', '__doc__', '__eq__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_parsed_fields', 'constants', 'fields', 'full_name', 'has_header', 'header_present', 'names', 'package', 'parsed_fields', 'short_name', 'text', 'types']
 
@@ -138,12 +123,12 @@ struct MD5Sum< ::rover_msgs::WheelVelocity_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "0d2806f4fca14fdb81a14e092651232e";
+    return "22c56d70a0f2060151657bd9cd98512f";
   }
 
   static const char* value(const ::rover_msgs::WheelVelocity_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x0d2806f4fca14fdbULL;
-  static const uint64_t static_value2 = 0x81a14e092651232eULL;
+  static const uint64_t static_value1 = 0x22c56d70a0f20601ULL;
+  static const uint64_t static_value2 = 0x51657bd9cd98512fULL;
 };
 
 template<class ContainerAllocator>
@@ -162,12 +147,9 @@ struct Definition< ::rover_msgs::WheelVelocity_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "float64 left_front_vel\n\
-float64 right_front_vel\n\
-float64 left_middle_vel\n\
-float64 right_middle_vel\n\
-float64 left_back_vel\n\
-float64 right_back_vel\n\
+    return "float64 left\n\
+float64 right\n\
+int16 reset_flag\n\
 \n\
 ";
   }
@@ -187,12 +169,9 @@ namespace serialization
   {
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
-      stream.next(m.left_front_vel);
-      stream.next(m.right_front_vel);
-      stream.next(m.left_middle_vel);
-      stream.next(m.right_middle_vel);
-      stream.next(m.left_back_vel);
-      stream.next(m.right_back_vel);
+      stream.next(m.left);
+      stream.next(m.right);
+      stream.next(m.reset_flag);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -211,18 +190,12 @@ struct Printer< ::rover_msgs::WheelVelocity_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::rover_msgs::WheelVelocity_<ContainerAllocator>& v)
   {
-    s << indent << "left_front_vel: ";
-    Printer<double>::stream(s, indent + "  ", v.left_front_vel);
-    s << indent << "right_front_vel: ";
-    Printer<double>::stream(s, indent + "  ", v.right_front_vel);
-    s << indent << "left_middle_vel: ";
-    Printer<double>::stream(s, indent + "  ", v.left_middle_vel);
-    s << indent << "right_middle_vel: ";
-    Printer<double>::stream(s, indent + "  ", v.right_middle_vel);
-    s << indent << "left_back_vel: ";
-    Printer<double>::stream(s, indent + "  ", v.left_back_vel);
-    s << indent << "right_back_vel: ";
-    Printer<double>::stream(s, indent + "  ", v.right_back_vel);
+    s << indent << "left: ";
+    Printer<double>::stream(s, indent + "  ", v.left);
+    s << indent << "right: ";
+    Printer<double>::stream(s, indent + "  ", v.right);
+    s << indent << "reset_flag: ";
+    Printer<int16_t>::stream(s, indent + "  ", v.reset_flag);
   }
 };
 

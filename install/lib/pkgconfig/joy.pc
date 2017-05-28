@@ -1,0 +1,8 @@
+prefix=/home/aniket/URC_final/master/rover-control/install
+
+Name: joy
+Description: Description of joy
+Version: 1.11.0
+Cflags: 
+Libs: -L/home/aniket/URC_final/master/rover-control/install/lib 
+Requires: roscpp diagnostic_updater sensor_msgs

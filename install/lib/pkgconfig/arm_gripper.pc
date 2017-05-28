@@ -1,0 +1,8 @@
+prefix=/home/aniket/URC_final/master/rover-control/install
+
+Name: arm_gripper
+Description: Description of arm_gripper
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/aniket/URC_final/master/rover-control/install/lib 
+Requires: 

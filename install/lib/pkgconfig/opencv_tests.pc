@@ -1,0 +1,8 @@
+prefix=/home/aniket/URC_final/master/rover-control/install
+
+Name: opencv_tests
+Description: Description of opencv_tests
+Version: 1.12.4
+Cflags: 
+Libs: -L/home/aniket/URC_final/master/rover-control/install/lib 
+Requires: 

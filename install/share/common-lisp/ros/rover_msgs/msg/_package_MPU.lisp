@@ -1,14 +1,14 @@
 (cl:in-package rover_msgs-msg)
-(cl:export '(GYRO_X-VAL
-          GYRO_X
-          GYRO_Y-VAL
-          GYRO_Y
-          GYRO_Z-VAL
-          GYRO_Z
-          ACC_X-VAL
-          ACC_X
-          ACC_Y-VAL
-          ACC_Y
-          ACC_Z-VAL
-          ACC_Z
+(cl:export '(ORIENTATION-VAL
+          ORIENTATION
+          ORIENTATION_COVARIANCE-VAL
+          ORIENTATION_COVARIANCE
+          ANGULAR_VELOCITY-VAL
+          ANGULAR_VELOCITY
+          ANGULAR_VELOCITY_COVARIANCE-VAL
+          ANGULAR_VELOCITY_COVARIANCE
+          LINEAR_ACCELERATION-VAL
+          LINEAR_ACCELERATION
+          LINEAR_ACCELERATION_COVARIANCE-VAL
+          LINEAR_ACCELERATION_COVARIANCE
 ))

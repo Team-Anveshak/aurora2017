@@ -125,10 +125,10 @@
   "88cb68eb53c6c53209c17372919da333")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<CameraMotion>)))
   "Returns full string definition for message of type '<CameraMotion>"
-  (cl:format cl:nil "int32 X_button~%int32 B_button~%int32 Y_button~%int32 A_button~%~%~%"))
+  (cl:format cl:nil "int32 X_button~%int32 B_button~%int32 Y_button~%int32 A_button~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'CameraMotion)))
   "Returns full string definition for message of type 'CameraMotion"
-  (cl:format cl:nil "int32 X_button~%int32 B_button~%int32 Y_button~%int32 A_button~%~%~%"))
+  (cl:format cl:nil "int32 X_button~%int32 B_button~%int32 Y_button~%int32 A_button~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <CameraMotion>))
   (cl:+ 0
      4

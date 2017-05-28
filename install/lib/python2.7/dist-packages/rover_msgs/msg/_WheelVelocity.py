@@ -7,19 +7,16 @@ import struct
 
 
 class WheelVelocity(genpy.Message):
-  _md5sum = "0d2806f4fca14fdb81a14e092651232e"
+  _md5sum = "22c56d70a0f2060151657bd9cd98512f"
   _type = "rover_msgs/WheelVelocity"
   _has_header = False #flag to mark the presence of a Header object
-  _full_text = """float64 left_front_vel
-float64 right_front_vel
-float64 left_middle_vel
-float64 right_middle_vel
-float64 left_back_vel
-float64 right_back_vel
+  _full_text = """float64 left
+float64 right
+int16 reset_flag
 
 """
-  __slots__ = ['left_front_vel','right_front_vel','left_middle_vel','right_middle_vel','left_back_vel','right_back_vel']
-  _slot_types = ['float64','float64','float64','float64','float64','float64']
+  __slots__ = ['left','right','reset_flag']
+  _slot_types = ['float64','float64','int16']
 
   def __init__(self, *args, **kwds):
     """
@@ -29,7 +26,7 @@ float64 right_back_vel
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       left_front_vel,right_front_vel,left_middle_vel,right_middle_vel,left_back_vel,right_back_vel
+       left,right,reset_flag
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -38,25 +35,16 @@ float64 right_back_vel
     if args or kwds:
       super(WheelVelocity, self).__init__(*args, **kwds)
       #message fields cannot be None, assign default values for those that are
-      if self.left_front_vel is None:
-        self.left_front_vel = 0.
-      if self.right_front_vel is None:
-        self.right_front_vel = 0.
-      if self.left_middle_vel is None:
-        self.left_middle_vel = 0.
-      if self.right_middle_vel is None:
-        self.right_middle_vel = 0.
-      if self.left_back_vel is None:
-        self.left_back_vel = 0.
-      if self.right_back_vel is None:
-        self.right_back_vel = 0.
+      if self.left is None:
+        self.left = 0.
+      if self.right is None:
+        self.right = 0.
+      if self.reset_flag is None:
+        self.reset_flag = 0
     else:
-      self.left_front_vel = 0.
-      self.right_front_vel = 0.
-      self.left_middle_vel = 0.
-      self.right_middle_vel = 0.
-      self.left_back_vel = 0.
-      self.right_back_vel = 0.
+      self.left = 0.
+      self.right = 0.
+      self.reset_flag = 0
 
   def _get_types(self):
     """
@@ -71,7 +59,7 @@ float64 right_back_vel
     """
     try:
       _x = self
-      buff.write(_struct_6d.pack(_x.left_front_vel, _x.right_front_vel, _x.left_middle_vel, _x.right_middle_vel, _x.left_back_vel, _x.right_back_vel))
+      buff.write(_struct_2dh.pack(_x.left, _x.right, _x.reset_flag))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -84,8 +72,8 @@ float64 right_back_vel
       end = 0
       _x = self
       start = end
-      end += 48
-      (_x.left_front_vel, _x.right_front_vel, _x.left_middle_vel, _x.right_middle_vel, _x.left_back_vel, _x.right_back_vel,) = _struct_6d.unpack(str[start:end])
+      end += 18
+      (_x.left, _x.right, _x.reset_flag,) = _struct_2dh.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -99,7 +87,7 @@ float64 right_back_vel
     """
     try:
       _x = self
-      buff.write(_struct_6d.pack(_x.left_front_vel, _x.right_front_vel, _x.left_middle_vel, _x.right_middle_vel, _x.left_back_vel, _x.right_back_vel))
+      buff.write(_struct_2dh.pack(_x.left, _x.right, _x.reset_flag))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -113,11 +101,11 @@ float64 right_back_vel
       end = 0
       _x = self
       start = end
-      end += 48
-      (_x.left_front_vel, _x.right_front_vel, _x.left_middle_vel, _x.right_middle_vel, _x.left_back_vel, _x.right_back_vel,) = _struct_6d.unpack(str[start:end])
+      end += 18
+      (_x.left, _x.right, _x.reset_flag,) = _struct_2dh.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
-_struct_6d = struct.Struct("<6d")
+_struct_2dh = struct.Struct("<2dh")

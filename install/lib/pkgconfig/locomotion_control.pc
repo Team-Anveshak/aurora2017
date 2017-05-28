@@ -1,8 +1,8 @@
-prefix=/home/achu/Documents/rover-control/install
+prefix=/home/aniket/URC_final/master/rover-control/install
 
 Name: locomotion_control
 Description: Description of locomotion_control
 Version: 0.0.0
 Cflags: 
-Libs: -L/home/achu/Documents/rover-control/install/lib 
+Libs: -L/home/aniket/URC_final/master/rover-control/install/lib 
 Requires: 

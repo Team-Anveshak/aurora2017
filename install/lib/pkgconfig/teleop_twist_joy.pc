@@ -1,0 +1,8 @@
+prefix=/home/aniket/URC_final/master/rover-control/install
+
+Name: teleop_twist_joy
+Description: Description of teleop_twist_joy
+Version: 0.1.2
+Cflags: -I/home/aniket/URC_final/master/rover-control/install/include
+Libs: -L/home/aniket/URC_final/master/rover-control/install/lib -lteleop_twist_joy
+Requires: geometry_msgs roscpp sensor_msgs

@@ -1,0 +1,8 @@
+prefix=/home/aniket/URC_final/master/rover-control/install
+
+Name: Digger
+Description: Description of Digger
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/aniket/URC_final/master/rover-control/install/lib 
+Requires: 

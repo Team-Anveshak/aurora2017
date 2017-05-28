@@ -15,6 +15,9 @@
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
 
+#include <geometry_msgs/Quaternion.h>
+#include <geometry_msgs/Vector3.h>
+#include <geometry_msgs/Vector3.h>
 
 namespace rover_msgs
 {
@@ -24,42 +27,52 @@ struct MPU_
   typedef MPU_<ContainerAllocator> Type;
 
   MPU_()
-    : gyro_x(0.0)
-    , gyro_y(0.0)
-    , gyro_z(0.0)
-    , acc_x(0.0)
-    , acc_y(0.0)
-    , acc_z(0.0)  {
-    }
+    : orientation()
+    , orientation_covariance()
+    , angular_velocity()
+    , angular_velocity_covariance()
+    , linear_acceleration()
+    , linear_acceleration_covariance()  {
+      orientation_covariance.assign(0.0);
+
+      angular_velocity_covariance.assign(0.0);
+
+      linear_acceleration_covariance.assign(0.0);
+  }
   MPU_(const ContainerAllocator& _alloc)
-    : gyro_x(0.0)
-    , gyro_y(0.0)
-    , gyro_z(0.0)
-    , acc_x(0.0)
-    , acc_y(0.0)
-    , acc_z(0.0)  {
+    : orientation(_alloc)
+    , orientation_covariance()
+    , angular_velocity(_alloc)
+    , angular_velocity_covariance()
+    , linear_acceleration(_alloc)
+    , linear_acceleration_covariance()  {
   (void)_alloc;
-    }
+      orientation_covariance.assign(0.0);
+
+      angular_velocity_covariance.assign(0.0);
+
+      linear_acceleration_covariance.assign(0.0);
+  }
 
 
 
-   typedef float _gyro_x_type;
-  _gyro_x_type gyro_x;
+   typedef  ::geometry_msgs::Quaternion_<ContainerAllocator>  _orientation_type;
+  _orientation_type orientation;
 
-   typedef float _gyro_y_type;
-  _gyro_y_type gyro_y;
+   typedef boost::array<double, 9>  _orientation_covariance_type;
+  _orientation_covariance_type orientation_covariance;
 
-   typedef float _gyro_z_type;
-  _gyro_z_type gyro_z;
+   typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _angular_velocity_type;
+  _angular_velocity_type angular_velocity;
 
-   typedef float _acc_x_type;
-  _acc_x_type acc_x;
+   typedef boost::array<double, 9>  _angular_velocity_covariance_type;
+  _angular_velocity_covariance_type angular_velocity_covariance;
 
-   typedef float _acc_y_type;
-  _acc_y_type acc_y;
+   typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _linear_acceleration_type;
+  _linear_acceleration_type linear_acceleration;
 
-   typedef float _acc_z_type;
-  _acc_z_type acc_z;
+   typedef boost::array<double, 9>  _linear_acceleration_covariance_type;
+  _linear_acceleration_covariance_type linear_acceleration_covariance;
 
 
 
@@ -95,7 +108,7 @@ namespace message_traits
 
 
 // BOOLTRAITS {'IsFixedSize': True, 'IsMessage': True, 'HasHeader': False}
-// {'std_msgs': ['/opt/ros/indigo/share/std_msgs/cmake/../msg'], 'rover_msgs': ['/home/achu/Documents/rover-control/src/rover_msgs/msg']}
+// {'sensor_msgs': ['/opt/ros/indigo/share/sensor_msgs/cmake/../msg'], 'geometry_msgs': ['/opt/ros/indigo/share/geometry_msgs/cmake/../msg'], 'std_msgs': ['/opt/ros/indigo/share/std_msgs/cmake/../msg'], 'rover_msgs': ['/home/aniket/URC_final/master/rover-control/src/rover_msgs/msg']}
 
 // !!!!!!!!!!! ['__class__', '__delattr__', '__dict__', '__doc__', '__eq__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_parsed_fields', 'constants', 'fields', 'full_name', 'has_header', 'header_present', 'names', 'package', 'parsed_fields', 'short_name', 'text', 'types']
 
@@ -138,12 +151,12 @@ struct MD5Sum< ::rover_msgs::MPU_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "2c0239ab8497dbf714abae1bc9165695";
+    return "2a1c12e6ecad236f76fdb98f7ce21822";
   }
 
   static const char* value(const ::rover_msgs::MPU_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x2c0239ab8497dbf7ULL;
-  static const uint64_t static_value2 = 0x14abae1bc9165695ULL;
+  static const uint64_t static_value1 = 0x2a1c12e6ecad236fULL;
+  static const uint64_t static_value2 = 0x76fdb98f7ce21822ULL;
 };
 
 template<class ContainerAllocator>
@@ -162,12 +175,34 @@ struct Definition< ::rover_msgs::MPU_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "float32 gyro_x\n\
-float32 gyro_y\n\
-float32 gyro_z\n\
-float32 acc_x\n\
-float32 acc_y\n\
-float32 acc_z\n\
+    return "geometry_msgs/Quaternion orientation\n\
+float64[9] orientation_covariance\n\
+geometry_msgs/Vector3 angular_velocity\n\
+float64[9] angular_velocity_covariance\n\
+geometry_msgs/Vector3 linear_acceleration\n\
+float64[9] linear_acceleration_covariance\n\
+\n\
+================================================================================\n\
+MSG: geometry_msgs/Quaternion\n\
+# This represents an orientation in free space in quaternion form.\n\
+\n\
+float64 x\n\
+float64 y\n\
+float64 z\n\
+float64 w\n\
+\n\
+================================================================================\n\
+MSG: geometry_msgs/Vector3\n\
+# This represents a vector in free space. \n\
+# It is only meant to represent a direction. Therefore, it does not\n\
+# make sense to apply a translation to it (e.g., when applying a \n\
+# generic rigid transformation to a Vector3, tf2 will only apply the\n\
+# rotation). If you want your data to be translatable too, use the\n\
+# geometry_msgs/Point message instead.\n\
+\n\
+float64 x\n\
+float64 y\n\
+float64 z\n\
 ";
   }
 
@@ -186,12 +221,12 @@ namespace serialization
   {
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
-      stream.next(m.gyro_x);
-      stream.next(m.gyro_y);
-      stream.next(m.gyro_z);
-      stream.next(m.acc_x);
-      stream.next(m.acc_y);
-      stream.next(m.acc_z);
+      stream.next(m.orientation);
+      stream.next(m.orientation_covariance);
+      stream.next(m.angular_velocity);
+      stream.next(m.angular_velocity_covariance);
+      stream.next(m.linear_acceleration);
+      stream.next(m.linear_acceleration_covariance);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -210,18 +245,33 @@ struct Printer< ::rover_msgs::MPU_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::rover_msgs::MPU_<ContainerAllocator>& v)
   {
-    s << indent << "gyro_x: ";
-    Printer<float>::stream(s, indent + "  ", v.gyro_x);
-    s << indent << "gyro_y: ";
-    Printer<float>::stream(s, indent + "  ", v.gyro_y);
-    s << indent << "gyro_z: ";
-    Printer<float>::stream(s, indent + "  ", v.gyro_z);
-    s << indent << "acc_x: ";
-    Printer<float>::stream(s, indent + "  ", v.acc_x);
-    s << indent << "acc_y: ";
-    Printer<float>::stream(s, indent + "  ", v.acc_y);
-    s << indent << "acc_z: ";
-    Printer<float>::stream(s, indent + "  ", v.acc_z);
+    s << indent << "orientation: ";
+    s << std::endl;
+    Printer< ::geometry_msgs::Quaternion_<ContainerAllocator> >::stream(s, indent + "  ", v.orientation);
+    s << indent << "orientation_covariance[]" << std::endl;
+    for (size_t i = 0; i < v.orientation_covariance.size(); ++i)
+    {
+      s << indent << "  orientation_covariance[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.orientation_covariance[i]);
+    }
+    s << indent << "angular_velocity: ";
+    s << std::endl;
+    Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.angular_velocity);
+    s << indent << "angular_velocity_covariance[]" << std::endl;
+    for (size_t i = 0; i < v.angular_velocity_covariance.size(); ++i)
+    {
+      s << indent << "  angular_velocity_covariance[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.angular_velocity_covariance[i]);
+    }
+    s << indent << "linear_acceleration: ";
+    s << std::endl;
+    Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.linear_acceleration);
+    s << indent << "linear_acceleration_covariance[]" << std::endl;
+    for (size_t i = 0; i < v.linear_acceleration_covariance.size(); ++i)
+    {
+      s << indent << "  linear_acceleration_covariance[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.linear_acceleration_covariance[i]);
+    }
   }
 };
 
