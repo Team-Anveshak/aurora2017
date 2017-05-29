@@ -1,6 +1,7 @@
 #include <ros.h>
 #include <rover_msgs/CameraMotion.h>
 #include <Servo.h>
+#include <avr/wdt.h>
 
 
 
@@ -9,6 +10,7 @@ Servo mainCameraYaw;
 
 //initialising the yaw and pitch to 90 and creating a nodehandle object
 int yaw_initial = 90;
+int reset_flag;
 
 ros::NodeHandle nh;
 
@@ -42,10 +44,17 @@ void setup(){
   nh.subscribe(cammotion_sub);
   mainCameraYaw.write(yaw_initial);
   mainCameraYaw.attach(A0);
+
+  wdt_disable();
+  wdt_enable(WDTO_8S);
   
 }
 
 void loop(){
+
+  if(reset_flag==1)  wdt_reset();
+  reset_flag=0;
+
   nh.spinOnce();
   delay(1);
 }
