@@ -1,4 +1,0 @@
-<launch>
-<!-- joy node -->
- <node pkg="sensors" type="gps_pub" name="auto_gps"></node>
-</launch>

@@ -1,7 +1,0 @@
-<launch>
- <include file="$(find main_control)/anveshak.machine" />
- <node pkg="joy" type="joy_node" name="joyStick" machine="niyas">
- 	<param name="dev" type="string" value="/dev/input/js1" />
- </node>
- <node pkg="locomotion_control" type="locomotion_control" name="loco" machine="aniket"></node>
-</launch>

@@ -1,4 +1,0 @@
-<launch>
- <machine name="niyas" address="niyas@niyas-Satellite-L50-B"  default="true" /> 
- <machine name="aniket" address="aniket@aniket-HP-Pavilion-Notebook" /> 
-</launch>
