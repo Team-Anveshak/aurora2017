@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
     //LocomotionControl locomotion_control;
     ros::NodeHandle nh;
     ros::Publisher vel_pub = nh.advertise<rover_msgs::WheelVelocity>("/rover1/wheel_vel",10);
-    ros::Subscriber joy_sub1 = nh.subscribe<sensor_msgs::Joy>("/joy1",10,joyCallback1);
+    ros::Subscriber joy_sub1 = nh.subscribe<sensor_msgs::Joy>("/joy",10,joyCallback1);
     ros::Rate loop_rate(10);	
 
 while(ros::ok())

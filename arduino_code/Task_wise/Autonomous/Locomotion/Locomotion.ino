@@ -4,18 +4,19 @@
 #include <rover_msgs/Arm.h>
 #include <avr/wdt.h>
 
-#define dir1 47
-#define pwm1 7
-#define dir2 49
-#define pwm2 6
+#define dir1 33
+#define pwm1 9
+#define dir2 31
+#define pwm2 8
 #define dir3 29
-#define pwm3 5
+#define pwm3 7
 #define dir4 27
-#define pwm4 4
+#define pwm4 6
 #define dir5 25
-#define pwm5 3
+#define pwm5 5
 #define dir6 23
-#define pwm6 2
+#define pwm6 4
+
 
 
 

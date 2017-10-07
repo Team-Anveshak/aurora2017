@@ -1,0 +1,9 @@
+# Compiled source #
+###################
+*.pyc
+*.pyo
+
+ # setuptools #
+###################
+build/
+dist/
