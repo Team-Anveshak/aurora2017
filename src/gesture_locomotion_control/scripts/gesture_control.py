@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 import sys
-sys.path.append('../lib/')
+#sys.path.append('../lib/')
 from rover_msgs.msg import WheelVelocity
 from myo import Myo
 from vibration_type import VibrationType
@@ -21,6 +21,7 @@ class PrintPoseListener(DeviceListener):
 		pose_type = PoseType(pose)
 		global gesture
 		gesture = pose_type.value
+		rospy.loginfo(pose_type.value)
 
 		if(gesture==0):
 			vel.left=0
@@ -53,27 +54,27 @@ class PrintPoseListener(DeviceListener):
 
 
 def main():
-    rospy.loginfo('Start Myo for Linux')
+	rospy.loginfo('Start Myo for Linux')
 
-    gesture_pub=rospy.Publisher('rover1/wheel_vel', WheelVelocity,queue_size=10)
+	gesture_pub=rospy.Publisher('rover1/wheel_vel', WheelVelocity,queue_size=10)
 
-    listener = PrintPoseListener()
-    myo = Myo()
+	listener = PrintPoseListener()
+	myo = Myo()
 
-    try:
-        myo.connect()
-        myo.add_listener(listener)
-        while True:
-            myo.run()
+	try:
+		myo.connect()
+		myo.add_listener(listener)
+		while True:
+			myo.run()
 
-    except KeyboardInterrupt:
-        pass
-    except ValueError as ex:
-        print(ex)
-    finally:
-        myo.safely_disconnect()
-        print('Finished.')
+	except KeyboardInterrupt:
+		pass
+	except ValueError as ex:
+		print(ex)
+	finally:
+		myo.safely_disconnect()
+		print('Finished.')
 
 if __name__ == '__main__':
 	rospy.init_node("gesture_control")
-    main()
+	main()
