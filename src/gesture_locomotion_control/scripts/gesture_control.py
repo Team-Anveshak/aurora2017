@@ -19,6 +19,7 @@ class PrintPoseListener(DeviceListener):
 
 
 	def on_pose(self, pose):
+		'''
 		vel =WheelVelocity()
 		arm_msg=Arm()
 
@@ -76,12 +77,40 @@ class PrintPoseListener(DeviceListener):
 				arm_msg.acc_back=0
 				arm_msg.grip=0
 
-
+		
 		self.gesture_arm_pub.publish(arm_msg)
 		self.gesture_pub.publish(vel)
+		'''
+		arm_msg=Arm()
+
+		pose_type = PoseType(pose)
+		global gesture
+		global mode
+		gesture = pose_type.value
+
+		rospy.loginfo("value %d",pose_type.value)
+		rospy.loginfo("mode %d",mode)
+
+		if(gesture==2):
+			arm_msg.acc_forw=1
+			arm_msg.acc_back=0
+
+		elif(gesture==3):
+			arm_msg.acc_back=1
+			arm_msg.acc_forw=0
+			
+		elif(gesture==1):
+			arm_msg.grip=1
 		
+		elif(gesture==4):
+			arm_msg.grip=-1
+		else:
+			arm_msg.acc_forw=0
+			arm_msg.acc_back=0
+			arm_msg.grip=0
 
-
+		self.gesture_arm_pub.publish(arm_msg)
+		
 
 
 
